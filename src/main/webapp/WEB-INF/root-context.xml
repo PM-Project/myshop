@@ -37,7 +37,7 @@
 
         <property name="packagesToScan">
             <list>
-                <value>org.amnesty.mis.domain</value>
+                <value>com.pm.myshop.domain</value>
             </list>
         </property>
         
