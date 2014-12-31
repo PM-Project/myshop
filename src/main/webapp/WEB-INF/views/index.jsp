@@ -13,7 +13,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	
-	<title>Grocery Shoppe Stores - Bootstrap 3 Template</title>
+	<title>Changed Grocery Shoppe Stores - Bootstrap 3 Template</title>
 	<base href='<c:url value="/"/>' />
         
 	<!-- Bootstrap Core CSS -->
