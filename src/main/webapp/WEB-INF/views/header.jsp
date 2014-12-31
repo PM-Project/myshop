@@ -187,7 +187,7 @@
             </li>
             <li><a href="category-list.html">Fresh Meats</a></li>
             <li><a href="category-list.html">Fresh Fish</a></li>
-            <li><a href="category-list.html">Fruits</a></li>
+            <li><a href="/myshop/category">Fruits</a></li>
             <li><a href="category-list.html">Vegetables</a></li>
             <li class="dropdown">
                 <a href="category-list.html" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="10">
