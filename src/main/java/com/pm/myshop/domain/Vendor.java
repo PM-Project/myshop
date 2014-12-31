@@ -25,20 +25,23 @@ public class Vendor implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     
-    private String vendorName; 
-    private String address; 
-   
+    private String vendorName;
+    private String street;
+    private String state;
+    private String city;
+    private String zipcode;
+    
     @Temporal(javax.persistence.TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date joinDate; 
     private boolean active; 
-    private String bankInfo; 
     private String email; 
-    private int phone;
+    private String phone;
     private boolean isDeleted; 
-    @Temporal(javax.persistence.TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date createdDate;
+    private String bankRoutingNumber;
+    private String bankName;
+    private String bankAccountNumber;
+  
 
     public int getId() {
         return id;
@@ -56,14 +59,7 @@ public class Vendor implements Serializable {
         this.vendorName = vendorName;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
+ 
     public Date getJoinDate() {
         return joinDate;
     }
@@ -80,14 +76,6 @@ public class Vendor implements Serializable {
         this.active = active;
     }
 
-    public String getBankInfo() {
-        return bankInfo;
-    }
-
-    public void setBankInfo(String bankInfo) {
-        this.bankInfo = bankInfo;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -96,11 +84,11 @@ public class Vendor implements Serializable {
         this.email = email;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -112,14 +100,63 @@ public class Vendor implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
+    public String getState() {
+        return state;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
     }
     
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
+    public String getBankRoutingNumber() {
+        return bankRoutingNumber;
+    }
+
+    public void setBankRoutingNumber(String bankRoutingNumber) {
+        this.bankRoutingNumber = bankRoutingNumber;
+    }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
+    public String getBankAccountNumber() {
+        return bankAccountNumber;
+    }
+
+    public void setBankAccountNumber(String bankAccountNumber) {
+        this.bankAccountNumber = bankAccountNumber;
+    }
+
     
 
     @Override

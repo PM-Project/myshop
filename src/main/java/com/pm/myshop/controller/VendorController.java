@@ -42,7 +42,7 @@ public class VendorController {
         binder.registerCustomEditor(Vendor.class, new VendorPropertyEditor(vendorService));        
     } 
     
-    @RequestMapping("/vendor/form")
+    @RequestMapping("/vendor/add")
     public String vendorAdd(Vendor vendor)
     {
         return "/vendor/form";

@@ -24,9 +24,22 @@
             <td><spring:errors path="vendorName" element="div" cssClass="error" /></td>
             </tr>
             <tr>
-            <td><label>Address:</label></td>
-            <td><spring:input path="address" /></td>
-            <td><spring:errors path="address" element="div" cssClass="error" /></td>
+               
+            <td><label>Street:</label></td>
+            <td><spring:input path="street" /></td>
+            <td><spring:errors path="street" element="div" cssClass="error" /></td>
+            </tr>
+             <td><label>City:</label></td>
+            <td><spring:input path="city" /></td>
+            <td><spring:errors path="city" element="div" cssClass="error" /></td>
+            </tr>
+             <td><label>State:</label></td>
+            <td><spring:input path="state" /></td>
+            <td><spring:errors path="state" element="div" cssClass="error" /></td>
+            </tr>
+            <td><label>zip-code:</label></td>
+            <td><spring:input path="zipcode" /></td>
+            <td><spring:errors path="zipcode" element="div" cssClass="error" /></td>
             </tr>
             
             <tr>
@@ -43,11 +56,6 @@
             <td><label>Phone:</label></td>
             <td><spring:input path="phone" /></td>
             <td><spring:errors path="phone" element="div" cssClass="error" /></td>
-            </tr>
-            <tr>
-            <td><label>Bank Info:</label></td>
-            <td><spring:input path="bankInfo" /></td>
-            <td><spring:errors path="bankInfo" element="div" cssClass="error" /></td>
             </tr>
             </table>
             </p>
