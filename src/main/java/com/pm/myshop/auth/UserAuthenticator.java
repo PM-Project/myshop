@@ -41,18 +41,19 @@ public class UserAuthenticator implements AuthenticationProvider
         
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         
-        
-        if (encoder.matches(a.getCredentials().toString(),user.getPassword())) {
-            List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
-            
-            for(Role role : user.getRoles())
+        if(user.isActive())
+        {
+            if (encoder.matches(a.getCredentials().toString(),user.getPassword())) 
             {
-                grantedAuths.add(new SimpleGrantedAuthority(role.getRole()));
-            }
-                
-            Authentication auth = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), grantedAuths);
+                List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
 
-            return auth;
+                grantedAuths.add(new SimpleGrantedAuthority(user.getRole().getName()));
+                grantedAuths.add(new SimpleGrantedAuthority("ROLE_ANY"));
+
+                Authentication auth = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), grantedAuths);
+
+                return auth;
+            }
         }
         return null;
     }

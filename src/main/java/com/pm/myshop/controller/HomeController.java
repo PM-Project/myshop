@@ -5,6 +5,7 @@
  */
 package com.pm.myshop.controller;
 
+import com.pm.myshop.domain.Vendor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -20,9 +21,24 @@ public class HomeController {
     {
         return "index";
     }
-    @RequestMapping("/category")
-    public String category()
+    
+    
+    @RequestMapping("/login")
+    public String login()
     {
-        return "/category/categoryList";
+        return "login";
     }
+    
+    @RequestMapping("/register")
+    public String register()
+    {
+        return "customer/customerForm";
+    }
+    
+    @RequestMapping("/info")
+    public String actionInfo()
+    {
+        return "info";
+    }
+    
 }

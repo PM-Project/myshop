@@ -3,109 +3,85 @@
 <!doctype html>
 <html lang="en">
 
-<head>
+    <head>
 
-	<%@include file="head.jsp" %>
-	
-</head>
-<body>
-<!-- Wrapper Starts -->
-	<div id="wrapper" class="container">
-	
-        <%@include file="header.jsp" %>
-        
-	<!-- Main Container Starts -->
-		<div id="main-container">
-		<!-- Breadcrumb Starts -->
-			<ol class="breadcrumb">
-				<li><a href="index-2.html">Home</a></li>
-				<li class="active">Register</li>
-			</ol>
-		<!-- Breadcrumb Ends -->
-		<!-- Main Heading Starts -->
-			<h2 class="main-heading text-center">
-				Login or create new account
-			</h2>
-		<!-- Main Heading Ends -->
-		<!-- Login Form Section Starts -->
-			<section class="login-area">
-				<div class="row">
-					<div class="col-sm-6">
-					<!-- Login Panel Starts -->
-						<div class="panel panel-smart">
-							<div class="panel-heading">
-								<h3 class="panel-title">Login</h3>
-							</div>
-							<div class="panel-body">
-								<p>
-									Please login using your existing account
-								</p>
-							<!-- Login Form Starts -->
-								<form class="form-inline" role="form">
-									<div class="form-group">
-										<label class="sr-only" for="exampleInputEmail2">Username</label>
-										<input type="text" class="form-control" id="exampleInputEmail2" placeholder="Username">
-									</div>
-									<div class="form-group">
-										<label class="sr-only" for="exampleInputPassword2">Password</label>
-										<input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
-									</div>
-									<button type="submit" class="btn btn-danger">
-										Login
-									</button>
-								</form>
-							<!-- Login Form Ends -->
-							</div>
-						</div>
-					<!-- Login Panel Ends -->
-					</div>
-					<div class="col-sm-6">
-					<!-- Account Panel Starts -->
-						<div class="panel panel-smart">
-							<div class="panel-heading">
-								<h3 class="panel-title">
-									Create new account
-								</h3>
-							</div>
-							<div class="panel-body">
-								<p>
-									Registration allows you to avoid filling in billing and shipping forms every time you checkout on this website
-								</p>
-								<a href="register.html" class="btn btn-danger">
-									Register
-								</a>
-							</div>
-						</div>
-					<!-- Account Panel Ends -->
-					<!-- Guest Checkout Panel Starts -->
-						<div class="panel panel-smart">
-							<div class="panel-heading">
-								<h3 class="panel-title">
-									Checkout as Guest
-								</h3>
-							</div>
-							<div class="panel-body">
-								<p>
-									Checkout as a guest instead!
-								</p>
-								<button class="btn btn-danger">As Guest</button>
-							</div>
-						</div>
-					<!-- Guest Checkout Panel Ends -->
-					</div>
-				</div>
-			</section>
-		<!-- Login Form Section Ends -->
-		</div>
-	<!-- Main Container Ends -->
-	<!-- Footer Section Starts -->
-		<%@include file="footer.jsp" %>
-	<!-- Footer Section Ends -->		
-	</div>
-<!-- Wrapper Ends -->
-<!-- Copyright Area Starts -->
-	<%@include file="foot.jsp" %>
-        
-</body>
+        <%@include file="head.jsp" %>
+
+    </head>
+    <body>
+        <!-- Wrapper Starts -->
+        <div id="wrapper" class="container">
+
+            <%@include file="header.jsp" %>
+
+            <!-- Main Container Starts -->
+            <div id="main-container">
+
+                <!-- Main Heading Starts -->
+                <h2 class="main-heading text-center">
+                    Login to Your Account
+                </h2>
+                <!-- Main Heading Ends -->
+                <!-- Login Form Section Starts -->
+                <section class="login-area">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            
+                        </div>
+                        <div class="col-sm-6">
+                            <!-- Login Panel Starts -->
+                            <div class="panel panel-smart">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Login</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <p>
+                                        Please login using your existing account
+                                    </p>
+                                    <c:if test="${param.error != null}">
+                                        <p></p><p class="error">Authentication Failure. Please Try again</p>
+                                    </c:if>
+                                    <c:if test="${param.logout != null}">
+                                        <p></p><p class="error">Good Bye ! user logged out successfully.</p>
+                                    </c:if>
+
+                                    <!-- Login Form Starts -->
+                                    <form class="form-inline" role="form" method="post" action='<c:url value="/j_spring_security_check" />'>
+                                        <div class="form-group">
+                                            <label class="sr-only" for="exampleInputEmail2">Username</label>
+                                            <input type="text" name="username" class="form-control" id="exampleInputEmail2" placeholder="Username">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="sr-only" for="exampleInputPassword2">Password</label>
+                                            <input type="password" name="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
+                                        </div>
+                                        <button type="submit" class="btn btn-danger">
+                                            Login
+                                        </button>
+                                    </form>
+                                    <!-- Login Form Ends -->
+                                </div>
+                            </div>
+                            <!-- Login Panel Ends -->
+                        </div>
+                        <div class="col-sm-3">
+                            
+                        </div>
+                        
+                        
+                    </div>
+                </section>
+                <!-- Login Form Section Ends -->
+            </div>
+            <!-- Main Container Ends -->
+            <!-- Footer Section Starts -->
+            <%@include file="footer.jsp" %>
+            <!-- Footer Section Ends -->		
+        </div>
+        <!-- Wrapper Ends -->
+        <!-- Copyright Area Starts -->
+        <%@include file="foot.jsp" %>
+
+    </body>
 
 </html>

@@ -43,17 +43,13 @@ public class CustomerController {
         binder.registerCustomEditor(Vendor.class, new CustomerPropertyEditor(customerservice));        
     } 
     
-    @RequestMapping("/customer/add")
-    public String home1(Customer customer)
-    {
-        return "customer/form";
-    }
+    
     
     @RequestMapping(value = "/customer/save", method = RequestMethod.POST)
     public String saveCustomer(@Valid Customer customer, BindingResult result)
     {
         if(result.hasErrors())
-            return "customer/form";
+            return "customer/customerForm";
         else
            customerservice.saveCustomer(customer);    
         return "redirect:/customer/list";
@@ -63,14 +59,14 @@ public class CustomerController {
     public String listCustomers(Model model)
     {
         model.addAttribute("customers", customerservice.getAllCustomer());
-        return "customer/list";
+        return "customer/customerList";
     }
     
     @RequestMapping("/customer/edit/{customerid}")
     public String editCustomer(@PathVariable("customerid") int id, Model model)
     {
         model.addAttribute("customer", customerservice.getCustomerById(id) );
-        return "customer/form";
+        return "customer/customerForm";
     }
     
     @RequestMapping("/customer/delete/{customerid}")

@@ -7,10 +7,12 @@ package com.pm.myshop.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -25,25 +27,26 @@ public class Vendor implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     
-    private String vendorName;
-    private String street;
-    private String state;
-    private String city;
-    private String zipcode;
+    private String company;
+    private String brand;
+    private String url;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    private Address address;
+    
+    private String email; 
+    private String phone;
+    
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    private Account account;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    private User user;
     
     @Temporal(javax.persistence.TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date joinDate; 
-    private boolean active; 
-    private String email; 
-    private String phone;
-    private boolean isDeleted; 
-    private String bankRoutingNumber;
-    private String bankName;
-    private String bankAccountNumber;
-  
-    
-    
 
     public int getId() {
         return id;
@@ -53,30 +56,47 @@ public class Vendor implements Serializable {
         this.id = id;
     }
 
-    public String getVendorName() {
-        return vendorName;
+    public String getCompany() {
+        return company;
     }
 
-    public void setVendorName(String vendorName) {
-        this.vendorName = vendorName;
+    public void setCompany(String company) {
+        this.company = company;
     }
 
- 
-    public Date getJoinDate() {
-        return joinDate;
+    public String getBrand() {
+        return brand;
     }
 
-    public void setJoinDate(Date joinDate) {
-        this.joinDate = joinDate;
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
-    public boolean isActive() {
-        return active;
+    public String getUrl() {
+        return url;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setUrl(String url) {
+        this.url = url;
     }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    
 
     public String getEmail() {
         return email;
@@ -94,71 +114,25 @@ public class Vendor implements Serializable {
         this.phone = phone;
     }
 
-    public boolean isIsDeleted() {
-        return isDeleted;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
     
 
-    public String getZipcode() {
-        return zipcode;
+    public Date getJoinDate() {
+        return joinDate;
     }
 
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
+    public void setJoinDate(Date joinDate) {
+        this.joinDate = joinDate;
     }
-
-    public String getBankRoutingNumber() {
-        return bankRoutingNumber;
-    }
-
-    public void setBankRoutingNumber(String bankRoutingNumber) {
-        this.bankRoutingNumber = bankRoutingNumber;
-    }
-
-    public String getBankName() {
-        return bankName;
-    }
-
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
-    }
-
-    public String getBankAccountNumber() {
-        return bankAccountNumber;
-    }
-
-    public void setBankAccountNumber(String bankAccountNumber) {
-        this.bankAccountNumber = bankAccountNumber;
-    }
-
+    
+    
     
 
     @Override

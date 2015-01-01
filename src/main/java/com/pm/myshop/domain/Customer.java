@@ -3,45 +3,44 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package com.pm.myshop.domain;
 
-import java.util.Date;
-import javax.annotation.Generated;
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import org.springframework.format.annotation.DateTimeFormat;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author user
  */
+
 @Entity
-public class Customer {
+public class Customer implements Serializable {
+    
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
-    private String customerName;
-    private String customerEmail;
-    private String customerContact;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date creationDate;
-    private String customerCreditCardNumber;
-     @Temporal(javax.persistence.TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date expirationDate;
-    private String cvv2;
-    private String cardHolderName;
-    private String address1;
-    private String address2;
-    private String city;
-    private String state;
-    private String zipcode;
-
+    
+    private String name;
+    
+    private String email;
+    
+    private String phone;
+    
+    @OneToOne
+    private Address address;
+    
+    @OneToOne
+    private Account account;
+    
+    @OneToOne
+    private User user;
+    
+    
     public int getId() {
         return id;
     }
@@ -50,109 +49,65 @@ public class Customer {
         this.id = id;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public String getName() {
+        return name;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getCustomerEmail() {
-        return customerEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCustomerEmail(String customerEmail) {
-        this.customerEmail = customerEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getCustomerContact() {
-        return customerContact;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setCustomerContact(String customerContact) {
-        this.customerContact = customerContact;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public Date getCreationDate() {
-        return creationDate;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
-    public String getCustomerCreditCardNumber() {
-        return customerCreditCardNumber;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setCustomerCreditCardNumber(String customerCreditCardNumber) {
-        this.customerCreditCardNumber = customerCreditCardNumber;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
-    public Date getExpirationDate() {
-        return expirationDate;
+    public User getUser() {
+        return user;
     }
 
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public String getCvv2() {
-        return cvv2;
-    }
+    
 
-    public void setCvv2(String cvv2) {
-        this.cvv2 = cvv2;
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + this.id;
+        return hash;
     }
-
-    public String getCardHolderName() {
-        return cardHolderName;
-    }
-
-    public void setCardHolderName(String cardHolderName) {
-        this.cardHolderName = cardHolderName;
-    }
-
-    public String getAddress1() {
-        return address1;
-    }
-
-    public void setAddress1(String address1) {
-        this.address1 = address1;
-    }
-
-    public String getAddress2() {
-        return address2;
-    }
-
-    public void setAddress2(String address2) {
-        this.address2 = address2;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getZipcode() {
-        return zipcode;
-    }
-
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
-    }
+    
+    
+    
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set

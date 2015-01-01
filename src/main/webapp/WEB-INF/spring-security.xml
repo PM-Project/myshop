@@ -9,10 +9,12 @@
         <intercept-url pattern="/login" access="permitAll" />
         <intercept-url pattern="/logout*" access="permitAll" />
         
-<!--        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
-        <intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>-->
+        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/vendor/**" access="hasRole('ROLE_VENDOR')"/>
+        <intercept-url pattern="/customer/**" access="hasRole('ROLE_CUSTOMER')"/>
+        
         <access-denied-handler error-page="/403"/>
-        <form-login login-page="/login" always-use-default-target="true" default-target-url="/"
+        <form-login login-page="/login" default-target-url="/"
         authentication-failure-url="/login?error"
         username-parameter="username" password-parameter="password"/>
         <logout logout-url="/logout" logout-success-url="/login?logout"/>
