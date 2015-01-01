@@ -42,6 +42,8 @@ public class Vendor implements Serializable {
     private String bankName;
     private String bankAccountNumber;
   
+    
+    
 
     public int getId() {
         return id;
