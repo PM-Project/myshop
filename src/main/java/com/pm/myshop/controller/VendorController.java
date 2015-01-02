@@ -67,7 +67,7 @@ public class VendorController {
         String code = UUID.randomUUID().toString().toUpperCase();
         user.setVerification(code);
         user.setUsername(vendor.getEmail());
-        user.setRole(new Role("ROLE_VENDOR"));
+        user.setRole(Role.ROLE_VENDOR);
         vendor.setUrl(vendor.getBrand().toLowerCase().replace(" ", "-"));
         vendor.setUser(user);
         

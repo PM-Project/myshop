@@ -48,7 +48,7 @@ public class UserAuthenticator implements AuthenticationProvider
             {
                 List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
 
-                grantedAuths.add(new SimpleGrantedAuthority(user.getRole().getName()));
+                grantedAuths.add(new SimpleGrantedAuthority(user.getRole().toString()));
                 grantedAuths.add(new SimpleGrantedAuthority("ROLE_ANY"));
 
                 Authentication auth = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), grantedAuths);

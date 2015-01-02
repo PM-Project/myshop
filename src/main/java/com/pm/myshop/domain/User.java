@@ -41,7 +41,6 @@ public class User implements Serializable {
     @OneToOne(mappedBy = "user")
     private Customer customer;
     
-    @OneToOne(cascade = CascadeType.ALL)
     private Role role;
 
     public int getId() {

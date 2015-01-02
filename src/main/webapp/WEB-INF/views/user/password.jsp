@@ -33,7 +33,7 @@
                                     <h3 class="panel-title">Create New Password</h3>
                                 </div>
                                 <div class="panel-body">
-                                    <form class="form-inline" role="form" method="post" action="password">
+                                    <form role="form" method="post" action="password">
                                         <div class="form-group">
                                             <label>New Password</label>
                                             <input type="password" id="password" name="password" class="form-control">
