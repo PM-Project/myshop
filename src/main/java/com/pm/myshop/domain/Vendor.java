@@ -6,14 +6,13 @@
 package com.pm.myshop.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -28,25 +27,26 @@ public class Vendor implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     
-    private String vendorName; 
-    private String address; 
-   
+    private String company;
+    private String brand;
+    private String url;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    private Address address;
+    
+    private String email; 
+    private String phone;
+    
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    private Account account;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    private User user;
+    
     @Temporal(javax.persistence.TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date joinDate; 
-    private boolean active; 
-    private String bankInfo; 
-    private String email; 
-    private int phone;
-    private boolean isDeleted; 
-    @Temporal(javax.persistence.TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date createdDate;
-    
-    @OneToMany(mappedBy="vendor")
-    private List<Product> products=new ArrayList<Product>();
-    
-    
 
     public int getId() {
         return id;
@@ -56,45 +56,47 @@ public class Vendor implements Serializable {
         this.id = id;
     }
 
-    public String getVendorName() {
-        return vendorName;
+    public String getCompany() {
+        return company;
     }
 
-    public void setVendorName(String vendorName) {
-        this.vendorName = vendorName;
+    public void setCompany(String company) {
+        this.company = company;
     }
 
-    public String getAddress() {
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
-    public Date getJoinDate() {
-        return joinDate;
+    public User getUser() {
+        return user;
     }
 
-    public void setJoinDate(Date joinDate) {
-        this.joinDate = joinDate;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public String getBankInfo() {
-        return bankInfo;
-    }
-
-    public void setBankInfo(String bankInfo) {
-        this.bankInfo = bankInfo;
-    }
+    
 
     public String getEmail() {
         return email;
@@ -104,29 +106,32 @@ public class Vendor implements Serializable {
         this.email = email;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    public boolean isIsDeleted() {
-        return isDeleted;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
+    
+
+    public Date getJoinDate() {
+        return joinDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+    public void setJoinDate(Date joinDate) {
+        this.joinDate = joinDate;
     }
+    
     
     
 
@@ -153,14 +158,6 @@ public class Vendor implements Serializable {
     @Override
     public String toString() {
         return "com.pm.myshop.entity.Vendor[ id=" + id + " ]";
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
     }
     
 }
