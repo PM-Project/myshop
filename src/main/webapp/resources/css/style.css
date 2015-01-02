@@ -1065,3 +1065,15 @@ hr{
 		.copyright p{
 			padding-top:4px;
 		}
+
+                
+                .logo {
+                    display: block;
+                    width: 150px;
+                    height: 80px;
+                    background: url(../images/myshop-logo.png) no-repeat center center;
+                }
+                
+                .error {
+                    color: #f00;
+                }

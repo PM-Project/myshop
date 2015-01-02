@@ -7,39 +7,42 @@ package com.pm.myshop.dao.impl;
 
 import com.pm.myshop.dao.UserDao;
 import com.pm.myshop.domain.User;
+import com.pm.myshop.util.SessionUtil;
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author kunda_000
  */
 
-
-public class UserDaoImpl implements UserDao {
+@Repository
+public class UserDaoImpl extends SessionUtil implements UserDao {
 
     @Override
     public void saveUser(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        getSession().saveOrUpdate(user);
     }
 
     @Override
     public void deleteUser(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        User user = getUserById(id);
+        if(user != null) getSession().delete(user);
     }
 
     @Override
     public List<User> listAllUsers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return getSession().createQuery("FROM User").list();
     }
 
     @Override
     public User getUserById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return (User) getSession().get(User.class, id);
     }
 
     @Override
     public User getUserByUsername(String username) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return (User) getSession().createQuery("SELECT u FROM User u WHERE u.username = ?").setParameter(0, username).uniqueResult();
     }
     
 }

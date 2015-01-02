@@ -21,6 +21,7 @@ public class VendorDaoImpl extends SessionUtil implements VendorDao{
     @Override
     public void saveVendor(Vendor vendor) {
         getSession().saveOrUpdate(vendor);
+        getSession().flush();
     }
 
     @Override

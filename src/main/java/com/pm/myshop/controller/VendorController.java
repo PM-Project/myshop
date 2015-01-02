@@ -5,6 +5,7 @@
  */
 package com.pm.myshop.controller;
 
+import com.pm.myshop.domain.User;
 import com.pm.myshop.domain.Vendor;
 import com.pm.myshop.propertyeditor.VendorPropertyEditor;
 import com.pm.myshop.service.VendorService;
@@ -42,27 +43,36 @@ public class VendorController {
         binder.registerCustomEditor(Vendor.class, new VendorPropertyEditor(vendorService));        
     } 
     
-    @RequestMapping("/vendor/form")
-    public String vendorAdd(Vendor vendor)
+    @RequestMapping("/register/vendor")
+    public String vendorRegister(Vendor vendor)
     {
-        return "/vendor/form";
+        return "vendor/vendorForm";
     }
     
-    @RequestMapping(value = "/vendor/save", method = RequestMethod.POST)
-    public String saveUser(@Valid Vendor vendor, BindingResult result)
+    @RequestMapping(value = "/register/vendor", method = RequestMethod.POST)
+    public String saveUser(Vendor vendor, User user, BindingResult result, Model model)
     {
         if(result.hasErrors())
-            return "vendor/form";
-        else
-           vendorService.saveVendor(vendor);    
-        return "redirect:/vendor/list";
+            return "vendor/vendorForm";
+        
+        user.setUsername(vendor.getEmail());
+        vendor.setUrl(vendor.getBrand().toLowerCase().replace(" ", "-"));
+        vendor.setUser(user);
+
+        vendorService.saveVendor(vendor);
+        
+        model.addAttribute("title", "Registration Successfull");
+        model.addAttribute("message", "Thank you for registration. Please check your email and proceed with given information");
+        
+        return "redirect:/info";
     }
+    
     
     @RequestMapping(value = "/vendor/list")
     public String listUsers(Model model)
     {
         model.addAttribute("vendors", vendorService.getAllVendors());
-        return "vendor/list";
+        return "vendor/vendorList";
     }
     
     @RequestMapping("/vendor/edit/{vendorid}")

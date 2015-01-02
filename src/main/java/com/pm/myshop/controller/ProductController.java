@@ -81,7 +81,7 @@ public class ProductController
             
         Vendor vendor= venderService.getVendorById(1);
         product.setVendor(vendor);
-            System.out.println("Product is "+product.getCategory().toString());
+            //System.out.println("Product is "+product.getCategory().toString());
             productService.saveProduct(product);
         }
         //just for testing purpose-----------

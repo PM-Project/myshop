@@ -6,13 +6,11 @@
 package com.pm.myshop.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -30,9 +28,18 @@ public class User implements Serializable {
     
     private String password;
     
-    @OneToMany
-    private List<Role> roles = new ArrayList<Role>();
+    private String verification;
     
+    private boolean active;
+    
+    @OneToOne(mappedBy = "user")
+    private Vendor vendor;
+    
+    @OneToOne(mappedBy = "user")
+    private Customer customer;
+    
+    @OneToOne
+    private Role role;
 
     public int getId() {
         return id;
@@ -58,12 +65,48 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    
+
+    public Vendor getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
+    }
+
+    public String getVerification() {
+        return verification;
+    }
+
+    public void setVerification(String verification) {
+        this.verification = verification;
+    }
+
+    
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     

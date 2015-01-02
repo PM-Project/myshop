@@ -5,7 +5,7 @@
         <!-- Logo Starts -->
         <div class="col-md-4 col-xs-12">
             <div id="logo">
-                <a href="./"><img src="resources/images/myshop-logo.png" title="Grocery Shoppe" alt="Grocery Shoppe" class="img-responsive" /></a>
+                <a href="./" class="logo"></a>
             </div>
         </div>
         <!-- Logo Ends -->
@@ -20,8 +20,8 @@
                             <li><a href="#">My Account</a></li>
                             <li><a href="cart.html">Shopping Cart</a></li>
                             <li><a href="#">Checkout</a></li>
-                            <li><a href="register.html">Register</a></li>
-                            <li><a href="login.html">Login</a></li>
+                            <li><a href="register">Register</a></li>
+                            <li><a href="login">Login</a></li>
                         </ul>
                     </div>
                 </div>
