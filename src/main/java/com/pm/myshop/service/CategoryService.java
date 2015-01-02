@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pm.myshop.dao;
+package com.pm.myshop.service;
 
 import com.pm.myshop.domain.Category;
 import java.util.List;
@@ -12,11 +12,11 @@ import java.util.List;
  *
  * @author Santosh
  */
-public interface CategoryDao 
+public interface CategoryService 
 {
     public void saveCategory(Category category);
-    public void deleteCategory(int id);
-    public List<Category> getAllCategory();
     public Category getCategoryById(int id);
+    public List<Category> getAllCategories(); 
+    public void deleteCategory(int id);
     public Category getCategoryByCategoryName(String categoryName);
 }
