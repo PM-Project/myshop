@@ -44,5 +44,10 @@ public class UserDaoImpl extends SessionUtil implements UserDao {
     public User getUserByUsername(String username) {
         return (User) getSession().createQuery("SELECT u FROM User u WHERE u.username = ?").setParameter(0, username).uniqueResult();
     }
+
+    @Override
+    public User getUserByVerification(String code) {
+        return (User) getSession().createQuery("SELECT u FROM User u WHERE u.verification = ?").setParameter(0, code).uniqueResult();
+    }
     
 }

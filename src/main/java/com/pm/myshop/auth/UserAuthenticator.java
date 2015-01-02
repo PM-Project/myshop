@@ -7,6 +7,7 @@ package com.pm.myshop.auth;
 
 import com.pm.myshop.dao.UserDao;
 import com.pm.myshop.domain.Role;
+import com.pm.myshop.domain.Status;
 import com.pm.myshop.domain.User;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public class UserAuthenticator implements AuthenticationProvider
         
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         
-        if(user.isActive())
+        if(user.getStatus().equals(Status.Active))
         {
             if (encoder.matches(a.getCredentials().toString(),user.getPassword())) 
             {

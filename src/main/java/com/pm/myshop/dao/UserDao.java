@@ -18,4 +18,5 @@ public interface UserDao {
     public List<User> listAllUsers();
     public User getUserById(int id);
     public User getUserByUsername(String username);
+    public User getUserByVerification(String code);
 }

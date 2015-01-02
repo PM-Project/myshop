@@ -6,6 +6,9 @@
 package com.pm.myshop.domain;
 
 import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,7 +33,7 @@ public class User implements Serializable {
     
     private String verification;
     
-    private boolean active;
+    private Status status;
     
     @OneToOne(mappedBy = "user")
     private Vendor vendor;
@@ -38,7 +41,7 @@ public class User implements Serializable {
     @OneToOne(mappedBy = "user")
     private Customer customer;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Role role;
 
     public int getId() {
@@ -101,13 +104,15 @@ public class User implements Serializable {
         this.customer = customer;
     }
 
-    public boolean isActive() {
-        return active;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setStatus(Status status) {
+        this.status = status;
     }
+
+    
 
     
     

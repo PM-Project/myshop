@@ -5,9 +5,16 @@
  */
 package com.pm.myshop.controller;
 
+import com.pm.myshop.domain.User;
 import com.pm.myshop.domain.Vendor;
+import com.pm.myshop.service.UserService;
+import java.util.Map;
+import javax.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -15,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class HomeController {
+    
+    @Autowired
+    UserService userService;
     
     @RequestMapping("/")
     public String home()
@@ -40,5 +50,34 @@ public class HomeController {
     {
         return "info";
     }
+    
+    
+    
+    @RequestMapping("/verify")
+    public String verifyUser(@RequestParam("code") String code, HttpSession session)
+    {
+        User user = userService.getUserByVerification(code);
+        if(user != null)
+            return "user/password";
+        else
+        {
+            session.setAttribute("title", "User Verification Error");
+            session.setAttribute("message", "User couldn't be verified with the given verification code.");
+            session.setAttribute("userToUpdate", user);
+            return "info";
+        }
+    }
+    
+    
+    
+    @RequestMapping(value = "/password", method = RequestMethod.POST)
+    public String changePassword(@RequestParam Map<String,String> map, HttpSession session)
+    {
+        User user = (User) session.getAttribute("userToUpdate");
+        
+        return "info";
+    }
+    
+    
     
 }

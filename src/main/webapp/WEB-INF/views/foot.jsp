@@ -4,6 +4,7 @@
     Author     : kunda_000
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="copyright container">
 		<div class="clearfix">
@@ -42,3 +43,6 @@
 <script src="resources/js/jquery.magnific-popup.min.js"></script>
 <script src="resources/js/owl.carousel.min.js"></script>
 <script src="resources/js/custom.js"></script>
+
+<c:remove var="title" scope="session"/>
+<c:remove var="message" scope="session"/>
