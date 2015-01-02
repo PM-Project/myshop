@@ -1,6 +1,6 @@
 <%-- 
-    Document   : category
-    Created on : Dec 30, 2014, 10:55:21 PM
+    Document   : productList
+    Created on : Jan 2, 2015, 1:57:47 AM
     Author     : Santosh
 --%>
 
@@ -19,7 +19,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	
-	<title>My Shop - Category</title>
+	<title>My Shop - Product</title>
 	<base href='<c:url value="/"/>' />
         
 	<!-- Bootstrap Core CSS -->
@@ -64,32 +64,43 @@
         <%@include file="../header.jsp" %>
 	<!-- Main Menu Ends -->
         
-        <h1>Category Management</h1>
+        <h1>Product Management</h1>
         
            
-        <table class="table table-striped"  >
-            <thead>
+        <table class="table table-striped" style="width:100%" >
             <tr>
                 <th>ID</th>
-                <th>Category Name</th>
+                <th>Category</th>
+                <th>Product Name</th>
+                <th>Unit</th>
+                <th>CP</th>
+                <th>SP</th>
+                <th>OB</th>
+                <th>CB</th>
+                <th>Stock Qty</th>
+                <th>Status<th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
-            </thead>
-            
-            <tbody>
-        <c:forEach items="${categories}" var="category">
+        <c:forEach items="${products}" var="product">
                 <tr>
-                    <td>${category.id}</td>
-                    <td>${category.categoryName}</td>
-                    <td><a href="category/edit/${category.id}"><img src="resources/images/EditIcon.png"/> </a></td>
-                    <td><a href="category/delete/${category.id}" onclick="return confirm('Are you sure you want to delete?')"><img src="resources/images/DeleteIcon.png"/></a></td>
+                    <td>${product.id}</td>
+                    <td>${product.category.categoryName}</td>
+                    <td>${product.productName}</td>
+                    <td>${product.unit}</td>
+                    <td>${product.costPrice}</td>
+                    <td>${product.sellingPrice}</td>
+                    <td>${product.openingBalance}</td>
+                    <td>${product.currentBalance}</td>
+                    <td>${product.openingBalance + product.currentBalance}</td>
+                    <td>${product.isAvailable}</td>
+                    <td><a href="product/edit/${product.id}"><img src="resources/images/EditIcon.png"/> </a></td>
+                    <td><a href="product/delete/${product.id}" onclick="return confirm('Are you sure you want to delete?')"><img src="resources/images/DeleteIcon.png"/></a></td>
                 </tr>
         </c:forEach>
-            </tbody>
         </table>
         </br>
-        <a class="btn btn-default" href="category/form" role="button">Add New Category</a>    
+        <a class="btn btn-default" href="product/form" role="button">Add New Product</a>    
         </br>
 	<!-- Footer Section Starts -->
         <%@include file="../footer.jsp" %>

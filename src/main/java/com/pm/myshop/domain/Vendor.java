@@ -6,11 +6,14 @@
 package com.pm.myshop.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -39,6 +42,11 @@ public class Vendor implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createdDate;
+    
+    @OneToMany(mappedBy="vendor")
+    private List<Product> products=new ArrayList<Product>();
+    
+    
 
     public int getId() {
         return id;
@@ -145,6 +153,14 @@ public class Vendor implements Serializable {
     @Override
     public String toString() {
         return "com.pm.myshop.entity.Vendor[ id=" + id + " ]";
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
     
 }

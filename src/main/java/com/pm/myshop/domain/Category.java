@@ -6,6 +6,7 @@
 package com.pm.myshop.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -13,12 +14,15 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 /**
  *
  * @author Santosh
  */
+
+//@NamedQuery(name="findCategoryByCategoryName",query="from Category c WHERE c.CategoryName = :categoryName")
 @Entity
 public class Category implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -26,11 +30,10 @@ public class Category implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     
-    @Basic(optional =false)
     private String categoryName;
     
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="category")
-    private List<Product> products;
+    @OneToMany(mappedBy="category")
+    private List<Product> products=new ArrayList<Product>();
     
     public int getId() {
         return id;
@@ -62,7 +65,8 @@ public class Category implements Serializable {
 
     @Override
     public String toString() {
-        return "com.pm.myshop.domain.category[ id=" + id + " ]";
+        //return "com.pm.myshop.domain.category[ id=" + id + " ]";
+        return categoryName;
     }
 
     public String getCategoryName() {

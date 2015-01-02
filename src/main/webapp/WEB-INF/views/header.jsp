@@ -188,7 +188,7 @@
             </li>
             <li><a href="category-list.html">Fresh Meats</a></li>
             <li><a href="category-list.html">Fresh Fish</a></li>
-            <li><a href="/myshop/category">Fruits</a></li>
+            <li><a href="/myshop/category/list">Category</a></li>
             <li><a href="category-list.html">Vegetables</a></li>
             <li class="dropdown">
                 <a href="category-list.html" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="10">
@@ -197,9 +197,9 @@
                 <ul class="dropdown-menu" role="menu">
                     <li><a tabindex="-1" href="index-2.html">Home</a></li>
                     <li><a tabindex="-1" href="about.html">About</a></li>
-                    <li><a tabindex="-1" href="category-list.html">Category List</a></li>
+                    <li><a tabindex="-1" href="/myshop/category/list">Category List</a></li>
                     <li><a tabindex="-1" href="category-grid.html">Category Grid</a></li>
-                    <li><a tabindex="-1" href="product.html">Product</a></li>
+                    <li><a tabindex="-1" href="/myshop/product/list">Product</a></li>
                     <li><a tabindex="-1" href="product-full.html">Product Full Width</a></li>
                     <li><a tabindex="-1" href="cart.html">Cart</a></li>
                     <li><a tabindex="-1" href="login.html">Login</a></li>

@@ -20,9 +20,5 @@ public class HomeController {
     {
         return "index";
     }
-    @RequestMapping("/category")
-    public String category()
-    {
-        return "/category/categoryList";
-    }
+    
 }

@@ -38,6 +38,10 @@ public class Product implements Serializable {
     @JoinColumn(name="CATEGORY_ID", nullable=false)
     private Category category;
     
+    @ManyToOne
+    @JoinColumn(name="VENDOR_ID",nullable=false)
+    private Vendor vendor;
+    
     public int getId() {
         return id;
     }
@@ -133,6 +137,14 @@ public class Product implements Serializable {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Vendor getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
     }
     
 }
