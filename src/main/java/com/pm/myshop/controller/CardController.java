@@ -22,6 +22,7 @@ import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -90,10 +91,14 @@ public class CardController {
 
     @RequestMapping(value = "/card", method = RequestMethod.GET)
     public String authenticateCard() {
-
-        cardVerification.setCardNumber("1234567891234567");
+       //
+        String cardNo="1234567891234567";        
+        String hasedCardNumber=BCrypt.hashpw(cardNo, BCrypt.gensalt(12));
+        System.out.println("Here is Password "+hasedCardNumber);
+        
+        cardVerification.setCardNumber(hasedCardNumber);
         cardVerification.setCardType("Visa");
-        cardVerification.setTotalBalance(50);
+        cardVerification.setTotalBalance(20);
 
         try {
             Properties props = PropertiesLoaderUtils.loadAllProperties("cardApplication.properties");
