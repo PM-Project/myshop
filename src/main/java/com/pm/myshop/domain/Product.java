@@ -14,6 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -27,12 +29,17 @@ public class Product implements Serializable {
     private int id;
     @Basic(optional=false)
     private String productName;
+    private String productDescription;
     private float costPrice;
     private float sellingPrice;
     private String unit;
     private int openingBalance;
     private int currentBalance;
     private boolean isAvailable;
+    private String fileName;
+    
+    @Transient
+    private MultipartFile file;
     
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="CATEGORY_ID", nullable=false)
@@ -145,6 +152,30 @@ public class Product implements Serializable {
 
     public void setVendor(Vendor vendor) {
         this.vendor = vendor;
+    }
+
+    public String getProductDescription() {
+        return productDescription;
+    }
+
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
+    }
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
     
 }

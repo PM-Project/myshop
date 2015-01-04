@@ -12,8 +12,12 @@ import com.pm.myshop.propertyeditor.CategoryPropertyEditor;
 import com.pm.myshop.service.CategoryService;
 import com.pm.myshop.service.ProductService;
 import com.pm.myshop.service.VendorService;
-import com.pm.myshop.service.impl.VendorServiceImpl;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +27,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -56,18 +61,33 @@ public class ProductController
         return "product/productList";
     }
     
+    @RequestMapping("/photo")
+    public String productPhoto(Product product,Model model)
+    {
+        model.addAttribute("products",productService.getAllProduct());
+        return "product/productPhoto";
+    }
+    
     @RequestMapping("/form")
     public String productForm(Product product, Model model)
     {
+        String addUpdateMessage="";
         List<Category> categories= categoryService.getAllCategories();
         model.addAttribute("categories",categories);
         //System.out.println("#########################################" + categories.size());
+        if (product.getId()==0)
+           addUpdateMessage="Add Product";
+        else
+           addUpdateMessage="Update Product";
+        model.addAttribute("addUpdateMessage", addUpdateMessage);
+                
         return "product/productForm";
     }
     
     
     @RequestMapping(value="/save", method=RequestMethod.POST)
-    public String categorySave(@Valid Product product, BindingResult result, Model model)
+    public String categorySave(@Valid Product product, BindingResult result, Model model,
+            HttpServletRequest request) throws IOException
     {
         if(result.hasErrors())
         {    
@@ -78,8 +98,15 @@ public class ProductController
         }
          else
         {
+            String filename  = UUID.randomUUID().toString();
+            String path = request.getRealPath("/");
             
-        Vendor vendor= venderService.getVendorById(1);
+            MultipartFile file=product.getFile();
+            file.transferTo(new File(path+"../../../files/"+filename+".jpg"));
+            product.setFileName(filename+".jpg");
+            
+            
+        Vendor vendor= venderService.getVendorById(2);
         product.setVendor(vendor);
             //System.out.println("Product is "+product.getCategory().toString());
             productService.saveProduct(product);

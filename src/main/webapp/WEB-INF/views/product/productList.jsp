@@ -63,8 +63,10 @@
 	<!-- Header Section Starts -->
         <%@include file="../header.jsp" %>
 	<!-- Main Menu Ends -->
+        <h2 class="main-heading">
+            Product Management
+        </h2>
         
-        <h1>Product Management</h1>
         
            
         <table class="table table-striped" style="width:100%" >
@@ -78,7 +80,7 @@
                 <th>OB</th>
                 <th>CB</th>
                 <th>Stock Qty</th>
-                <th>Status<th>
+                
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -93,7 +95,7 @@
                     <td>${product.openingBalance}</td>
                     <td>${product.currentBalance}</td>
                     <td>${product.openingBalance + product.currentBalance}</td>
-                    <td>${product.isAvailable}</td>
+                    
                     <td><a href="product/edit/${product.id}"><img src="resources/images/EditIcon.png"/> </a></td>
                     <td><a href="product/delete/${product.id}" onclick="return confirm('Are you sure you want to delete?')"><img src="resources/images/DeleteIcon.png"/></a></td>
                 </tr>

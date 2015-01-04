@@ -83,102 +83,115 @@
 </head>
 <body>
 <!-- Wrapper Starts -->
-	<div id="wrapper" class="container">
+    <div id="wrapper" class="container">
 	<!-- Header Section Starts -->
         <%@include file="../header.jsp" %>
 	<!-- Main Menu Ends -->
         
-        <h1>Product Management</h1>
-        <h4>Add/Update </h4>
         
-        </br>
-	
-    <div class="bs-example">
-        <form:form class="form-horizontal" commandName="product" action="product/save" method="post">
-            
-            <div class="alert alert-error">
-                <form:errors element="div" class="alert alert-error" path="*"/></br>
-            </div>
-            
-            <form:input type="hidden" path="id"/>
-            
-            <div class="form-group">
-                <label for="productName" class="control-label col-xs-2">Product Name</label>
-                <div class="col-xs-10">
-                    <form:input type="text" path="productName" class="form-control input-sm mrgn-bttm-md" id="productName" placeholder="Product Name" style="width:300px"/>
-                    <form:errors path="productName" element="div" cssClass="error" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="category" class="control-label col-xs-2">Category</label>
-                <div class="col-xs-10">
-                    <%--<form:input type="text" class="form-control input-sm mrgn-bttm-md" path="category" placeholder="Category" style="width:300px"/>--%>
-                
-                    <form:select path="category" class="form-control input-sm mrgn-bttm-md" placeholder="Category" style="width:300px">
-                        <%--<c:forEach items="${categories}" var="category" varStatus="count">--%> 
-                            
-                            <form:option value="NONE" label="-----Select-----"/>
-                            <form:options items="${categories}" itemLabel="categoryName" itemValue="id"/>
-                        <%--</c:forEach>--%>
-                    </form:select>   
-                    
-                    
-                    
-                
-                </div>
-            </div>
-            
-            
-            <div class="form-group">
-                <label for="unit" class="control-label col-xs-2">Unit</label>
-                <div class="col-xs-10">
-                    <form:input type="text" class="form-control input-sm mrgn-bttm-md" path="unit" placeholder="Unit" style="width:300px"/>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="costPrice" class="control-label col-xs-2">Cost Price</label>
-                <div class="col-xs-10">
-                    <form:input type="text" id="costPrice" class="form-control input-sm mrgn-bttm-md" path="costPrice" placeholder="Cost Price" style="width:300px"/>
-                </div>
-            </div>
-        
-            <div class="form-group">
-                <label for="sellingPrice" class="control-label col-xs-2">Selling Price</label>
-                <div class="col-xs-10">
-                    <form:input type="text" class="form-control input-sm mrgn-bttm-md" path="sellingPrice" placeholder="Selling Price" style="width:300px"/>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="openingBalance" class="control-label col-xs-2">Opening Balance</label>
-                <div class="col-xs-10">
-                    <form:input type="text" class="form-control input-sm mrgn-bttm-md" path="openingBalance" placeholder="Opening Balance" style="width:300px"/>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="currentBalance" class="control-label col-xs-2">Current Balance</label>
-                <div class="col-xs-10">
-                    <form:input type="text" class="form-control input-sm mrgn-bttm-md" path="currentBalance" placeholder="Current Balance" style="width:300px"/>
-                </div>
-            </div>
-        
-        
-            <div class="form-group">
-                <div class="col-xs-offset-2 col-xs-10">
-                    <div class="checkbox">
-                        <label><form:checkbox path ="isAvailable"/> Product Available</label>
+        <div class="panel-heading">
+            <h2 class="main-heading">Product Management</h2>
+            <h3 class="panel-title col-xs-12" style="background-color:khaki">${addUpdateMessage}</h3>
+        </div>
+       	
+        <div class="row">
+            <form:form class="form-horizontal" commandName="product" action="product/save" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-12" style="background-color:pink">
+                            <form:errors element="div" class="alert alert-error" path="*"/>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-xs-offset-2 col-xs-10">
-                    <button type="submit" class="btn btn-default">Save Product</button>
+                    <div class="row" style="height:20px">
+                        
+                    </div>
+                <div class="row panel-title" >
+                    <div class="col-md-6 ui-sortable">                
+                        
+
+                        <form:input type="hidden" path="id"/>
+
+                        <div class="form-group">
+                            <label for="productName" class="control-label col-xs-3">Product Name</label>
+                            <div class="col-xs-9">
+                                <form:input type="text" path="productName" class="form-control input-sm mrgn-bttm-md" id="productName" placeholder="Product Name" style="width:300px"/>
+                                <form:errors path="productName" element="div" cssClass="error" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productDescription" class="control-label col-xs-3">Description</label>
+                            <div class="col-xs-9">
+                                <form:textarea type="text" path="productDescription" class="form-control input-sm mrgn-bttm-md" id="productDescription" placeholder="Product Description" style="width:300px"/>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="category" class="control-label col-xs-3">Category</label>
+                            <div class="col-xs-9">
+                                <form:select path="category" class="form-control input-sm mrgn-bttm-md" placeholder="Category" style="width:300px">
+                                        <form:option value="NONE" label="-----Select-----"/>
+                                        <form:options items="${categories}" itemLabel="categoryName" itemValue="id"/>
+                                </form:select>   
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <label for="unit" class="control-label col-xs-3">Unit</label>
+                            <div class="col-xs-9">
+                                <form:input type="text" class="form-control input-sm mrgn-bttm-md" path="unit" placeholder="Unit" style="width:300px"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="costPrice" class="control-label col-xs-3">Cost Price</label>
+                            <div class="col-xs-9">
+                                <form:input type="text" id="costPrice" class="form-control input-sm mrgn-bttm-md" path="costPrice" placeholder="Cost Price" style="width:300px"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sellingPrice" class="control-label col-xs-3">Selling Price</label>
+                            <div class="col-xs-9">
+                                <form:input type="text" class="form-control input-sm mrgn-bttm-md" path="sellingPrice" placeholder="Selling Price" style="width:300px"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="openingBalance" class="control-label col-xs-3">Opn. Qty.</label>
+                            <div class="col-xs-9">
+                                <form:input type="text" class="form-control input-sm mrgn-bttm-md" path="openingBalance" placeholder="Opening Balance" style="width:300px"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="display:none">
+                            <label for="currentBalance" class="control-label col-xs-3">Current Balance</label>
+                            <div class="col-xs-9">
+                                <form:input type="text" class="form-control input-sm mrgn-bttm-md" path="currentBalance" placeholder="Current Balance" style="width:300px"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-xs-offset-3 col-xs-9">
+                                <button type="submit" class="btn btn-default">Save Product</button>
+                            </div>
+
+                        </div>
+                    </div>
+                
+
+                    <div class="col-md-6 ui-sortable">
+                        
+                        <div class="form-group">
+                            <lable for="file">Choose Product Picture</lable>
+                            <form:input type="file" path="file" class="btn btn-default"/>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </form:form>
-    </div>
+            </form:form>
+        </div>
         
         
         
