@@ -7,13 +7,19 @@
         xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
-       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
         <mvc:default-servlet-handler/>
         <mvc:resources mapping="/resources/**" location="/resources/"/>
-        <mvc:annotation-driven />
+        
+        <mvc:annotation-driven>
+            <mvc:argument-resolvers>
+                <bean class="org.springframework.security.web.bind.support.AuthenticationPrincipalArgumentResolver"/>
+            </mvc:argument-resolvers>
+        </mvc:annotation-driven>
+        
         <!--<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />-->
         <mvc:interceptors>
             <bean id="webContentInterceptor" 
@@ -24,6 +30,8 @@
                 <property name="useCacheControlNoStore" value="true"/>
             </bean>
         </mvc:interceptors>
+        
+        <security:global-method-security secured-annotations="enabled" />
         
         <context:component-scan base-package="com.pm.myshop.controller" />
         

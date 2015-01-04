@@ -5,11 +5,14 @@
  */
 package com.pm.myshop.controller;
 
+import com.pm.myshop.domain.Category;
 import com.pm.myshop.domain.Role;
 import com.pm.myshop.domain.Status;
-import com.pm.myshop.domain.User;
+import com.pm.myshop.domain.UserLogin;
 import com.pm.myshop.domain.Vendor;
+import com.pm.myshop.propertyeditor.CategoryPropertyEditor;
 import com.pm.myshop.propertyeditor.VendorPropertyEditor;
+import com.pm.myshop.service.CategoryService;
 import com.pm.myshop.service.MailService;
 import com.pm.myshop.service.VendorService;
 import java.text.SimpleDateFormat;
@@ -19,11 +22,13 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,6 +39,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
  * @author Jagendra
  */
 @Controller
+@SessionAttributes({"vendor"})
 public class VendorController {
     
     
@@ -41,15 +47,15 @@ public class VendorController {
     VendorService vendorService;
     
     @Autowired
+    CategoryService categoryService;
+    
+    @Autowired
     MailService mailService;
     
     @InitBinder
     public void initConverter(WebDataBinder binder)
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dateFormat.setLenient(false);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
-        binder.registerCustomEditor(Vendor.class, new VendorPropertyEditor(vendorService));        
+        binder.registerCustomEditor(Category.class, new CategoryPropertyEditor(categoryService)); 
     } 
     
     @RequestMapping("/register/vendor")
@@ -58,8 +64,46 @@ public class VendorController {
         return "vendor/vendorForm";
     }
     
+    @RequestMapping(value = "/vendor")
+    public String vendorProfile(@AuthenticationPrincipal UserLogin user, Model model)
+    {
+        model.addAttribute("user", user);
+        return "vendor/profile";
+    }
+    
+    @RequestMapping(value = "/vendor/categories")
+    public String vendorCategories(@AuthenticationPrincipal UserLogin user, Model model)
+    {
+        Vendor vendor = vendorService.mergeVendor(user.getVendor());
+        model.addAttribute("vendor", vendor);
+        model.addAttribute("categories", categoryService.getAllCategories());
+        return "vendor/categories";
+    }
+    
+    @RequestMapping(value = "/vendor/categories", method = RequestMethod.POST)
+    public String vendorUpdateCategories(@ModelAttribute Vendor vendor, @AuthenticationPrincipal UserLogin user, BindingResult result, Model model)
+    {
+        model.addAttribute("vendor", vendor);
+        model.addAttribute("categories", categoryService.getAllCategories());
+        
+        if(result.hasErrors())
+            return "vendor/categories";
+        
+        vendorService.saveVendor(vendor);
+        return "redirect:/vendor/categories";
+    }
+    
+    @RequestMapping(value = "/vendor/product")
+    public String vendorProducts(@AuthenticationPrincipal UserLogin user, Model model)
+    {
+        Vendor vendor = vendorService.mergeVendor(user.getVendor());
+        model.addAttribute("products", vendor.getProducts());
+        return "vendor/productList";
+    }
+    
+    
     @RequestMapping(value = "/register/vendor", method = RequestMethod.POST)
-    public String saveUser(Vendor vendor, User user, BindingResult result, HttpSession session)
+    public String saveUser(Vendor vendor, UserLogin user, BindingResult result, HttpSession session)
     {
         if(result.hasErrors())
             return "vendor/vendorForm";

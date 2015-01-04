@@ -21,7 +21,6 @@ public class VendorDaoImpl extends SessionUtil implements VendorDao{
     @Override
     public void saveVendor(Vendor vendor) {
         getSession().saveOrUpdate(vendor);
-        getSession().flush();
     }
 
     @Override
@@ -40,6 +39,11 @@ public class VendorDaoImpl extends SessionUtil implements VendorDao{
         if(vendor!=null)
         getSession().delete(vendor);
         
+    }
+
+    @Override
+    public Vendor mergeVendor(Vendor vendor) {
+        return (Vendor) getSession().merge(vendor);
     }
     
 }

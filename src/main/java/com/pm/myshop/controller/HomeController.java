@@ -5,45 +5,94 @@
  */
 package com.pm.myshop.controller;
 
-import com.pm.myshop.domain.User;
-import com.pm.myshop.domain.Vendor;
+import com.pm.myshop.domain.Role;
+import com.pm.myshop.domain.UserLogin;
 import com.pm.myshop.service.UserService;
-import java.util.Map;
+import com.pm.myshop.validator.PasswordValidator;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 /**
  *
  * @author kunda_000
  */
 @Controller
+@SessionAttributes({"user","currentUser"})
 public class HomeController {
     
     @Autowired
     UserService userService;
     
+    @Autowired
+    HttpServletRequest request;
+    
+    @Autowired
+    HttpSession session;
+    
     @RequestMapping("/")
-    public String home()
+    public String index()
     {
         return "index";
+    }
+    
+    @RequestMapping("/home")
+    public String home(@AuthenticationPrincipal UserLogin user, Model model)
+    {
+        
+        
+        if(user.getRole().equals(Role.ROLE_VENDOR))
+            return "redirect:/vendor";
+        else if(user.getRole().equals(Role.ROLE_ADMIN))
+            return "redirect:/admin";
+        
+        return "redirect:/";
+    }
+    
+    
+    @RequestMapping("/admin")
+    public String admin()
+    {
+        return "admin/profile";
     }
     
     
     @RequestMapping("/login")
     public String login()
     {
+        session.setAttribute("referer", request.getHeader("referer"));
         return "login";
     }
     
-    @RequestMapping("/register")
-    public String register()
+    @RequestMapping("/logout")
+    public String logout()
     {
-        return "customer/customerForm";
+        
+        return "login";
     }
+    
+    
+    @RequestMapping("/403")
+    public String errorPageAccessDenied()
+    {
+        return "403";
+    }
+    
+    @RequestMapping("/404")
+    public String errorPageNotFound()
+    {
+        return "404";
+    }
+    
     
     @RequestMapping("/info")
     public String actionInfo()
@@ -54,16 +103,19 @@ public class HomeController {
     
     
     @RequestMapping("/verify")
-    public String verifyUser(@RequestParam("code") String code, HttpSession session)
+    public String verifyUser(@RequestParam("code") String code, Model model, HttpSession session)
     {
-        User user = userService.getUserByVerification(code);
+        UserLogin user = userService.getUserByVerification(code);
         if(user != null)
-            return "user/password";
-        else
         {
+            model.addAttribute("user", user);
+            return "user/password";
+            
+        }else{
+            
             session.setAttribute("title", "User Verification Error");
             session.setAttribute("message", "User couldn't be verified with the given verification code.");
-            session.setAttribute("userToUpdate", user);
+            
             return "info";
         }
     }
@@ -71,11 +123,20 @@ public class HomeController {
     
     
     @RequestMapping(value = "/password", method = RequestMethod.POST)
-    public String changePassword(@RequestParam Map<String,String> map, HttpSession session)
+    public String changePassword(@ModelAttribute("user") UserLogin user, Model model, BindingResult results, HttpSession session)
     {
-        User user = (User) session.getAttribute("userToUpdate");
+        PasswordValidator passwordValidator = new PasswordValidator();
         
-        return "info";
+        passwordValidator.validate(user, results);
+        
+        if(results.hasErrors())
+            return "user/password";
+        
+        userService.changePassword(user);
+        
+        session.setAttribute("title", "Change Password");
+        session.setAttribute("message", "Password has been changed successfully. Plase use your new password to login");
+        return "redirect:/login";
     }
     
     

@@ -43,5 +43,10 @@ public class VendorServiceImpl implements VendorService {
     public void deleteVendor(int id) {
         vendorDao.deleteVendor(id);
     }      
+
+    @Override
+    public Vendor mergeVendor(Vendor vendor) {
+        return vendorDao.mergeVendor(vendor);
+    }
     
 }

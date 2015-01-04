@@ -6,10 +6,12 @@
 package com.pm.myshop.service.impl;
 
 import com.pm.myshop.dao.UserDao;
-import com.pm.myshop.domain.User;
+import com.pm.myshop.domain.UserLogin;
 import com.pm.myshop.service.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +27,7 @@ public class UserServiceImpl implements UserService {
     UserDao userDao;
     
     @Override
-    public void saveUser(User user) {
+    public void saveUser(UserLogin user) {
         userDao.saveUser(user);
     }
 
@@ -35,23 +37,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> listAllUsers() {
+    public List<UserLogin> listAllUsers() {
         return userDao.listAllUsers();
     }
 
     @Override
-    public User getUserById(int id) {
+    public UserLogin getUserById(int id) {
         return userDao.getUserById(id);
     }
 
     @Override
-    public User getUserByUsername(String username) {
+    public UserLogin getUserByUsername(String username) {
         return userDao.getUserByUsername(username);
     }
 
     @Override
-    public User getUserByVerification(String code) {
+    public UserLogin getUserByVerification(String code) {
         return userDao.getUserByVerification(code);
+    }
+
+    @Override
+    public void changePassword(UserLogin user) {
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        String password = encoder.encode(user.getPassword());
+        user.setPassword(password);
+        user.setVerification("");
+        userDao.saveUser(user);
     }
     
 }

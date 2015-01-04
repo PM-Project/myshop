@@ -7,6 +7,7 @@
 package com.pm.myshop.domain;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,14 +32,14 @@ public class Customer implements Serializable {
     
     private String phone;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Account account;
     
-    @OneToOne
-    private User user;
+    @OneToOne(cascade = CascadeType.ALL)
+    private UserLogin user;
     
     
     public int getId() {
@@ -89,11 +90,11 @@ public class Customer implements Serializable {
         this.account = account;
     }
 
-    public User getUser() {
+    public UserLogin getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserLogin user) {
         this.user = user;
     }
 

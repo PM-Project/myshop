@@ -7,6 +7,7 @@ package com.pm.myshop.controller;
 
 import com.pm.myshop.domain.Category;
 import com.pm.myshop.domain.Product;
+import com.pm.myshop.domain.UserLogin;
 import com.pm.myshop.domain.Vendor;
 import com.pm.myshop.propertyeditor.CategoryPropertyEditor;
 import com.pm.myshop.service.CategoryService;
@@ -16,6 +17,7 @@ import com.pm.myshop.service.impl.VendorServiceImpl;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author Santosh
  */
 @Controller
-@RequestMapping("/product")
 public class ProductController 
 {
     @Autowired 
@@ -39,7 +40,7 @@ public class ProductController
     CategoryService categoryService;
     
     @Autowired
-    VendorService venderService;
+    VendorService vendorService;
     
     
     @InitBinder
@@ -49,45 +50,39 @@ public class ProductController
     }
     
     
-    @RequestMapping("/list")
+    @RequestMapping("/vendor/product/list")
     public String productList(Model model)
     {
         model.addAttribute("products",productService.getAllProduct());
         return "product/productList";
     }
     
-    @RequestMapping("/form")
-    public String productForm(Product product, Model model)
+    @RequestMapping("/vendor/product/form")
+    public String productForm(Product product, @AuthenticationPrincipal UserLogin user, Model model)
     {
-        List<Category> categories= categoryService.getAllCategories();
-        model.addAttribute("categories",categories);
-        //System.out.println("#########################################" + categories.size());
-        return "product/productForm";
+        
+        Vendor vendor = vendorService.mergeVendor(user.getVendor());
+        model.addAttribute("categories",vendor.getCategories());
+
+        return "vendor/productForm";
     }
     
     
-    @RequestMapping(value="/save", method=RequestMethod.POST)
-    public String categorySave(@Valid Product product, BindingResult result, Model model)
+    @RequestMapping(value="/vendor/product/save", method=RequestMethod.POST)
+    public String categorySave(@Valid Product product, @AuthenticationPrincipal UserLogin user, BindingResult result, Model model)
     {
         if(result.hasErrors())
         {    
             List<Category> categories= categoryService.getAllCategories();
             model.addAttribute("categories",categories);
-            return "/product/productForm";
-            //return "redirect:/product/form";
+            return "/vendor/productForm";
         }
-         else
-        {
             
-        Vendor vendor= venderService.getVendorById(1);
+        Vendor vendor= user.getVendor();
         product.setVendor(vendor);
-            //System.out.println("Product is "+product.getCategory().toString());
-            productService.saveProduct(product);
-        }
-        //just for testing purpose-----------
-       
-        //------------------------------------
-        return "redirect:/product/list";
+        productService.saveProduct(product);
+
+        return "redirect:/vendor/product/list";
     }
     
 }

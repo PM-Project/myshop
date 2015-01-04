@@ -8,12 +8,10 @@ package com.pm.myshop.domain;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -21,11 +19,13 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 public class Product implements Serializable {
+    
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Basic(optional=false)
+    
     private String productName;
     private float costPrice;
     private float sellingPrice;
@@ -34,12 +34,10 @@ public class Product implements Serializable {
     private int currentBalance;
     private boolean isAvailable;
     
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="CATEGORY_ID", nullable=false)
+    @OneToOne
     private Category category;
     
-    @ManyToOne
-    @JoinColumn(name="VENDOR_ID",nullable=false)
+    @OneToOne
     private Vendor vendor;
     
     public int getId() {

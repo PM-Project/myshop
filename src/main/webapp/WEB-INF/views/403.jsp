@@ -30,7 +30,7 @@
                             <!-- Login Panel Starts -->
                             <div class="panel panel-smart">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">Not Found</h3>
+                                    <h3 class="panel-title">Access Denied</h3>
                                 </div>
                                 <div class="panel-body">
                                     <p>

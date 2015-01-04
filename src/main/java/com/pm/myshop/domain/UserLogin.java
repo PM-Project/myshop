@@ -6,6 +6,8 @@
 package com.pm.myshop.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,13 +16,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  *
  * @author kunda_000
  */
 @Entity
-public class User implements Serializable {
+public class UserLogin implements UserDetails, Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -42,6 +48,10 @@ public class User implements Serializable {
     private Customer customer;
     
     private Role role;
+    
+    @Transient
+    private Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+
 
     public int getId() {
         return id;
@@ -50,7 +60,8 @@ public class User implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
-
+    
+    @Override
     public String getUsername() {
         return username;
     }
@@ -59,6 +70,7 @@ public class User implements Serializable {
         this.username = username;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
@@ -111,6 +123,10 @@ public class User implements Serializable {
         this.status = status;
     }
 
+    public void setAuthorities(Collection<GrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
+
     
 
     
@@ -126,10 +142,10 @@ public class User implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof User)) {
+        if (!(object instanceof UserLogin)) {
             return false;
         }
-        User other = (User) object;
+        UserLogin other = (UserLogin) object;
         if (this.id != other.id) {
             return false;
         }
@@ -139,6 +155,31 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "com.pm.myshop.domain.User[ id=" + id + " ]";
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
     
 }

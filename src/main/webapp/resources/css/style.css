@@ -1077,3 +1077,6 @@ hr{
                 .error {
                     color: #f00;
                 }
+                .selected-category input {
+                    margin-right: 5px;
+                }
