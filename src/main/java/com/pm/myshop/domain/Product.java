@@ -7,10 +7,12 @@ package com.pm.myshop.domain;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,25 +22,30 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Entity
 public class Product implements Serializable {
-    
     private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    
+    @Basic(optional=false)
     private String productName;
+    private String productDescription;
     private float costPrice;
     private float sellingPrice;
     private String unit;
     private int openingBalance;
     private int currentBalance;
     private boolean isAvailable;
+    private String fileName;
     
-    @OneToOne
+    @Transient
+    private MultipartFile file;
+    
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="CATEGORY_ID", nullable=false)
     private Category category;
     
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name="VENDOR_ID",nullable=false)
     private Vendor vendor;
     
     private String fileName;
@@ -153,12 +160,12 @@ public class Product implements Serializable {
         this.vendor = vendor;
     }
 
-    public String getFileName() {
-        return fileName;
+    public String getProductDescription() {
+        return productDescription;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
     }
 
     public MultipartFile getFile() {
@@ -167,6 +174,14 @@ public class Product implements Serializable {
 
     public void setFile(MultipartFile file) {
         this.file = file;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
     
 }

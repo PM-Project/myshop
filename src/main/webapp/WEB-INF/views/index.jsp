@@ -1,14 +1,51 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
 <!DOCTYPE html>
-<html lang="en">
 
-<head>
+
+
+
+	<meta charset="utf-8">
+	<!--[if IE]>
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	<![endif]-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	
+	<title>My Shop</title>
+	<base href='<c:url value="/"/>' />
+        
+	<!-- Bootstrap Core CSS -->
+	<link href="resources/css/bootstrap.min.css" rel="stylesheet">
+	
+	<!-- Google Web Fonts -->
+	<link href="http://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400italic,700italic,400,300,700" rel="stylesheet" type="text/css">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+	
+	<!-- CSS Files -->
+	<link href="resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<link href="resources/css/owl.carousel.css" rel="stylesheet">
+	<link href="resources/css/style.css" rel="stylesheet">
+	<link href="resources/css/responsive.css" rel="stylesheet">
+	
+	<!--[if lt IE 9]>
+		<script src="resources/js/ie8-responsive-file-warning.js"></script>
+	<![endif]-->
+	
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+	
 
     <%@include file="head.jsp" %>
     
-</head>
+
+
 <body>
 <!-- Wrapper Starts -->
 	<div id="wrapper" class="container">
@@ -61,26 +98,28 @@
 	<!-- Latest Products Starts -->
 		<section class="product-carousel">			
 		<!-- Heading Starts -->
-			<h2 class="product-head">Latest Products</h2>
+			<h3 class="product-head">Latest Products</h3>
 		<!-- Heading Ends -->
 		<!-- Products Row Starts -->
 			<div class="row">
 				<div class="col-xs-12">
 				<!-- Product Carousel Starts -->
 					<div id="owl-product" class="owl-carousel">
-					<!-- Product #1 Starts -->
+                                        <c:forEach items="${products}" var="product">
+                                        <!-- Product #1 Starts -->
 						<div class="item">
 							<div class="product-col">
 								<div class="image">
-									<img src="resources/images/product-images/1.jpg" alt="product" class="img-responsive" />
+                                                                    <img src="../${pageContext.request.contextPath}/18.jpg"/>
+                                                                    <img src="<c:out value='/myShop/WEB-INF/views/18.jpg'/>"   alt="product" class="img-responsive" />
 								</div>
 								<div class="caption">
-									<h4><a href="product.html">Simply Organic Seeds</a></h4>
+                                                                    <h4><a href="product.html"> <c:out value="${product.productName}"/> </a></h4>
 									<div class="description">
-										We are so lucky living in such a wonderful time. Our almost unlimited ...
+										<c:out value="${product.productDescription}"/>
 									</div>
 									<div class="price">
-										<span class="price-new">$199.50</span> 
+                                                                            <span class="price-new"><c:out value="${product.sellingPrice}" /></span> 
 										<span class="price-old">$249.50</span>
 									</div>
 									<div class="cart-button button-group">
@@ -99,226 +138,11 @@
 							</div>
 						</div>
 					<!-- Product #1 Ends -->
-					<!-- Product #2 Starts -->
-						<div class="item">
-							<div class="product-col">
-								<div class="image">
-									<img src="resources/images/product-images/2.jpg" alt="product" class="img-responsive" />
-								</div>
-								<div class="caption">
-									<h4><a href="product.html">Simply Organic Seeds</a></h4>
-									<div class="description">
-										We are so lucky living in such a wonderful time. Our almost unlimited ...
-									</div>
-									<div class="price">
-										<span class="price-new">$199.50</span> 
-										<span class="price-old">$249.50</span>
-									</div>
-									<div class="cart-button button-group">
-										<button type="button" class="btn btn-cart">
-											<i class="fa fa-shopping-cart"></i>
-											Add to cart									 
-										</button>
-										<button type="button" title="Wishlist" class="btn btn-wishlist">
-											<i class="fa fa-heart"></i>
-										</button>
-										<button type="button" title="Compare" class="btn btn-compare">
-											<i class="fa fa-bar-chart-o"></i>
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					<!-- Product #2 Ends -->
-					<!-- Product #3 Starts -->
-						<div class="item">
-							<div class="product-col">
-								<div class="image">
-									<img src="resources/images/product-images/3.jpg" alt="product" class="img-responsive" />
-								</div>
-								<div class="caption">
-									<h4><a href="product.html">Simply Organic Seeds</a></h4>
-									<div class="description">
-										We are so lucky living in such a wonderful time. Our almost unlimited ...
-									</div>
-									<div class="price">
-										<span class="price-new">$199.50</span> 
-										<span class="price-old">$249.50</span>
-									</div>
-									<div class="cart-button button-group">
-										<button type="button" class="btn btn-cart">
-											<i class="fa fa-shopping-cart"></i>
-											Add to cart									 
-										</button>
-										<button type="button" title="Wishlist" class="btn btn-wishlist">
-											<i class="fa fa-heart"></i>
-										</button>
-										<button type="button" title="Compare" class="btn btn-compare">
-											<i class="fa fa-bar-chart-o"></i>
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					<!-- Product #3 Ends -->
-					<!-- Product #4 Starts -->
-						<div class="item">
-							<div class="product-col">
-								<div class="image">
-									<img src="resources/images/product-images/4.jpg" alt="product" class="img-responsive" />
-								</div>
-								<div class="caption">
-									<h4><a href="product.html">Simply Organic Seeds</a></h4>
-									<div class="description">
-										We are so lucky living in such a wonderful time. Our almost unlimited ...
-									</div>
-									<div class="price">
-										<span class="price-new">$199.50</span> 
-										<span class="price-old">$249.50</span>
-									</div>
-									<div class="cart-button button-group">
-										<button type="button" class="btn btn-cart">
-											<i class="fa fa-shopping-cart"></i>
-											Add to cart									 
-										</button>
-										<button type="button" title="Wishlist" class="btn btn-wishlist">
-											<i class="fa fa-heart"></i>
-										</button>
-										<button type="button" title="Compare" class="btn btn-compare">
-											<i class="fa fa-bar-chart-o"></i>
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					<!-- Product #4 Ends -->
-					<!-- Product #5 Starts -->
-						<div class="item">
-							<div class="product-col">
-								<div class="image">
-									<img src="resources/images/product-images/5.jpg" alt="product" class="img-responsive" />
-								</div>
-								<div class="caption">
-									<h4><a href="product.html">Simply Organic Seeds</a></h4>
-									<div class="description">
-										We are so lucky living in such a wonderful time. Our almost unlimited ...
-									</div>
-									<div class="price">
-										<span class="price-new">$199.50</span> 
-										<span class="price-old">$249.50</span>
-									</div>
-									<div class="cart-button button-group">
-										<button type="button" class="btn btn-cart">
-											<i class="fa fa-shopping-cart"></i>
-											Add to cart									 
-										</button>
-										<button type="button" title="Wishlist" class="btn btn-wishlist">
-											<i class="fa fa-heart"></i>
-										</button>
-										<button type="button" title="Compare" class="btn btn-compare">
-											<i class="fa fa-bar-chart-o"></i>
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					<!-- Product #5 Ends -->
-					<!-- Product #6 Starts -->
-						<div class="item">
-							<div class="product-col">
-								<div class="image">
-									<img src="resources/images/product-images/6.jpg" alt="product" class="img-responsive" />
-								</div>
-								<div class="caption">
-									<h4><a href="product.html">Simply Organic Seeds</a></h4>
-									<div class="description">
-										We are so lucky living in such a wonderful time. Our almost unlimited ...
-									</div>
-									<div class="price">
-										<span class="price-new">$199.50</span> 
-										<span class="price-old">$249.50</span>
-									</div>
-									<div class="cart-button button-group">
-										<button type="button" class="btn btn-cart">
-											<i class="fa fa-shopping-cart"></i>
-											Add to cart									 
-										</button>
-										<button type="button" title="Wishlist" class="btn btn-wishlist">
-											<i class="fa fa-heart"></i>
-										</button>
-										<button type="button" title="Compare" class="btn btn-compare">
-											<i class="fa fa-bar-chart-o"></i>
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					<!-- Product #6 Ends -->
-					<!-- Product #7 Starts -->
-						<div class="item">
-							<div class="product-col">
-								<div class="image">
-									<img src="resources/images/product-images/7.jpg" alt="product" class="img-responsive" />
-								</div>
-								<div class="caption">
-									<h4><a href="product.html">Simply Organic Seeds</a></h4>
-									<div class="description">
-										We are so lucky living in such a wonderful time. Our almost unlimited ...
-									</div>
-									<div class="price">
-										<span class="price-new">$199.50</span> 
-										<span class="price-old">$249.50</span>
-									</div>
-									<div class="cart-button button-group">
-										<button type="button" class="btn btn-cart">
-											<i class="fa fa-shopping-cart"></i>
-											Add to cart									 
-										</button>
-										<button type="button" title="Wishlist" class="btn btn-wishlist">
-											<i class="fa fa-heart"></i>
-										</button>
-										<button type="button" title="Compare" class="btn btn-compare">
-											<i class="fa fa-bar-chart-o"></i>
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					<!-- Product #7 Ends -->
-					<!-- Product #8 Starts -->
-						<div class="item">
-							<div class="product-col">
-								<div class="image">
-									<img src="resources/images/product-images/8.jpg" alt="product" class="img-responsive" />
-								</div>
-								<div class="caption">
-									<h4><a href="product.html">Simply Organic Seeds</a></h4>
-									<div class="description">
-										We are so lucky living in such a wonderful time. Our almost unlimited ...
-									</div>
-									<div class="price">
-										<span class="price-new">$199.50</span> 
-										<span class="price-old">$249.50</span>
-									</div>
-									<div class="cart-button button-group">
-										<button type="button" class="btn btn-cart">
-											<i class="fa fa-shopping-cart"></i>
-											Add to cart									 
-										</button>
-										<button type="button" title="Wishlist" class="btn btn-wishlist">
-											<i class="fa fa-heart"></i>
-										</button>
-										<button type="button" title="Compare" class="btn btn-compare">
-											<i class="fa fa-bar-chart-o"></i>
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					<!-- Product #8 Ends -->
+                                        </c:forEach>
 					</div>
 				<!-- Product Carousel Ends -->
-				</div>
+                                    <%--</c:forEach>--%>
+                                </div>
 			</div>
 		<!-- Products Row Ends -->
 		</section>
@@ -482,4 +306,4 @@
 <%@include file="foot.jsp" %>
 </body>
 
-</html>
+

@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.pm.myshop.controller;
 
 import com.pm.myshop.domain.Category;
 import com.pm.myshop.domain.Product;
@@ -14,7 +8,11 @@ import com.pm.myshop.service.CategoryService;
 import com.pm.myshop.service.ProductService;
 import com.pm.myshop.service.VendorService;
 import com.pm.myshop.service.impl.VendorServiceImpl;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
@@ -25,6 +23,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -41,6 +40,9 @@ public class ProductController
     
     @Autowired
     VendorService vendorService;
+    
+    @Autowired
+    HttpServletRequest request;
     
     
     @InitBinder
@@ -69,19 +71,29 @@ public class ProductController
     
     
     @RequestMapping(value="/vendor/product/save", method=RequestMethod.POST)
-    public String categorySave(@Valid Product product, @AuthenticationPrincipal UserLogin user, BindingResult result, Model model)
+    public String productSave(@Valid Product product, @AuthenticationPrincipal UserLogin user, BindingResult result, Model model) throws IOException
     {
         if(result.hasErrors())
         {    
             List<Category> categories= categoryService.getAllCategories();
             model.addAttribute("categories",categories);
-            return "/vendor/productForm";
+            return "/product/productForm";
+            //return "redirect:/product/form";
         }
+         else
+        {
+            String filename  = UUID.randomUUID().toString();
+            String path = request.getRealPath("/");
             
-        Vendor vendor= user.getVendor();
-        product.setVendor(vendor);
-        productService.saveProduct(product);
-
+            MultipartFile file=product.getFile();
+            file.transferTo(new File(path+"../../../files/"+filename+".jpg"));
+            product.setFileName(filename+".jpg");
+            
+            
+        product.setVendor(user.getVendor());
+            //System.out.println("Product is "+product.getCategory().toString());
+            productService.saveProduct(product);
+        }
         return "redirect:/vendor/product/list";
     }
     

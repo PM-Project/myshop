@@ -5,10 +5,15 @@
  */
 package com.pm.myshop.controller;
 
+import com.pm.myshop.domain.Product;
+import com.pm.myshop.domain.Vendor;
+import com.pm.myshop.service.ProductService;
 import com.pm.myshop.domain.Role;
 import com.pm.myshop.domain.UserLogin;
 import com.pm.myshop.service.CategoryService;
 import com.pm.myshop.service.UserService;
+import java.util.List;
+import java.util.Map;
 import com.pm.myshop.validator.PasswordValidator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -39,15 +44,19 @@ public class HomeController {
     CategoryService categoryService;
     
     @Autowired
+    ProductService productService;
+    
     HttpServletRequest request;
     
     @Autowired
     HttpSession session;
     
-    @RequestMapping("/")
+    
+    @RequestMapping("/")       
     public String index(Model model)
     {
-        //model.addAttribute("menus", categoryService.getAllCategories());
+        List<Product> products=productService.getAllProduct();
+        model.addAttribute("products",products);
         return "index";
     }
     
