@@ -53,17 +53,18 @@ public class CategoryController
     }
     
     
-    @Secured({"ROLE_ADMIN","ROLE_VENDOR"})
+    @Secured("ROLE_ADMIN")
     @RequestMapping("/category/form")
     public String categoryForm(Category category)
     {
+        
        // Category category=new Category();
        // model.addAttribute("category", category);
         return "/category/categoryForm";
     }
     
     
-    @Secured({"ROLE_ADMIN","ROLE_VENDOR"})
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value="/category/save", method=RequestMethod.POST)
     public String categorySave(@ModelAttribute Category category, BindingResult result)
     {

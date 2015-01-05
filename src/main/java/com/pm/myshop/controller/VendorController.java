@@ -7,21 +7,15 @@ package com.pm.myshop.controller;
 
 import com.pm.myshop.domain.Category;
 import com.pm.myshop.domain.Role;
-import com.pm.myshop.domain.Status;
 import com.pm.myshop.domain.UserLogin;
 import com.pm.myshop.domain.Vendor;
 import com.pm.myshop.propertyeditor.CategoryPropertyEditor;
-import com.pm.myshop.propertyeditor.VendorPropertyEditor;
 import com.pm.myshop.service.CategoryService;
 import com.pm.myshop.service.MailService;
 import com.pm.myshop.service.VendorService;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.UUID;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -147,5 +141,32 @@ public class VendorController {
         vendorService.deleteVendor(id);
         return "redirect:/vendor/list";
     }
+    
+    
+    
+    @RequestMapping("/vendor/category/form")
+    public String categoryForm(Category category)
+    {
+        
+       // Category category=new Category();
+       // model.addAttribute("category", category);
+        return "/vendor/categoryForm";
+    }
+    
+    
+    @RequestMapping(value="/vendor/category/save", method=RequestMethod.POST)
+    public String categorySave(@ModelAttribute Category category, BindingResult result)
+    {
+        if(result.hasErrors())
+            return "/vendor/categoryForm";
+
+        category.setLink(category.getCategoryName().toLowerCase().replace(" ", "-"));
+        
+        categoryService.saveCategory(category);
+        
+        return "redirect:/vendor/categories";
+    }
+    
+    
     
 }

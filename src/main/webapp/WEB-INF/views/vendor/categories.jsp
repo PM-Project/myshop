@@ -46,7 +46,7 @@
             <div class="row">
                 <div class="col-md-12">
                     
-                    <a class="btn btn-default pull-right" href="category/form" role="button">Add New Category</a>
+                    <a class="btn btn-default pull-right" href="vendor/category/form" role="button">Add New Category</a>
                     
                     <h1>Categories Management</h1>
                     <h4>Add/Update </h4>

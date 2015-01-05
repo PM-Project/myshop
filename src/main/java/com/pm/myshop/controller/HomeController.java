@@ -92,7 +92,6 @@ public class HomeController {
     @RequestMapping("/login")
     public String login()
     {
-        session.setAttribute("referer", request.getHeader("referer"));
         return "login";
     }
     

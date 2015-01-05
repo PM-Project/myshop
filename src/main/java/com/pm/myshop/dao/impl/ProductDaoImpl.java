@@ -23,9 +23,7 @@ public class ProductDaoImpl extends SessionUtil implements ProductDao
     @Override
     public void saveProduct(Product product) 
     {
-        System.out.println("###########" + product.getCategory().toString());
         getSession().saveOrUpdate(product);
-    
     }
 
     @Override
@@ -39,7 +37,7 @@ public class ProductDaoImpl extends SessionUtil implements ProductDao
     @Override
     public List<Product> getAllProduct()
     {
-        return getSession().createQuery("From Product").list();
+        return getSession().createQuery("SELECT p FROM Product p ORDER BY id DESC").list();
     }
 
     @Override

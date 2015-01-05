@@ -36,12 +36,12 @@
 						<div class="col-md-4 col-sm-6">
 							<div class="product-col">
 								<div class="image">
-									<img class="img-responsive" alt="product" src="images/product-images/1.jpg">
+									<img class="img-responsive" alt="product" src="pictures/thumb/${product.fileName}">
 								</div>
 								<div class="caption">
-									<h4><a href="product.html">Simply Organic Seeds dsfsdf</a></h4>
+									<h4><a href="product.html">${product.productName}</a></h4>
 									<div class="description">
-										We are so lucky living in such a wonderful time. Our almost unlimited ...
+										${product.productDescription}
 									</div>
 									<div class="price">
 										<span class="price-new">$199.50</span> 
