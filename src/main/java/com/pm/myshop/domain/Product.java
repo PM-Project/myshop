@@ -26,7 +26,7 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Basic(optional=false)
+
     private String productName;
     private String productDescription;
     private float costPrice;
@@ -47,11 +47,6 @@ public class Product implements Serializable {
     @ManyToOne
     @JoinColumn(name="VENDOR_ID",nullable=false)
     private Vendor vendor;
-    
-    private String fileName;
-    
-    @Transient
-    private MultipartFile file;
     
     
     
