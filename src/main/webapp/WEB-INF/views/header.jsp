@@ -1,4 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <header id="header-area">
     <!-- Nested Row Starts -->
     <div class="row">
@@ -17,11 +19,37 @@
                     <div class="header-links">
                         <ul class="list-unstyled list-inline pull-left">
                             <li><a href="./">Home</a></li>
-                            <li><a href="#">My Account</a></li>
+                            <sec:authorize access="hasRole('ROLE_VENDOR')">
+                                <li><a href="vendor">My Account</a></li>
+                            </sec:authorize>
+                            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                                <li><a href="admin">DASHBOARD</a></li>
+                            </sec:authorize>
+                            <sec:authorize access="hasRole('ROLE_CUSTOMER')">
+                                <li><a href="customer">My Account</a></li>
+                                <li><a href="cart.html">Shopping Cart</a></li>
+                                <li><a href="#">Checkout</a></li>
+                            </sec:authorize>
+                         
+                                
+                                
+                                
+                                
+                            <sec:authorize access="isAuthenticated()" var="isLoggedIn">
+                                <li><a href="logout">Logout</a></li>
+                            </sec:authorize>
+                            <c:if test="${! isLoggedIn}">
                             <li><a href="cart.html">Shopping Cart</a></li>
                             <li><a href="#">Checkout</a></li>
                             <li><a href="register">Register</a></li>
                             <li><a href="login">Login</a></li>
+                            </c:if>    
+                            
+                            
+                            
+                            
+                            
+                            
                         </ul>
                     </div>
                 </div>

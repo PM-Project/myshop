@@ -5,7 +5,7 @@
  */
 package com.pm.myshop.validator;
 
-import com.pm.myshop.domain.User;
+import com.pm.myshop.domain.UserLogin;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -16,16 +16,23 @@ import org.springframework.validation.Validator;
  */
 public class PasswordValidator implements Validator {
 
+    private static final int MINIMUM_PASSWORD_LENGTH = 6;
+    
     @Override
     public boolean supports(Class type) {
-        return User.class.equals(type);
+        return UserLogin.class.equals(type);
     }
 
     @Override
     public void validate(Object o, Errors errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "field.required", "This field can't be blank");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "retypepassword", "field.required", "This field can't be blank");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "verification", "field.required", "This field can't be blank");
         
+        UserLogin user = (UserLogin) o;
+        if(user.getPassword() != null && user.getPassword().length() < MINIMUM_PASSWORD_LENGTH)
+            errors.rejectValue("password","password.length", "Password must be more than 5 characters");
+        else if(!user.getPassword().equals(user.getVerification()))
+            errors.rejectValue("password","password.verification", "Password verification not matched");
         
         
     }

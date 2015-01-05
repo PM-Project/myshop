@@ -5,7 +5,7 @@
  */
 package com.pm.myshop.service;
 
-import com.pm.myshop.domain.User;
+import com.pm.myshop.domain.UserLogin;
 import java.util.List;
 
 /**
@@ -13,10 +13,11 @@ import java.util.List;
  * @author kunda_000
  */
 public interface UserService {
-    public void saveUser(User user);
+    public void saveUser(UserLogin user);
     public void deleteUser(int id);
-    public List<User> listAllUsers();
-    public User getUserById(int id);
-    public User getUserByUsername(String username);
-    public User getUserByVerification(String code);
+    public List<UserLogin> listAllUsers();
+    public UserLogin getUserById(int id);
+    public UserLogin getUserByUsername(String username);
+    public UserLogin getUserByVerification(String code);
+    public void changePassword(UserLogin user);
 }

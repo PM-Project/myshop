@@ -11,6 +11,7 @@ import com.pm.myshop.service.CategoryService;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author Santosh
  */
 @Controller
-@RequestMapping("/category")
 public class CategoryController 
 {
     
@@ -34,8 +34,8 @@ public class CategoryController
     
     
     
-    
-    @RequestMapping("/list")
+    @Secured("ROLE_ADMIN")
+    @RequestMapping("/category/list")
     public String categoryList(Model model)
     {
         List<Category> categories=categoryService.getAllCategories();
@@ -44,7 +44,9 @@ public class CategoryController
         return "category/categoryList";
     }
     
-    @RequestMapping("/form")
+    
+    @Secured({"ROLE_ADMIN","ROLE_VENDOR"})
+    @RequestMapping("/category/form")
     public String categoryForm(Category category)
     {
        // Category category=new Category();
@@ -52,8 +54,10 @@ public class CategoryController
         return "/category/categoryForm";
     }
     
-    @RequestMapping(value="/save", method=RequestMethod.POST)
-    public String categorySave(@Valid Category category, BindingResult result)
+    
+    @Secured({"ROLE_ADMIN","ROLE_VENDOR"})
+    @RequestMapping(value="/category/save", method=RequestMethod.POST)
+    public String categorySave( Category category, BindingResult result)
     {
         if(result.hasErrors())
             return "/category/categoryForm";
@@ -62,14 +66,18 @@ public class CategoryController
         return "redirect:/category/list";
     }
     
-    @RequestMapping("/edit/{categoryId}")
+    
+    @Secured("ROLE_ADMIN")
+    @RequestMapping("/category/edit/{categoryId}")
     public String categoryEdit(@PathVariable("categoryId") int id,Model model)
     {
         model.addAttribute("category", categoryService.getCategoryById(id));
         return "/category/categoryForm";
     }
     
-    @RequestMapping("/delete/{categoryId}")
+    
+    @Secured("ROLE_ADMIN")
+    @RequestMapping("/category/delete/{categoryId}")
     public String categoryDelete(@PathVariable("categoryId") int id,Model model)
     {
         categoryService.deleteCategory(id);

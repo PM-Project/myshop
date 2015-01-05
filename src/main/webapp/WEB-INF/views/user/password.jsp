@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!doctype html>
 <html lang="en">
 
@@ -33,19 +34,21 @@
                                     <h3 class="panel-title">Create New Password</h3>
                                 </div>
                                 <div class="panel-body">
-                                    <form role="form" method="post" action="password">
+                                    
+                                    <form:form method="post" modelAttribute="user" action="password">
+                                        <form:errors path="*"/>
                                         <div class="form-group">
                                             <label>New Password</label>
-                                            <input type="password" id="password" name="password" class="form-control">
+                                            <form:input type="password"  path="password" class="form-control" />
+                                            
                                         </div>
                                         <div class="form-group">
                                             <label>Password</label>
-                                            <input type="password" name="retypepassword" class="form-control" id="retypepassword" >
+                                            <form:input type="password" path="verification" class="form-control"  />
                                         </div>
-                                        <button type="submit" class="btn btn-danger">
-                                            Submit
-                                        </button>
-                                    </form>
+                                        <input type="submit" value="Submit" />
+                                        
+                                    </form:form>
                                     
 
                                     

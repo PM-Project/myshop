@@ -6,12 +6,16 @@
 package com.pm.myshop.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -42,11 +46,18 @@ public class Vendor implements Serializable {
     private Account account;
     
     @OneToOne(cascade = CascadeType.ALL)
-    private User user;
+    private UserLogin user;
     
     @Temporal(javax.persistence.TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date joinDate; 
+    
+    
+    @OneToMany(mappedBy = "vendor")
+    private List<Product> products = new ArrayList<Product>();
+    
+    @ManyToMany
+    private List<Category> categories = new ArrayList<Category>();
 
     public int getId() {
         return id;
@@ -88,11 +99,11 @@ public class Vendor implements Serializable {
         this.address = address;
     }
 
-    public User getUser() {
+    public UserLogin getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserLogin user) {
         this.user = user;
     }
 
@@ -158,6 +169,22 @@ public class Vendor implements Serializable {
     @Override
     public String toString() {
         return "com.pm.myshop.entity.Vendor[ id=" + id + " ]";
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
     
 }

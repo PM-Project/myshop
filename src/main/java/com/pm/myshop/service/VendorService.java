@@ -18,5 +18,6 @@ public interface VendorService {
     public Vendor getVendorById(int id);
     public List<Vendor> getAllVendors(); 
     public void deleteVendor(int id);   
+    public Vendor mergeVendor(Vendor vendor);
     
 }

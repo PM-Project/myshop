@@ -6,20 +6,27 @@
 package com.pm.myshop.controller;
 
 import com.pm.myshop.domain.Customer;
+import com.pm.myshop.domain.Role;
+import com.pm.myshop.domain.UserLogin;
 import com.pm.myshop.domain.Vendor;
 import com.pm.myshop.propertyeditor.CustomerPropertyEditor;
 import com.pm.myshop.propertyeditor.VendorPropertyEditor;
 import com.pm.myshop.service.CustomerService;
+import com.pm.myshop.service.MailService;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,17 +39,51 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class CustomerController {
     
     @Autowired
-    CustomerService customerservice;
+    CustomerService customerService;
     
-       @InitBinder
-    public void initConverter(WebDataBinder binder)
+    @Autowired
+    MailService mailService;
+    
+    
+    @RequestMapping("/register")
+    public String register(Customer customer)
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dateFormat.setLenient(false);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
-        binder.registerCustomEditor(Vendor.class, new CustomerPropertyEditor(customerservice));        
-    } 
+        
+        return "customer/customerForm";
+    }
     
+    @RequestMapping(value = "/customer")
+    public String vendorProfile(@AuthenticationPrincipal UserLogin user, Model model)
+    {
+        model.addAttribute("user",user);
+        return "customer/profile";
+    }
+    
+    
+    
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String registerNewCustomer(@ModelAttribute Customer customer, UserLogin user, BindingResult result, HttpSession session)
+    {
+        
+        if(result.hasErrors())
+            return "customer/customerForm";
+        
+        String code = UUID.randomUUID().toString().toUpperCase();
+        user.setVerification(code);
+        user.setUsername(customer.getEmail());
+        user.setRole(Role.ROLE_CUSTOMER);
+        customer.setUser(user);
+        
+        mailService.sendMail(customer.getEmail(), "Account Created", "<h2>Customer Registration</h2><p>Thank you for registration. Please click on below link to verify your email and create account password.</p><p><a href='http://localhost/myshop/verify?code="+code+"'>Click Here</a></p>");
+
+        customerService.saveCustomer(customer);
+        
+        session.setAttribute("title", "Registration Successfull");
+        session.setAttribute("message", "Thank you for registration. Please check your email and proceed with given information");
+        
+        return "redirect:/info";
+        
+    }
     
     
     @RequestMapping(value = "/customer/save", method = RequestMethod.POST)
@@ -51,28 +92,28 @@ public class CustomerController {
         if(result.hasErrors())
             return "customer/customerForm";
         else
-           customerservice.saveCustomer(customer);    
+           customerService.saveCustomer(customer);    
         return "redirect:/customer/list";
     }
     
     @RequestMapping(value = "/customer/list")
     public String listCustomers(Model model)
     {
-        model.addAttribute("customers", customerservice.getAllCustomer());
+        model.addAttribute("customers", customerService.getAllCustomer());
         return "customer/customerList";
     }
     
     @RequestMapping("/customer/edit/{customerid}")
     public String editCustomer(@PathVariable("customerid") int id, Model model)
     {
-        model.addAttribute("customer", customerservice.getCustomerById(id) );
+        model.addAttribute("customer", customerService.getCustomerById(id) );
         return "customer/customerForm";
     }
     
     @RequestMapping("/customer/delete/{customerid}")
     public String deleteCustomer(@PathVariable("customerid") int id, Model model)
     {
-        customerservice.deleteCustomer(id);
+        customerService.deleteCustomer(id);
         return "redirect:/customer/list";
     }
     
