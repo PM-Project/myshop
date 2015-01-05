@@ -19,4 +19,5 @@ public interface CategoryDao
     public List<Category> getAllCategory();
     public Category getCategoryById(int id);
     public Category getCategoryByCategoryName(String categoryName);
+    public Category getCategoryByLink(String link);
 }

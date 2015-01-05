@@ -55,5 +55,10 @@ public class CategoryServiceImpl implements CategoryService
     {
         return categoryDao.getCategoryByCategoryName(categoryName);
     }
+
+    @Override
+    public Category getCateogryByLink(String link) {
+        return categoryDao.getCategoryByLink(link);
+    }
     
 }

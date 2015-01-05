@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,13 +34,20 @@ public class CategoryController
     CategoryService categoryService;
     
     
+    @RequestMapping("/{link}")
+    public String categoryFilter(@PathVariable("link") String link, Model model)
+    {
+        model.addAttribute("category",categoryService.getCateogryByLink(link));
+        return "categoryFilter";
+    }
+    
+    
     
     @Secured("ROLE_ADMIN")
     @RequestMapping("/category/list")
     public String categoryList(Model model)
     {
         List<Category> categories=categoryService.getAllCategories();
-        //System.out.print("##############################################" + categories.size());
         model.addAttribute("categories",categories);
         return "category/categoryList";
     }
@@ -57,12 +65,14 @@ public class CategoryController
     
     @Secured({"ROLE_ADMIN","ROLE_VENDOR"})
     @RequestMapping(value="/category/save", method=RequestMethod.POST)
-    public String categorySave( Category category, BindingResult result)
+    public String categorySave(@ModelAttribute Category category, BindingResult result)
     {
         if(result.hasErrors())
             return "/category/categoryForm";
-        else
-            categoryService.saveCategory(category);
+
+        category.setLink(category.getCategoryName().toLowerCase().replace(" ", "-"));
+        
+        categoryService.saveCategory(category);
         return "redirect:/category/list";
     }
     

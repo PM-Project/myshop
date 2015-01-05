@@ -6,12 +6,13 @@
 package com.pm.myshop.domain;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -39,6 +40,13 @@ public class Product implements Serializable {
     
     @OneToOne
     private Vendor vendor;
+    
+    private String fileName;
+    
+    @Transient
+    private MultipartFile file;
+    
+    
     
     public int getId() {
         return id;
@@ -143,6 +151,22 @@ public class Product implements Serializable {
 
     public void setVendor(Vendor vendor) {
         this.vendor = vendor;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
     
 }

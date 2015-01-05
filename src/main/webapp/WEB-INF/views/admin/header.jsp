@@ -53,7 +53,7 @@
         <ul class="nav navbar-nav">
             <li><a href="admin/vendor/list">Vendors</a></li>
             <li><a href="admin/customer/list">Customers</a></li>
-            <li><a href="admin/categories">Categories</a></li>
+            <li><a href="category/list">Categories</a></li>
             <li><a href="admin/sales">Sales</a></li>
             
         </ul>

@@ -52,9 +52,7 @@
     <div class="bs-example">
         <form:form class="form-horizontal" commandName="product" action="product/save" method="post">
             
-            <div class="alert alert-error">
                 <form:errors element="div" class="alert alert-error" path="*"/></br>
-            </div>
             
             <form:input type="hidden" path="id"/>
             
@@ -71,11 +69,8 @@
                     <%--<form:input type="text" class="form-control input-sm mrgn-bttm-md" path="category" placeholder="Category" style="width:300px"/>--%>
                 
                     <form:select path="category" class="form-control input-sm mrgn-bttm-md" placeholder="Category" style="width:300px">
-                        <%--<c:forEach items="${categories}" var="category" varStatus="count">--%> 
                             
-                            <form:option value="NONE" label="-----Select-----"/>
                             <form:options items="${categories}" itemLabel="categoryName" itemValue="id"/>
-                        <%--</c:forEach>--%>
                     </form:select>   
                     
                     

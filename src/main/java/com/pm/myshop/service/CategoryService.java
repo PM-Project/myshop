@@ -19,4 +19,5 @@ public interface CategoryService
     public List<Category> getAllCategories(); 
     public void deleteCategory(int id);
     public Category getCategoryByCategoryName(String categoryName);
+    public Category getCateogryByLink(String link);
 }

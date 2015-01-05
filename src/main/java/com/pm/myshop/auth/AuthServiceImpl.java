@@ -35,7 +35,7 @@ public class AuthServiceImpl implements UserDetailsService {
 
         UserLogin details = userDao.getUserByUsername(username);
         
-        Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(details.getRole().toString()));
         authorities.add(new SimpleGrantedAuthority("ROLE_ANY"));
 

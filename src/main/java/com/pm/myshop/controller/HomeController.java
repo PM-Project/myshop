@@ -7,6 +7,7 @@ package com.pm.myshop.controller;
 
 import com.pm.myshop.domain.Role;
 import com.pm.myshop.domain.UserLogin;
+import com.pm.myshop.service.CategoryService;
 import com.pm.myshop.service.UserService;
 import com.pm.myshop.validator.PasswordValidator;
 import javax.servlet.http.HttpServletRequest;
@@ -26,12 +27,16 @@ import org.springframework.web.bind.annotation.SessionAttributes;
  *
  * @author kunda_000
  */
+
 @Controller
-@SessionAttributes({"user","currentUser"})
+@SessionAttributes({"user"})
 public class HomeController {
     
     @Autowired
     UserService userService;
+    
+    @Autowired
+    CategoryService categoryService;
     
     @Autowired
     HttpServletRequest request;
@@ -40,10 +45,19 @@ public class HomeController {
     HttpSession session;
     
     @RequestMapping("/")
-    public String index()
+    public String index(Model model)
     {
+        //model.addAttribute("menus", categoryService.getAllCategories());
         return "index";
     }
+    
+    @RequestMapping("/menu")
+    public String menus(Model model)
+    {
+        model.addAttribute("menus", categoryService.getAllCategories());
+        return "menus";
+    }
+    
     
     @RequestMapping("/home")
     public String home(@AuthenticationPrincipal UserLogin user, Model model)

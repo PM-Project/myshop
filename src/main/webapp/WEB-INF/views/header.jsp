@@ -178,66 +178,8 @@
     <!-- Navbar Cat collapse Starts -->
     <div class="collapse navbar-collapse navbar-cat-collapse">
         <ul class="nav navbar-nav">
-            <li><a href="category-list.html">Asian Food</a></li>
-            <li class="dropdown">
-                <a href="category-list.html" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="10">
-                    Bread &amp; Bakery
-                </a>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a tabindex="-1" href="#">Brown Bread</a></li>
-                    <li><a tabindex="-1" href="#">Milk Break</a></li>
-                    <li><a tabindex="-1" href="#">Spl Bread</a></li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a href="category-list.html" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="10">Drinks</a>
-                <div class="dropdown-menu">
-                    <div class="dropdown-inner">
-                        <ul class="list-unstyled">
-                            <li class="dropdown-header">Sub Category</li>
-                            <li><a tabindex="-1" href="#">item 1</a></li>
-                            <li><a tabindex="-1" href="#">item 2</a></li>
-                            <li><a tabindex="-1" href="#">item 3</a></li>
-                        </ul>										
-                        <ul class="list-unstyled">
-                            <li class="dropdown-header">Sub Category</li>
-                            <li><a tabindex="-1" href="#">item 1</a></li>
-                            <li><a tabindex="-1" href="#">item 2</a></li>
-                            <li><a tabindex="-1" href="#">item 3</a></li>
-                        </ul>
-                        <ul class="list-unstyled">
-                            <li class="dropdown-header">Sub Category</li>
-                            <li><a tabindex="-1" href="#">item 1</a></li>
-                            <li><a tabindex="-1" href="#">item 2</a></li>
-                            <li><a tabindex="-1" href="#">item 3</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
-            <li><a href="category-list.html">Fresh Meats</a></li>
-            <li><a href="category-list.html">Fresh Fish</a></li>
-            <li><a href="/myshop/category/list">Category</a></li>
-            <li><a href="category-list.html">Vegetables</a></li>
-            <li class="dropdown">
-                <a href="category-list.html" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="10">
-                    Pages
-                </a>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a tabindex="-1" href="index-2.html">Home</a></li>
-                    <li><a tabindex="-1" href="about.html">About</a></li>
-                    <li><a tabindex="-1" href="/myshop/category/list">Category List</a></li>
-                    <li><a tabindex="-1" href="category-grid.html">Category Grid</a></li>
-                    <li><a tabindex="-1" href="/myshop/product/list">Product</a></li>
-                    <li><a tabindex="-1" href="product-full.html">Product Full Width</a></li>
-                    <li><a tabindex="-1" href="cart.html">Cart</a></li>
-                    <li><a tabindex="-1" href="login.html">Login</a></li>
-                    <li><a tabindex="-1" href="compare.html">Compare Products</a></li>
-                    <li><a tabindex="-1" href="typography.html">Typography</a></li>
-                    <li><a tabindex="-1" href="register.html">Register</a></li>
-                    <li><a tabindex="-1" href="contact.html">Contact</a></li>
-                    <li><a tabindex="-1" href="404.html">404</a></li>
-                </ul>
-            </li>
+            
+            <c:import url="/menu" />
 
         </ul>
     </div>

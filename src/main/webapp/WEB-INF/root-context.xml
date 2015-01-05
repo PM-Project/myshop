@@ -43,7 +43,7 @@
         
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.generate_statistics">true</prop>
@@ -56,12 +56,9 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
         
-        
-    <bean id="customAuthenticationProvider" class="com.pm.myshop.auth.UserAuthenticator">
-        <constructor-arg index="0" ref="userDao" />
-    </bean>
-    <bean id="userDao" class="com.pm.myshop.dao.impl.UserDaoImpl"/>
-        
+    
+    
+    <bean class="com.pm.myshop.auth.AuthServiceImpl" id="authService"/>
 
     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
         
@@ -75,7 +72,7 @@
             <props>
                 <prop key="mail.smtp.auth">true</prop>
                 <prop key="mail.smtp.starttls.enable">true</prop>
-                <prop key="mail.debug">true</prop>
+                <prop key="mail.debug">false</prop>
             </props>
         </property>
     </bean>

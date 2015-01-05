@@ -34,8 +34,11 @@ public class Category implements Serializable {
     
     private String categoryName;
     
+    private String link;
+    
+    
     @OneToMany(mappedBy="category")
-    private List<Product> products=new ArrayList<Product>();
+    private List<Product> products=new ArrayList<>();
     
     public int getId() {
         return id;
@@ -85,6 +88,14 @@ public class Category implements Serializable {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
     
 }
