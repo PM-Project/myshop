@@ -5,71 +5,42 @@
  */
 package com.pm.myshop.reports;
 
-import com.pm.myshop.reportService.CustomerReportSerivce;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+import com.pm.myshop.reportService.DownloadService;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
  * @author sunil
  */
 @Controller
-//@RequestMapping(value = "/customer/reports")
+@RequestMapping("/download")
 public class CustomerReport {
 
-    @Autowired
-    private CustomerReportSerivce customerReportSerivce;
-    
-    
-    //@RequestMapping(value = "/reports", params = {"format"}, method = RequestMethod.GET)
-    //public String report(@RequestParam("format") String format, @RequestParam(value = "status", required = false, defaultValue = "true") Boolean status, ModelMap modelMap) {
-     @RequestMapping(value = "/reports", method = RequestMethod.GET)  
-    public String report(ModelMap modelMap) {
-    
-       
-        System.out.println("Report panel>>>>>>>>>>");
-         boolean status=true;
-         String format="pdf";
-        modelMap.addAttribute("datasource", customerReportSerivce.getAllCustomer());
-        modelMap.addAttribute("show", status);
- 
-        if (format.equalsIgnoreCase("pdf")) {
-            return "pdfReport";
-        } else if (format.equalsIgnoreCase("xls")) {
-            return "xlsReport";
-        } else if (format.equalsIgnoreCase("csv")) {
-            return "csvReport";
-        } else {
-            return "htmlReport";
-        }
+    @Resource(name = "downloadService")
+    private DownloadService downloadService;
+
+    @RequestMapping(value = "/pdf", method = RequestMethod.GET)
+    public void getPDF(HttpServletRequest request, HttpServletResponse response, Model model) throws ClassNotFoundException, JRException {
+        System.out.println("Received request to download report as an XLS");
+        downloadService.downloadPDF(request, response);
     }
     
-    
-
-    @RequestMapping(value = "/download", method = RequestMethod.GET)
-    public String showCustomerReport() {
-        System.out.println("Download page reports");
-        //customerReportSerivce.getAllCustomer();
-        return "downloadpage";
+    @RequestMapping(value = "/xls", method = RequestMethod.GET)
+    public void getXLS(HttpServletRequest request, HttpServletResponse response, Model model) throws ClassNotFoundException, JRException {
+        System.out.println("Received request to download report as an XLS");
+        downloadService.downloadXLS(request, response);
     }
-
-    @RequestMapping(value = "/download/xls", method = RequestMethod.GET)
-    public ModelAndView doCustomerReportXLS(ModelAndView modelAndView) {
-        
-        System.out.println("CALL HERE");
-        customerReportSerivce.getAllCustomer();
-//        Map<String,Object> parameterMap = new HashMap<String,Object>();
-//        parameterMap.put("datasource", myshop);
-//         modelAndView = new ModelAndView("xlsReport", parameterMap);
-        
-        
-        modelAndView = new ModelAndView();
-        return modelAndView;
-    }
-
     
-}    
+    @RequestMapping(value = "/ht", method = RequestMethod.GET)
+    public void getHtml(HttpServletRequest request, HttpServletResponse response, Model model) throws ClassNotFoundException, JRException {
+        System.out.println("Received request to download report as an XLS");
+        downloadService.downloadHTML(request, response);
+    }
+}
