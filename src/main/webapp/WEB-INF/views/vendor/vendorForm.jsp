@@ -81,6 +81,7 @@
                                             <form:input cssClass="form-control" path="email" />
                                             <form:errors path="email" element="div" cssClass="error" />
                                         </div>
+                                        
                                         <div class="form-group">
                                             <label>Phone:</label>
                                             <form:input cssClass="form-control" path="phone" />
