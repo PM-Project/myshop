@@ -20,10 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class AdminController {
-    
     @Autowired
     VendorService vendorService;
-    
     @Autowired
     CustomerService customerService;
     
