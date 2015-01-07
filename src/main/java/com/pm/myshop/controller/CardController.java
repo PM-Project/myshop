@@ -92,7 +92,7 @@ public class CardController {
     @RequestMapping(value = "/card", method = RequestMethod.GET)
     public String authenticateCard() {
        //
-        String cardNo="1234567891234567";        
+        String cardNo="12345678912345671";        
         String hasedCardNumber=BCrypt.hashpw(cardNo, BCrypt.gensalt(12));
         System.out.println("Here is Password "+hasedCardNumber);
         
