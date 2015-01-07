@@ -74,6 +74,7 @@ public class VendorController {
         return "vendor/categories";
     }
     
+    
     @RequestMapping(value = "/vendor/categories", method = RequestMethod.POST)
     public String vendorUpdateCategories(@ModelAttribute Vendor vendor, @AuthenticationPrincipal UserLogin user, BindingResult result, Model model)
     {
@@ -96,6 +97,7 @@ public class VendorController {
     }
     
     
+    
     @RequestMapping(value = "/register/vendor", method = RequestMethod.POST)
     public String saveUser(Vendor vendor, UserLogin user, BindingResult result, HttpSession session)
     {
@@ -107,8 +109,7 @@ public class VendorController {
         user.setUsername(vendor.getEmail());
         user.setRole(Role.ROLE_VENDOR);
         vendor.setUrl(vendor.getBrand().toLowerCase().replace(" ", "-"));
-        vendor.setUser(user);
-        
+        vendor.setUser(user);        
         
         mailService.sendMail(vendor.getEmail(), "Account Created", "<h2>Vendor Registration</h2><p>Thank you for registration. Please click on below link to verify your email and create account password.</p><p><a href='http://localhost/myshop/verify?code="+code+"'>Click Here</a></p>");
 
