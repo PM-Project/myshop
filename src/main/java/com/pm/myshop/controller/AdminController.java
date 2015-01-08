@@ -5,9 +5,12 @@
  */
 package com.pm.myshop.controller;
 
+import com.pm.myshop.domain.Role;
+import com.pm.myshop.domain.UserLogin;
 import com.pm.myshop.service.CategoryService;
 import com.pm.myshop.service.CustomerService;
 import com.pm.myshop.service.ProductService;
+import com.pm.myshop.service.UserService;
 import com.pm.myshop.service.VendorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +34,9 @@ public class AdminController {
     @Autowired
     CategoryService categoryService;
     
+    @Autowired
+    UserService userService;
+    
     
     @RequestMapping("/admin/vendor/list")
     public String vendorList(Model model)
@@ -47,6 +53,20 @@ public class AdminController {
         model.addAttribute("customers", customerService.getAllCustomer());
         
         return "admin/customerList";
+    }
+    
+    
+    @RequestMapping("/new/admin")
+    public String createNewAdmin()
+    {
+        UserLogin user = new UserLogin();
+        user.setUsername("admin");
+        user.setPassword("admin");
+        user.setRole(Role.ROLE_ADMIN);
+        
+        userService.changePassword(user);
+        
+        return "redirect:/admin";
     }
     
     

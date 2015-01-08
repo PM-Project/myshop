@@ -117,7 +117,7 @@ public class VendorController {
         vendor.setUrl(vendor.getBrand().toLowerCase().replace(" ", "-"));
         vendor.setUser(user);        
         
-        mailService.sendMail(vendor.getEmail(), "Account Created", "<h2>Vendor Registration</h2><p>Thank you for registration. Please click on below link to verify your email and create account password.</p><p><a href='http://localhost/myshop/verify?code="+code+"'>Click Here</a></p>");
+        mailService.sendMail(vendor.getEmail(), "Account Created", "<h2>Vendor Registration</h2><p>Thank you for registration. Please click on below link to verify your email and create account password.</p><p><a href='http://localhost/myshop/verify/"+code+"'>Click Here</a></p>");
 
         vendorService.saveVendor(vendor);
         

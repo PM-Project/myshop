@@ -13,6 +13,9 @@ import com.pm.myshop.propertyeditor.CustomerPropertyEditor;
 import com.pm.myshop.propertyeditor.VendorPropertyEditor;
 import com.pm.myshop.service.CustomerService;
 import com.pm.myshop.service.MailService;
+import com.pm.myshop.service.UserService;
+import com.pm.myshop.validator.PasswordValidator;
+import com.pm.myshop.validator.UserValidator;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -42,6 +45,9 @@ public class CustomerController {
     CustomerService customerService;
     
     @Autowired
+    UserService userService;
+    
+    @Autowired
     MailService mailService;
     
     
@@ -68,13 +74,18 @@ public class CustomerController {
         if(result.hasErrors())
             return "customer/customerForm";
         
+        if(userService.getUserByUsername(customer.getEmail()) != null)
+        {
+            session.setAttribute("message", "User Email already exists please chooose another one.");
+            return "customer/customerForm";
+        }  
         String code = UUID.randomUUID().toString().toUpperCase();
         user.setVerification(code);
         user.setUsername(customer.getEmail());
         user.setRole(Role.ROLE_CUSTOMER);
         customer.setUser(user);
         
-        mailService.sendMail(customer.getEmail(), "Account Created", "<h2>Customer Registration</h2><p>Thank you for registration. Please click on below link to verify your email and create account password.</p><p><a href='http://localhost/myshop/verify?code="+code+"'>Click Here</a></p>");
+        mailService.sendMail(customer.getEmail(), "Account Created", "<h2>Customer Registration</h2><p>Thank you for registration. Please click on below link to verify your email and create account password.</p><p><a href='http://localhost/myshop/verify/"+code+"'>Click Here</a></p>");
 
         customerService.saveCustomer(customer);
         
@@ -118,5 +129,12 @@ public class CustomerController {
     }
     
     
+    @RequestMapping("/customer/profile")
+    public String customerAccount(@AuthenticationPrincipal UserLogin user, Model model)
+    {
+        model.addAttribute("customer", user.getCustomer());
+        
+        return "customer/editProfile";
+    }
     
 }

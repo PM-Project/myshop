@@ -45,7 +45,7 @@
                                 <div class="form-group">
                                     <label for="productName" class="control-label col-xs-3">Product Name</label>
                                     <div class="col-xs-9">
-                                        <form:input type="text" path="productName" class="form-control input-sm mrgn-bttm-md" id="productName" placeholder="Product Name" style="width:300px"/>
+                                        <form:input required="required" type="text" path="productName" class="form-control input-sm mrgn-bttm-md" id="productName" placeholder="Product Name" style="width:300px"/>
                                         <form:errors path="productName" element="div" cssClass="error" />
                                     </div>
                                 </div>
@@ -88,7 +88,7 @@
                                 <div class="form-group">
                                     <label for="sellingPrice" class="control-label col-xs-3">Selling Price</label>
                                     <div class="col-xs-9">
-                                        <form:input type="text" class="form-control input-sm mrgn-bttm-md" path="sellingPrice" placeholder="Selling Price" style="width:300px"/>
+                                        <form:input type="text" required="required" class="form-control input-sm mrgn-bttm-md" path="sellingPrice" placeholder="Selling Price" style="width:300px"/>
                                     </div>
                                 </div>
 

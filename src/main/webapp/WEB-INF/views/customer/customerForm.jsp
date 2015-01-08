@@ -45,13 +45,14 @@
 
                                         <div class="form-group">
                                             <label>Full Name:</label>
-                                            <form:input cssClass="form-control" path="name" />
+                                            <form:input required="required" cssClass="form-control" path="name" />
                                             <form:errors path="name" element="div" cssClass="error" />
                                         </div>
                                         <div class="form-group">
                                             <label>Email:</label>
-                                            <form:input cssClass="form-control" path="email" />
+                                            <form:input type="email" required="required" cssClass="form-control" path="email" />
                                             <form:errors path="email" element="div" cssClass="error" />
+                                            <div class="error">${message}</div>
                                         </div>
                                         <div class="form-group">
                                             <label>Phone:</label>

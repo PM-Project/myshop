@@ -103,6 +103,8 @@ public class CartController {
     public @ResponseBody
     String addItem(@AuthenticationPrincipal UserLogin user,
             @PathVariable("productId") int productId, @ModelAttribute("cart") Cart cart, Model model) {
+        
+        
 
         Product product = productService.getProductById(productId);
         LineItem item = new LineItem(product);

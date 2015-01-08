@@ -41,7 +41,8 @@
                                 <c:if test="${! isLoggedIn}">
                                 <li><a href="cart/details">Shopping Cart</a></li>
                                 <li><a href="checkout">Checkout</a></li>
-                                <li><a href="register">Register</a></li>
+                                <li><a href="register">Customer Registration</a></li>
+                                <li><a href="register/vendor">Vendor Registration</a></li>
                                 <li><a href="login">Login</a></li>
                                 </c:if>    
 

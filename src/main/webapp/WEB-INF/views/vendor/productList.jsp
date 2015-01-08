@@ -33,7 +33,7 @@
                 <th>Selling Price</th>
                 <th>Old Price</th>
                 <th>Stock</th>
-                <th>Status<th>
+                <th>Status</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>

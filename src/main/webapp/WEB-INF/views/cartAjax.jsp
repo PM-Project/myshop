@@ -97,7 +97,7 @@
         
         <div class="cartButtons" style="text-align: center">
             <a class="btn btn-default" href="checkout">Clear Cart</a>
-            <a class="btn btn-default" href="/">Continue Shopping</a>
+            <a class="btn btn-default" href="./">Continue Shopping</a>
             <a class="btn btn-default btn-danger" href="checkout">Checkout</a>
         </div>
         
