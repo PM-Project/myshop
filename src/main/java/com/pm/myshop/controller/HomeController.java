@@ -23,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,6 +47,7 @@ public class HomeController {
     @Autowired
     ProductService productService;
     
+    @Autowired
     HttpServletRequest request;
     
     @Autowired
@@ -55,6 +57,7 @@ public class HomeController {
     @RequestMapping("/")       
     public String index(Model model)
     {
+        
         List<Product> products=productService.getAllProduct();
         model.addAttribute("products",products);
         return "index";
@@ -120,12 +123,13 @@ public class HomeController {
     }    
     
     
-    @RequestMapping("/verify")
-    public String verifyUser(@RequestParam("code") String code, Model model, HttpSession session)
+    @RequestMapping("/verify/{code}")
+    public String verifyUser(@PathVariable("code") String code, Model model, HttpSession session)
     {
         UserLogin user = userService.getUserByVerification(code);
         if(user != null)
         {
+            user.setVerification("");
             model.addAttribute("user", user);
             return "user/password";
             

@@ -19,4 +19,6 @@ public interface ProductDao
     public List<Product> getAllProduct();
     public Product getProductById(int id);
     public Product getProductByProductName(String productName);
+    public void indexProducts();
+    public List<Product> searchForProduct(String searchText);
 }

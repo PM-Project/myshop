@@ -26,7 +26,7 @@
 
 
             <div class="panel-heading">
-                <h2 class="main-heading">Product Management</h2>
+                <h2 class="main-heading">Product </h2>
 
             </div>
 
@@ -36,14 +36,14 @@
 
                         <form:errors element="div" class="alert alert-error" path="*"/>
 
-                        <div class="row panel-title" >
+                        <div class="row" >
                             <div class="col-md-6 ui-sortable">                
 
 
                                 <form:input type="hidden" path="id"/>
 
                                 <div class="form-group">
-                                    <label for="productName" class="control-label col-xs-2">Product Name</label>
+                                    <label for="productName" class="control-label col-xs-3">Product Name</label>
                                     <div class="col-xs-9">
                                         <form:input type="text" path="productName" class="form-control input-sm mrgn-bttm-md" id="productName" placeholder="Product Name" style="width:300px"/>
                                         <form:errors path="productName" element="div" cssClass="error" />
@@ -72,7 +72,9 @@
                                 <div class="form-group">
                                     <label for="unit" class="control-label col-xs-3">Unit</label>
                                     <div class="col-xs-9">
-                                        <form:input type="text" class="form-control input-sm mrgn-bttm-md" path="unit" placeholder="Unit" style="width:300px"/>
+                                        <form:select path="unit" class="form-control input-sm mrgn-bttm-md" style="width: auto;">
+                                            <form:options items="${units}"/>
+                                        </form:select>
                                     </div>
                                 </div>
 
@@ -91,9 +93,9 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="openingBalance" class="control-label col-xs-3">Opn. Qty.</label>
+                                    <label class="control-label col-xs-3">Old Price</label>
                                     <div class="col-xs-9">
-                                        <form:input type="text" class="form-control input-sm mrgn-bttm-md" path="openingBalance" placeholder="Opening Balance" style="width:300px"/>
+                                        <form:input type="text" class="form-control input-sm mrgn-bttm-md" path="oldPrice" placeholder="Old Price" style="width:300px"/>
                                     </div>
                                 </div>
 
@@ -116,8 +118,11 @@
                             <div class="col-md-6 ui-sortable">
 
                                 <div class="form-group">
-                                    <img src="pictures/thumb/${product.fileName}"/><br/>
-                                    <lable for="file">Change Product Picture [Must be JPEG picture]</lable>
+                                    <c:if test="${product.fileName != null}">
+                                        <img src="pictures/thumb/${product.fileName}"/><br/>
+                                    </c:if>
+                                    
+                                    <lable for="file">Product Picture [Must be JPEG picture]</lable>
                                         <form:input type="file" path="file" class="btn btn-default"/>
                                 </div>
                             </div>
@@ -134,7 +139,6 @@
 
 
             <!-- Footer Section Starts -->
-            <%@include file="../footer.jsp" %>
             <!-- Footer Section Ends -->		
         </div>
         <!-- Wrapper Ends -->

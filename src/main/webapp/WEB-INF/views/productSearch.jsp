@@ -22,7 +22,7 @@
 				
 				<!-- Main Heading Starts -->
 					<h2 class="main-heading2">
-						${category.categoryName}
+						Search Results:
 					</h2>
                                         <br/>
                                         <br/>
@@ -30,13 +30,13 @@
 				
 				
 				<!-- Product Grid Display Starts -->
-                                <div class="row" id="isoContainer">
+					<div id="isoContainer" class="row">
 					<!-- Product #1 Starts -->
-                                        <c:forEach items="${category.products}" var="product" varStatus="index">
-                                            <div class="col-md-4 col-sm-6">
+                                        <c:forEach items="${products}" var="product" varStatus="index">
+						<div class="col-md-4 col-sm-6">
 							<div class="product-col">
-								<div class="image">
-									<img class="img-responsive" alt="product" src="pictures/thumb/${product.fileName}">
+                                                            <div class="image" style="background-image: url('pictures/thumb/${product.fileName}')">
+                                                                <img src="pictures/thumb/${product.fileName}" class="img-responsive"/>
 								</div>
 								<div class="caption">
 									<h4><a href="product.html">${product.productName}</a></h4>
@@ -48,7 +48,12 @@
 										<span class="price-old">$249.50</span>
 									</div>
 									<div class="cart-button button-group">
-										
+										<button class="btn btn-wishlist" title="" type="button" data-original-title="Wishlist">
+											<i class="fa fa-heart"></i>
+										</button>
+										<button class="btn btn-compare" title="" type="button" data-original-title="Compare">
+											<i class="fa fa-bar-chart-o"></i>
+										</button>
 										<button onClick="return addToCart(${product.id})" class="btn btn-cart" type="button">
 											Add to cart
 											<i class="fa fa-shopping-cart"></i> 

@@ -19,55 +19,57 @@
                     <div class="header-links">
                         <ul class="list-unstyled list-inline pull-left">
                             <li><a href="./">Home</a></li>
-                            <sec:authorize access="hasRole('ROLE_VENDOR')">
+                                <sec:authorize access="hasRole('ROLE_VENDOR')">
                                 <li><a href="vendor">My Account</a></li>
-                            </sec:authorize>
-                            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                                </sec:authorize>
+                                <sec:authorize access="hasRole('ROLE_ADMIN')">
                                 <li><a href="admin">DASHBOARD</a></li>
-                            </sec:authorize>
-                            <sec:authorize access="hasRole('ROLE_CUSTOMER')">
+                                </sec:authorize>
+                                <sec:authorize access="hasRole('ROLE_CUSTOMER')">
                                 <li><a href="customer">My Account</a></li>
-                                <li><a href="cart.html">Shopping Cart</a></li>
-                                <li><a href="#">Checkout</a></li>
-                            </sec:authorize>
-                         
-                                
-                                
-                                
-                                
+                                <li><a href="cart/details">Shopping Cart</a></li>
+                                <li><a href="checkout">Checkout</a></li>
+                                </sec:authorize>
+
+
+
+
+
                             <sec:authorize access="isAuthenticated()" var="isLoggedIn">
                                 <li><a href="logout">Logout</a></li>
-                            </sec:authorize>
-                            <c:if test="${! isLoggedIn}">
-                            <li><a href="cart.html">Shopping Cart</a></li>
-                            <li><a href="#">Checkout</a></li>
-                            <li><a href="register">Register</a></li>
-                            <li><a href="login">Login</a></li>
-                            </c:if>    
-                            
-                            
-                            
-                            
-                            
-                            
+                                </sec:authorize>
+                                <c:if test="${! isLoggedIn}">
+                                <li><a href="cart/details">Shopping Cart</a></li>
+                                <li><a href="checkout">Checkout</a></li>
+                                <li><a href="register">Register</a></li>
+                                <li><a href="login">Login</a></li>
+                                </c:if>    
+
+
+
+
+
+
                         </ul>
                     </div>
                 </div>
                 <!-- Header Links Ends -->
 
-                
+
             </div>
             <div class="row">
                 <!-- Search Starts -->					
                 <div class="col-md-7 col-xs-12">
                     <div id="search">
                         <div class="input-group">
-                            <input type="text" class="form-control input-lg" placeholder="Search">
-                            <span class="input-group-btn">
-                                <button class="btn btn-lg" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
+                            <form method="post" action="search/products">
+                                <input type="text" name="query" value="${param.query}" class="form-control input-lg" placeholder="Search">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-lg" type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </form>
                         </div>
                     </div>	
                 </div>
@@ -75,86 +77,7 @@
                 <!-- Shopping Cart Starts -->					
                 <div class="col-md-5 col-xs-12">
                     <div id="cart" class="btn-group btn-block">
-                        <button type="button" data-toggle="dropdown" class="btn btn-block btn-lg dropdown-toggle">
-                            <i class="fa fa-shopping-cart"></i>
-                            <span class="hidden-xs">Cart:</span> 
-                            <span id="cart-total">2 item(s) - $340.00</span>
-                            <i class="fa fa-caret-down"></i>
-                        </button>
-                        <ul class="dropdown-menu pull-right">
-                            <li>
-                                <table class="table hcart">
-                                    <tr>
-                                        <td class="text-center">
-                                            <a href="product.html">
-                                                <img src="resources/images/product-images/hcart-thumb1.jpg" alt="image" title="image" class="img-thumbnail img-responsive" />
-                                            </a>
-                                        </td>
-                                        <td class="text-left">
-                                            <a href="product-full.html">
-                                                Seeds
-                                            </a>
-                                        </td>
-                                        <td class="text-right">x 1</td>
-                                        <td class="text-right">$120.68</td>
-                                        <td class="text-center">
-                                            <a href="#">
-                                                <i class="fa fa-times"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <a href="product.html">
-                                                <img src="resources/images/product-images/hcart-thumb2.jpg" alt="image" title="image" class="img-thumbnail img-responsive" />
-                                            </a>
-                                        </td>
-                                        <td class="text-left">
-                                            <a href="product-full.html">
-                                                Organic
-                                            </a>
-                                        </td>
-                                        <td class="text-right">x 2</td>
-                                        <td class="text-right">$240.00</td>
-                                        <td class="text-center">
-                                            <a href="#">
-                                                <i class="fa fa-times"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </li>
-                            <li>
-                                <table class="table table-bordered total">
-                                    <tbody>
-                                        <tr>
-                                            <td class="text-right"><strong>Sub-Total</strong></td>
-                                            <td class="text-left">$1,101.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-right"><strong>Eco Tax (-2.00)</strong></td>
-                                            <td class="text-left">$4.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-right"><strong>VAT (17.5%)</strong></td>
-                                            <td class="text-left">$192.68</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-right"><strong>Total</strong></td>
-                                            <td class="text-left">$1,297.68</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <p class="text-right btn-block1">
-                                    <a href="cart.html">
-                                        View Cart
-                                    </a>
-                                    <a href="#">
-                                        Checkout
-                                    </a>
-                                </p>
-                            </li>									
-                        </ul>
+                        <c:import url="/cart" />
                     </div>
                 </div>
                 <!-- Shopping Cart Ends -->						
@@ -178,7 +101,7 @@
     <!-- Navbar Cat collapse Starts -->
     <div class="collapse navbar-collapse navbar-cat-collapse">
         <ul class="nav navbar-nav">
-            
+
             <c:import url="/menu" />
 
         </ul>

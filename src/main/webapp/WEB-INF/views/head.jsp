@@ -14,7 +14,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	
-	<title>Grocery Shoppe Stores - Bootstrap 3 Template</title>
+	<title>MyShop : Complete Store : Buy and Sell Just like that.</title>
 	<base href='<c:url value="/"/>' />
         
 	<!-- Bootstrap Core CSS -->
@@ -41,3 +41,8 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 	
+    <script src="resources/js/jquery-1.11.1.min.js"></script>
+<script src="resources/js/jquery-migrate-1.2.1.min.js"></script>	
+<script src="resources/js/bootstrap.min.js"></script>
+<script src="resources/js/bootstrap-hover-dropdown.min.js"></script>
+<script src="resources/js/jquery.magnific-popup.min.js"></script>

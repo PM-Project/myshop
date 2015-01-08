@@ -5,7 +5,7 @@
 
     <head>
 
-        <%@include file="../head.jsp" %>
+        <%@include file="head.jsp" %>
 
     </head>
     <body>
@@ -23,25 +23,32 @@
                 <!-- Login Form Section Starts -->
                 <section class="login-area">
                     <div class="row">
-                        
-                        <div class="col-sm-12">
+                        <div class="col-sm-3">
+                            
+                        </div>
+                        <div class="col-sm-6">
                             <!-- Login Panel Starts -->
                             <div class="panel panel-smart">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">ADMIN</h3>
+                                    <h3 class="panel-title">Login Required</h3>
                                 </div>
                                 <div class="panel-body">
+                                    <h4>
+                                        Account Information required to check out your cart.
+                                    </h4>
                                     <p>
-                                        ${message}
+                                        <a class="btn btn-danger" href="checkout/confirm">Login with you Customer Account</a> 
+                                        <a class="btn btn-danger" href="checkout/guest">Checkout as Guest</a>
                                     </p>
-                                    
 
                                     
                                 </div>
                             </div>
                             <!-- Login Panel Ends -->
                         </div>
-                        
+                        <div class="col-sm-3">
+                            
+                        </div>
                         
                         
                     </div>
@@ -50,11 +57,12 @@
             </div>
             <!-- Main Container Ends -->
             <!-- Footer Section Starts -->
+            <%@include file="footer.jsp" %>
             <!-- Footer Section Ends -->		
         </div>
         <!-- Wrapper Ends -->
         <!-- Copyright Area Starts -->
-        <%@include file="../foot.jsp" %>
+        <%@include file="foot.jsp" %>
 
     </body>
 

@@ -1089,3 +1089,13 @@ hr{
     width: 100%;
     height: auto;
 }
+
+.message {
+    color: #10D602;
+    text-align: center;
+}
+.image.thumb {
+    background-position: center center;
+    background-size: cover;
+    height: 150px;
+}

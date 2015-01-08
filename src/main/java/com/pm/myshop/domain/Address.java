@@ -22,6 +22,7 @@ public class Address implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     
+    private String doorNo;
     private String poBox;
     private String street;
     private String city;
@@ -104,6 +105,14 @@ public class Address implements Serializable {
     @Override
     public String toString() {
         return "com.pm.myshop.domain.Address[ id=" + id + " ]";
+    }
+
+    public String getDoorNo() {
+        return doorNo;
+    }
+
+    public void setDoorNo(String doorNo) {
+        this.doorNo = doorNo;
     }
     
 }

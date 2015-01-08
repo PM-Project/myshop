@@ -18,7 +18,7 @@
 	<!-- Header Section Starts -->
         <%@include file="header.jsp" %>
 	<!-- Main Menu Ends -->
-        
+        <div class="message">${message}</div>
         <a class="btn btn-default pull-right" href="vendor/product/form" role="button">Add New Product</a> 
         <h1>Product Management</h1>
         
@@ -29,11 +29,10 @@
                 <th>Category</th>
                 <th>Product Name</th>
                 <th>Unit</th>
-                <th>CP</th>
-                <th>SP</th>
-                <th>OB</th>
-                <th>CB</th>
-                <th>Stock Qty</th>
+                <th>Cost Price</th>
+                <th>Selling Price</th>
+                <th>Old Price</th>
+                <th>Stock</th>
                 <th>Status<th>
                 <th>Edit</th>
                 <th>Delete</th>
@@ -46,9 +45,8 @@
                     <td>${product.unit}</td>
                     <td>${product.costPrice}</td>
                     <td>${product.sellingPrice}</td>
-                    <td>${product.openingBalance}</td>
+                    <td>${product.oldPrice}</td>
                     <td>${product.currentBalance}</td>
-                    <td>${product.openingBalance + product.currentBalance}</td>
                     <td>${product.isAvailable}</td>
                     <td><a href="vendor/product/edit/${product.id}"><img src="resources/images/EditIcon.png"/> </a></td>
                     <td><a href="vendor/product/delete/${product.id}" onclick="return confirm('Are you sure you want to delete?')"><img src="resources/images/DeleteIcon.png"/></a></td>
@@ -59,7 +57,6 @@
            
         </br>
 	<!-- Footer Section Starts -->
-        <%@include file="../footer.jsp" %>
 	<!-- Footer Section Ends -->		
 	</div>
 <!-- Wrapper Ends -->

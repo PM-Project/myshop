@@ -7,13 +7,16 @@ package com.pm.myshop.domain;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -21,18 +24,23 @@ import org.springframework.web.multipart.MultipartFile;
  * @author Santosh
  */
 @Entity
+@Indexed
 public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
     private String productName;
+    
+    @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
     private String productDescription;
+    
     private float costPrice;
+    private float oldPrice;
     private float sellingPrice;
-    private String unit;
-    private int openingBalance;
+    private Unit unit;
     private int currentBalance;
     private boolean isAvailable;
     private String fileName;
@@ -40,12 +48,10 @@ public class Product implements Serializable {
     @Transient
     private MultipartFile file;
     
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="CATEGORY_ID", nullable=false)
+    @ManyToOne
     private Category category;
     
     @ManyToOne
-    @JoinColumn(name="VENDOR_ID",nullable=false)
     private Vendor vendor;
     
     
@@ -107,21 +113,16 @@ public class Product implements Serializable {
         this.sellingPrice = sellingPrice;
     }
 
-    public String getUnit() {
+    public Unit getUnit() {
         return unit;
     }
 
-    public void setUnit(String unit) {
+    public void setUnit(Unit unit) {
         this.unit = unit;
     }
 
-    public int getOpeningBalance() {
-        return openingBalance;
-    }
-
-    public void setOpeningBalance(int openingBalance) {
-        this.openingBalance = openingBalance;
-    }
+    
+    
 
     public int getCurrentBalance() {
         return currentBalance;
@@ -177,6 +178,14 @@ public class Product implements Serializable {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public float getOldPrice() {
+        return oldPrice;
+    }
+
+    public void setOldPrice(float oldPrice) {
+        this.oldPrice = oldPrice;
     }
     
 }

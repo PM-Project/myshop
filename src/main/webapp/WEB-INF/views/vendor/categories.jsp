@@ -14,27 +14,6 @@
 
         <%@include file="../head.jsp" %>
 
-        <script type="text/css">
-
-            #errmsg
-            {
-                color: red;
-            }
-        </script>
-
-        <script >
-            $(document).ready(function () {
-                //called when key is pressed in textbox
-                $("#costPrice").keypress(function (e) {
-                    //if the letter is not digit then display error and don't type anything
-                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
-                        //display error message
-                        $("#errmsg").html("Digits Only").show().fadeOut("slow");
-                        return false;
-                    }
-                });
-            });
-        </script>
 
     </head>
     <body>
@@ -47,9 +26,11 @@
                 <div class="col-md-12">
                     
                     <a class="btn btn-default pull-right" href="vendor/category/form" role="button">Add New Category</a>
-                    
+                    <div class="message">${message}</div>
                     <h1>Categories Management</h1>
                     <h4>Add/Update </h4>
+                    
+                    
 
                     </br>
 
@@ -75,7 +56,6 @@
 
 
             <!-- Footer Section Starts -->
-            <%@include file="../footer.jsp" %>
             <!-- Footer Section Ends -->		
         </div>
         <!-- Wrapper Ends -->
@@ -83,42 +63,6 @@
         <%@include file="../foot.jsp" %>
 
 
-        <!-- JS dependencies -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-        <!--<script src="resources/js/bootstrap.min.js"></script>-->
-        <script>
-            var Example = (function () {
-                "use strict";
-
-                var elem, hideHandler, that = {};
-
-                that.init = function (options) {
-                    elem = $(options.selector);
-                };
-
-                that.show = function (text) {
-                    clearTimeout(hideHandler);
-
-                    elem.find("span").html(text);
-                    elem.delay(200).fadeIn().delay(4000).fadeOut();
-                };
-
-                return that;
-            }());
-
-
-            $(function () {
-                Example.init({
-                    "selector": ".bb-alert"
-                });
-            });
-        </script>
-
-        <!-- bootbox code -->
-        <script src="resources/js/bootbox.js"></script>
-
-        <!-- put all demo code in one place -->
-        <script src="resources/js/bootboxdemo.js"></script>
 
     </body>
 

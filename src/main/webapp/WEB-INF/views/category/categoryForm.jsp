@@ -64,7 +64,6 @@
          
         </br>
 	<!-- Footer Section Starts -->
-        <%@include file="../footer.jsp" %>
 	<!-- Footer Section Ends -->		
 	</div>
 <!-- Wrapper Ends -->

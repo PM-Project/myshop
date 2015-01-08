@@ -71,25 +71,20 @@
                                         <img src="pictures/thumb/${product.fileName}" alt="product" class="img-responsive" />
                                     </div>
                                     <div class="caption">
-                                        <h4><a href="product.html"> <c:out value="${product.productName}"/> </a></h4>
+                                        <h4><a href="product.html"> ${product.productName}</a></h4>
                                         <div class="description">
-                                            <c:out value="${product.productDescription}"/>
+                                            ${product.productDescription}
                                         </div>
                                         <div class="price">
-                                            <span class="price-new"><c:out value="${product.sellingPrice}" /></span> 
-                                            <span class="price-old">$249.50</span>
+                                            <span class="price-new">$${product.sellingPrice}</span> 
+                                            <span class="price-old">$${product.oldPrice}</span>
                                         </div>
                                         <div class="cart-button button-group">
-                                            <button type="button" class="btn btn-cart">
+                                            <button onClick="return addToCart(${product.id})" type="button" class="btn btn-cart">
                                                 <i class="fa fa-shopping-cart"></i>
                                                 Add to cart									 
                                             </button>
-                                            <button type="button" title="Wishlist" class="btn btn-wishlist">
-                                                <i class="fa fa-heart"></i>
-                                            </button>
-                                            <button type="button" title="Compare" class="btn btn-compare">
-                                                <i class="fa fa-bar-chart-o"></i>
-                                            </button>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -98,7 +93,6 @@
                         </c:forEach>
                     </div>
                     <!-- Product Carousel Ends -->
-                    <%--</c:forEach>--%>
                 </div>
             </div>
             <!-- Products Row Ends -->

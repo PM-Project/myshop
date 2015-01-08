@@ -19,4 +19,6 @@ public interface ProductService
     public List<Product> getAllProduct();
     public Product getProductById(int id);
     public Product getProductByProductName(String productName);
+    public List<Product> searchProducts(String searchText);
+    public void indexProducts();
 }

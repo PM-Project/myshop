@@ -16,7 +16,7 @@
     <context:component-scan base-package="com.pm.myshop.*" />
 
     <bean id="propertyConfigurer"
-              class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <!-- <property name="ignoreUnresolvablePlaceholders" value="true" /> -->
         <property name="locations">
             <list>
@@ -26,13 +26,13 @@
     </bean>
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-              destroy-method="close" p:driverClassName="${jdbc.driverClassName}"
-              p:url="${jdbc.url}" p:username="${jdbc.username}" p:password="${jdbc.password}"
-              p:maxActive="100" p:maxIdle="30" p:maxWait="20000"    />
+          destroy-method="close" p:driverClassName="${jdbc.driverClassName}"
+          p:url="${jdbc.url}" p:username="${jdbc.username}" p:password="${jdbc.password}"
+          p:maxActive="100" p:maxIdle="30" p:maxWait="20000"    />
 
 
     <bean id="sessionFactory"
-              class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
 
         <property name="packagesToScan">
@@ -47,12 +47,15 @@
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.generate_statistics">true</prop>
+                <prop key="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</prop>
+                <prop key="hibernate.search.default.directory_provider">org.hibernate.search.store.impl.FSDirectoryProvider</prop>
+                <prop key="hibernate.search.default.indexBase">D:/hibernate-search-indexes</prop>
             </props>
         </property>
     </bean>
 
     <bean id="transactionManager"
-              class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
         

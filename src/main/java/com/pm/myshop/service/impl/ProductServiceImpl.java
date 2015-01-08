@@ -28,6 +28,7 @@ public class ProductServiceImpl implements ProductService
     public void saveProduct(Product product) 
     {
         productDao.saveProduct(product);
+        productDao.indexProducts();
     }
 
     @Override
@@ -52,6 +53,16 @@ public class ProductServiceImpl implements ProductService
     public Product getProductByProductName(String productName) 
     {
         return productDao.getProductByProductName(productName);
+    }
+
+    @Override
+    public List<Product> searchProducts(String searchText) {
+        return productDao.searchForProduct(searchText);
+    }
+
+    @Override
+    public void indexProducts() {
+        productDao.indexProducts();
     }
     
 }

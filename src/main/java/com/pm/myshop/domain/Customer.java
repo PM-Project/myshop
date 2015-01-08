@@ -41,6 +41,9 @@ public class Customer implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     private UserLogin user;
     
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+    private Cart pendingCart;
+    
     
     public int getId() {
         return id;
@@ -125,6 +128,14 @@ public class Customer implements Serializable {
     @Override
     public String toString() {
         return "com.pm.myshop.entity.Customer[ id=" + id + " ]";
+    }
+
+    public Cart getPendingCart() {
+        return pendingCart;
+    }
+
+    public void setPendingCart(Cart pendingCart) {
+        this.pendingCart = pendingCart;
     }
     
 }

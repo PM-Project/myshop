@@ -20,11 +20,11 @@
 <!-- Wrapper Starts -->
 	<div id="wrapper" class="container">
 	<!-- Header Section Starts -->
-        <%@include file="../header.jsp" %>
+        <%@include file="header.jsp" %>
 	<!-- Main Menu Ends -->
         
-        <h1>Category Management</h1>
-        <h4>Add/Update</h4>
+        <h1>Category</h1>
+        <h4>Add New Category</h4>
         
         <form:form class="form-horizontal" method="post" action="vendor/category/save" commandName="category">
             <form:errors element="div" cssClass="errors" path="*"/>
@@ -52,7 +52,6 @@
          
         </br>
 	<!-- Footer Section Starts -->
-        <%@include file="../footer.jsp" %>
 	<!-- Footer Section Ends -->		
 	</div>
 <!-- Wrapper Ends -->

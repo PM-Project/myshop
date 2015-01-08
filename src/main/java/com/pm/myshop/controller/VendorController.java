@@ -16,6 +16,7 @@ import com.pm.myshop.service.VendorService;
 import java.util.UUID;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
  * @author Jagendra
  */
 @Controller
+@EnableAsync
 @SessionAttributes({"vendor"})
 public class VendorController {
     
@@ -45,6 +47,9 @@ public class VendorController {
     
     @Autowired
     MailService mailService;
+    
+    @Autowired
+    HttpSession session;
     
     @InitBinder
     public void initConverter(WebDataBinder binder)
@@ -85,6 +90,7 @@ public class VendorController {
             return "vendor/categories";
         
         vendorService.saveVendor(vendor);
+        session.setAttribute("message", "Category Added to your List Successfully");
         return "redirect:/vendor/categories";
     }
     
