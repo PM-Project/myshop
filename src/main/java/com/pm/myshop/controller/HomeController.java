@@ -70,8 +70,7 @@ public class HomeController {
     
     @RequestMapping("/home")
     public String home(@AuthenticationPrincipal UserLogin user, Model model)
-    {       
-        
+    {            
         if(user.getRole().equals(Role.ROLE_VENDOR))
             return "redirect:/vendor";
         else if(user.getRole().equals(Role.ROLE_ADMIN))
@@ -118,8 +117,7 @@ public class HomeController {
     public String actionInfo()
     {
         return "info";
-    }
-    
+    }    
     
     
     @RequestMapping("/verify")
