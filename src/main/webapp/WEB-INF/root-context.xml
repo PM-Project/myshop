@@ -37,8 +37,8 @@
 
         <property name="packagesToScan">
             <list>
-                <value>com.pm.myshop.domain</value>
-            </list>
+                  <value>com.pm.myshop.domain</value>
+            </list> 
         </property>
         
         <property name="hibernateProperties">
@@ -53,14 +53,14 @@
             </props>
         </property>
     </bean>
-
+    
     <bean id="transactionManager"
           class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
-        
     
     
+
     <bean class="com.pm.myshop.auth.AuthServiceImpl" id="authService"/>
 
     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
@@ -84,5 +84,4 @@
                 
                         
         
-
 </beans>

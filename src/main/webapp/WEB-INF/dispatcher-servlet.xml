@@ -33,7 +33,7 @@
         </mvc:interceptors>
         
         <security:global-method-security secured-annotations="enabled" />
-        
+         <context:component-scan base-package="com.pm.myshop.reports" />      
         <context:component-scan base-package="com.pm.myshop.controller" />
         <context:property-placeholder location="classpath:config.properties" />
         <!--<security:global-method-security secured-annotations="enabled" />-->

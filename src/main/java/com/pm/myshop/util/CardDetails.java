@@ -22,6 +22,7 @@ public class CardDetails implements Serializable {
     private Date lastTransactionDate;
     private String username;
     private String password;
+    private String cvv;    
 
     public int getId() {
         return id;
@@ -77,6 +78,14 @@ public class CardDetails implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getCvv() {
+        return cvv;
+    }
+
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
     }
 
     
