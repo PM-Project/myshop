@@ -7,6 +7,7 @@ package com.pm.myshop.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,7 +22,7 @@ import javax.persistence.TemporalType;
  * @author kunda_000
  */
 
-@Entity
+@Entity(name = "Orders")
 public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
     
@@ -29,13 +30,13 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Customer customer;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Cart cart;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Address shipping;
     
     @Temporal(TemporalType.DATE)

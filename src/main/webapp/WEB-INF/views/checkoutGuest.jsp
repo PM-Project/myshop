@@ -27,7 +27,7 @@
                 <section class="login-area">
                     <div class="row">
                         <div class="col-sm-3">
-                            
+
                         </div>
                         <div class="col-sm-6">
                             <!-- Login Panel Starts -->
@@ -37,11 +37,7 @@
                                 </div>
                                 <div class="panel-body">
 
-                                    <form:form role="form" method="post" modelAttribute="customer">
-
-                                        <form:errors element="div" cssClass="errors" path="*"/>
-
-                                        <form:input type="hidden" path="id"/>
+                                    <form:form method="post" modelAttribute="customer">
 
                                         <div class="form-group">
                                             <label>Full Name:</label>
@@ -59,14 +55,14 @@
                                             <form:input required="required" cssClass="form-control" path="phone" />
                                             <form:errors path="phone" element="div" cssClass="error" />
                                         </div>
-                                        
+
                                         <h3>Shipping Address:</h3>
                                         <div class="form-group">
                                             <label>Door No. / Building No. P.O.Box No</label>
                                             <form:input required="required" cssClass="form-control" path="address.doorNo" />
                                             <form:errors path="address.doorNo" element="div" cssClass="error" />
                                         </div>
-                                        
+
                                         <div class="form-group">
                                             <label>Street:</label>
                                             <form:input required="required" cssClass="form-control" path="address.street" />
@@ -87,7 +83,7 @@
                                             <form:input required="required" cssClass="form-control" path="address.zipCode" />
                                             <form:errors path="address.zipCode" element="div" cssClass="error" />
                                         </div>
-                                        
+
                                         <h3>Payment Information:</h3>
                                         <div class="form-group">
                                             <label>Name on Card:</label>
@@ -96,17 +92,19 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Card Number:</label>
-                                            <form:input required="required" cssClass="form-control" path="account.accountNumber" />
-                                            <form:errors path="account.accountNumber" element="div" cssClass="error" />
+                                            <form:input required="required" cssClass="form-control cardNumber" path="account.cardNumber" />
+                                            <form:errors path="account.cardNumber" element="div" cssClass="error" />
+                                            <div class="error cardError">${cardError}</div>
                                         </div>
                                         <div class="form-group">
                                             <label>CVV:</label>
-                                            <form:input required="required" cssClass="form-control" path="account.cardCvv" />
+                                            <form:input required="required" cssClass="form-control cardCvv" path="account.cardCvv" />
                                             <form:errors path="account.cardCvv" element="div" cssClass="error" />
+                                            <div class="error cvvError"></div>
                                         </div>
 
                                         <div class="form-group">
-                                            <input class="btn btn-primary" type="submit" value="Submit"/>
+                                            <input onclick="return validateCard()" class="btn btn-primary checkOutButton" type="submit" value="Submit"/>
                                         </div>
 
                                     </form:form>
@@ -115,7 +113,7 @@
                             <!-- Login Panel Ends -->
                         </div>
                         <div class="col-sm-3">
-                            
+
                         </div>
 
 
@@ -131,6 +129,47 @@
         <!-- Wrapper Ends -->
         <!-- Copyright Area Starts -->
         <%@include file="foot.jsp" %>
+
+        <script>
+
+            $(document).ready(function () {
+
+                $(".cardNumber").change(function () {
+                    if ($(this).val().length !== 16)
+                        $(".cardError").empty().append("Invalid Card Number");
+                    else
+                        $(".cardError").empty();
+                });
+
+                $(".cardCvv").change(function () {
+                    if ($(this).val().length !== 3)
+                        $(".cvvError").empty().append("Invalid CVV Code");
+                    else
+                        $(".cvvError").empty();
+                });
+
+                $(".cardNumber,.cardCvv").change(function () {
+                    var card = $(".cardNumber").val();
+                    var cvv = $(".cardCvv").val();
+                    
+                    if(card.length === 16 && cvv.length === 3)
+                    {
+                        $.get("validatecard", {cardNo: card, balance:${cart.grandTotal}, cvv: cvv}, function (data) {
+                            if (data === 'success')
+                            {
+                                $(".cvvError,.cardError").empty();
+                            } else {
+                                $(".cardError").empty().append("Card Number Not Valid Or Insufficient Balance");
+                            }
+                        });
+                    }
+                    
+                });
+
+            });
+        </script>
+
+
 
     </body>
 

@@ -7,8 +7,14 @@ package com.pm.myshop.controller;
 
 import com.pm.myshop.domain.Cart;
 import com.pm.myshop.domain.Customer;
+import com.pm.myshop.domain.Order;
 import com.pm.myshop.domain.UserLogin;
+import com.pm.myshop.reportService.CustomerReportSerivce;
+import com.pm.myshop.service.CustomerService;
 import com.pm.myshop.service.OrderService;
+import java.util.Calendar;
+import java.util.Date;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +33,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
  * @author kunda_000
  */
 @Controller
-@SessionAttributes({"cart"})
+@SessionAttributes({"cart","order"})
 public class OrderController {
     
     
@@ -35,6 +41,14 @@ public class OrderController {
     OrderService orderService;
     
     
+    @Autowired
+    CustomerService customerService;
+    
+    @Autowired
+    HttpSession session;
+    
+    @Autowired
+    HttpServletRequest request;
     
     @RequestMapping("/checkout")
     public String checkout(@AuthenticationPrincipal UserLogin user, @ModelAttribute("cart") Cart cart, Model model, HttpSession session)
@@ -69,19 +83,39 @@ public class OrderController {
     }
     
     @RequestMapping(value = "/checkout/guest", method = RequestMethod.POST)
-    public String checkoutGuestPost(@AuthenticationPrincipal UserLogin user, 
-            @Valid @ModelAttribute("customer") Customer customer, @ModelAttribute("cart") Cart cart, 
+    public String checkoutGuestPost( 
+            @Valid @ModelAttribute("customer") Customer customer, 
             BindingResult result, Model model)
     {
-        if(user != null && user.getCustomer() != null)
-            return "redirect:/checkout/confirm";
-        if(cart.getLineItems().isEmpty())
-            return "redirect:/cart/details";
-        
         if(result.hasErrors())
             return "checkoutGuest";
         
-        return "checkoutGuest";
+        if(!request.getSession(true).getAttribute("cardvalidation").equals("success"))
+        {
+            session.setAttribute("cardError", "Card Not Valid or Insufficient Fund");
+            return "checkoutGuest";
+        }
+        
+        
+        Cart cart = (Cart) session.getAttribute("cart");
+        
+        Order order = new Order();
+        order.setCustomer(customer);
+        order.setCart(cart);
+        order.setShipping(customer.getAddress());
+        
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, 7);
+        date = cal.getTime();
+        
+        order.setShippingDate(date);
+//        orderService.saveOrder(order);
+        
+        model.addAttribute("order",order);
+        
+        return "order";
     }
     
     
@@ -97,5 +131,23 @@ public class OrderController {
         
         return "checkoutCustomer";
     }
+    
+    
+    @RequestMapping(value = "/order/confirm", method = RequestMethod.POST)
+    public String orderConfirm(@ModelAttribute("order") Order order, Model model)
+    {
+        
+        orderService.saveOrder(order);
+        
+        session.setAttribute("title", "Order Submited Successfully");
+        session.setAttribute("message", "Your Order has been submited successfully");
+        
+        model.addAttribute("cart", new Cart());
+        model.addAttribute("order",new Order());
+        
+        return "redirect:/info";
+    }
+    
+    
     
 }
