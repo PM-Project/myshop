@@ -5,7 +5,7 @@
  */
 package com.pm.myshop.dao;
 
-import com.pm.myshop.domain.Order;
+import com.pm.myshop.domain.Orders;
 import java.util.List;
 
 /**
@@ -14,8 +14,8 @@ import java.util.List;
  */
 
 public interface OrderDao {
-    public void saveOrder(Order order);
-    public Order getOrderById(int id);
-    public List<Order> listAllOrders();
+    public void saveOrder(Orders order);
+    public Orders getOrderById(int id);
+    public List<Orders> listAllOrders();
     public void deleteOrder(int id);
 }

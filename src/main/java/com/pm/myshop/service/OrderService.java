@@ -5,7 +5,9 @@
  */
 package com.pm.myshop.service;
 
-import com.pm.myshop.domain.Order;
+import com.pm.myshop.domain.LineItem;
+import com.pm.myshop.domain.Orders;
+import com.pm.myshop.domain.Vendor;
 import java.util.List;
 
 /**
@@ -13,8 +15,10 @@ import java.util.List;
  * @author kunda_000
  */
 public interface OrderService {
-    public void saveOrder(Order order);
-    public Order getOrderById(int id);
-    public List<Order> listAllOrders();
+    public void saveOrder(Orders order);
+    public Orders getOrderById(int id);
+    public List<Orders> listAllOrders();
     public void deleteOrder(int id);
+    
+    public List<LineItem> getSalesByVendor(Vendor vendor);
 }

@@ -22,8 +22,8 @@ import javax.persistence.TemporalType;
  * @author kunda_000
  */
 
-@Entity(name = "Orders")
-public class Order implements Serializable {
+@Entity
+public class Orders implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -42,6 +42,8 @@ public class Order implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date shippingDate;
     
+    @Temporal(TemporalType.DATE)
+    private Date orderDate;
     
 
     public int getId() {
@@ -62,10 +64,10 @@ public class Order implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Order)) {
+        if (!(object instanceof Orders)) {
             return false;
         }
-        Order other = (Order) object;
+        Orders other = (Orders) object;
         if (this.id != other.id) {
             return false;
         }
@@ -107,6 +109,14 @@ public class Order implements Serializable {
 
     public void setShippingDate(Date shippingDate) {
         this.shippingDate = shippingDate;
+    }
+
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
     }
     
 }

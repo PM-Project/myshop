@@ -6,7 +6,7 @@
 package com.pm.myshop.dao.impl;
 
 import com.pm.myshop.dao.OrderDao;
-import com.pm.myshop.domain.Order;
+import com.pm.myshop.domain.Orders;
 import com.pm.myshop.util.SessionUtil;
 import java.util.List;
 import org.springframework.stereotype.Repository;
@@ -19,23 +19,23 @@ import org.springframework.stereotype.Repository;
 public class OrderDaoImpl extends SessionUtil implements OrderDao {
 
     @Override
-    public void saveOrder(Order order) {
+    public void saveOrder(Orders order) {
         getSession().saveOrUpdate(order);
     }
 
     @Override
-    public Order getOrderById(int id) {
-        return (Order) getSession().get(Order.class, id);
+    public Orders getOrderById(int id) {
+        return (Orders) getSession().get(Orders.class, id);
     }
 
     @Override
-    public List<Order> listAllOrders() {
-        return getSession().createQuery("From Order").list();
+    public List<Orders> listAllOrders() {
+        return getSession().createQuery("SELECT o From Orders o").list();
     }
 
     @Override
     public void deleteOrder(int id) {
-        Order order = getOrderById(id);
+        Orders order = getOrderById(id);
         if(order != null)
             getSession().delete(order);
     }

@@ -11,6 +11,7 @@ import com.pm.myshop.domain.Vendor;
 import com.pm.myshop.service.CategoryService;
 import com.pm.myshop.service.CustomerService;
 import com.pm.myshop.service.MailService;
+import com.pm.myshop.service.OrderService;
 import com.pm.myshop.service.ProductService;
 import com.pm.myshop.service.UserService;
 import com.pm.myshop.service.VendorService;
@@ -38,6 +39,9 @@ public class AdminController {
     
     @Autowired
     ProductService productService;
+    
+    @Autowired
+    OrderService orderService;
     
     @Autowired
     CategoryService categoryService;
@@ -99,6 +103,7 @@ public class AdminController {
         UserLogin user = new UserLogin();
         user.setUsername("admin");
         user.setPassword("admin");
+        user.setEnabled(true);
         user.setRole(Role.ROLE_ADMIN);
         
         userService.changePassword(user);
@@ -106,5 +111,13 @@ public class AdminController {
         return "redirect:/admin";
     }
     
+    
+    @RequestMapping("/admin/sales")
+    public String orderList(Model model)
+    {
+        model.addAttribute("orders", orderService.listAllOrders());
+        
+        return "admin/sales";
+    }
     
 }

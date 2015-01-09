@@ -6,14 +6,18 @@
 package com.pm.myshop.controller;
 
 import com.pm.myshop.domain.Category;
+import com.pm.myshop.domain.LineItem;
+import com.pm.myshop.domain.Orders;
 import com.pm.myshop.domain.Role;
 import com.pm.myshop.domain.UserLogin;
 import com.pm.myshop.domain.Vendor;
 import com.pm.myshop.propertyeditor.CategoryPropertyEditor;
 import com.pm.myshop.service.CategoryService;
 import com.pm.myshop.service.MailService;
+import com.pm.myshop.service.OrderService;
 import com.pm.myshop.service.UserService;
 import com.pm.myshop.service.VendorService;
+import java.util.List;
 import java.util.UUID;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -55,6 +59,9 @@ public class VendorController {
     
     @Autowired
     HttpSession session;
+    
+    @Autowired
+    OrderService orderService;
     
     @InitBinder
     public void initConverter(WebDataBinder binder)
@@ -187,5 +194,13 @@ public class VendorController {
     }
     
     
+    
+    @RequestMapping("/vendor/sales")
+    public String sales(@AuthenticationPrincipal UserLogin user, Model model)
+    {
+        List<LineItem> orderItems = orderService.getSalesByVendor(user.getVendor());
+        model.addAttribute("orderItems", orderItems);
+        return "/vendor/sales";
+    }
     
 }

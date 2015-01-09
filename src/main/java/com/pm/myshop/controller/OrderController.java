@@ -7,7 +7,7 @@ package com.pm.myshop.controller;
 
 import com.pm.myshop.domain.Cart;
 import com.pm.myshop.domain.Customer;
-import com.pm.myshop.domain.Order;
+import com.pm.myshop.domain.Orders;
 import com.pm.myshop.domain.UserLogin;
 import com.pm.myshop.reportService.CustomerReportSerivce;
 import com.pm.myshop.service.CustomerService;
@@ -99,16 +99,18 @@ public class OrderController {
         
         Cart cart = (Cart) session.getAttribute("cart");
         
-        Order order = new Order();
+        Orders order = new Orders();
         order.setCustomer(customer);
         order.setCart(cart);
         order.setShipping(customer.getAddress());
         
         Date date = new Date();
+        order.setOrderDate(date);
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.DATE, 7);
         date = cal.getTime();
+        
         
         order.setShippingDate(date);
 //        orderService.saveOrder(order);
@@ -134,7 +136,7 @@ public class OrderController {
     
     
     @RequestMapping(value = "/order/confirm", method = RequestMethod.POST)
-    public String orderConfirm(@ModelAttribute("order") Order order, Model model)
+    public String orderConfirm(@ModelAttribute("order") Orders order, Model model)
     {
         
         orderService.saveOrder(order);
@@ -143,10 +145,12 @@ public class OrderController {
         session.setAttribute("message", "Your Order has been submited successfully");
         
         model.addAttribute("cart", new Cart());
-        model.addAttribute("order",new Order());
+        model.addAttribute("order",new Orders());
         
         return "redirect:/info";
     }
+    
+    
     
     
     

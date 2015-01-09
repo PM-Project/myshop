@@ -19,8 +19,7 @@
         <%@include file="header.jsp" %>
 	<!-- Main Menu Ends -->
         <div class="message">${message}</div>
-        <a class="btn btn-default pull-right" href="vendor/product/form" role="button">Add New Product</a> 
-        <h1>Product Management</h1>
+        <h1>Sales Report</h1>
         
            
         <table class="table table-striped" style="width:100%" >
@@ -32,24 +31,14 @@
                 <th>Cost Price</th>
                 <th>Selling Price</th>
                 <th>Old Price</th>
-<!--                <th>Stock</th>
-                <th>Status</th>-->
+                <th>Stock</th>
+                <th>Status</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
-        <c:forEach items="${products}" var="product">
+        <c:forEach items="${orders}" var="items">
                 <tr>
-                    <td>${product.id}</td>
-                    <td>${product.category.categoryName}</td>
-                    <td>${product.productName}</td>
-                    <td>${product.unit}</td>
-                    <td>${product.costPrice}</td>
-                    <td>${product.sellingPrice}</td>
-                    <td>${product.oldPrice}</td>
-<!--                    <td>${product.currentBalance}</td>
-                    <td>${product.isAvailable}</td>-->
-                    <td><a href="vendor/product/edit/${product.id}"><img src="resources/images/EditIcon.png"/> </a></td>
-                    <td><a href="vendor/product/delete/${product.id}" onclick="return confirm('Are you sure you want to delete?')"><img src="resources/images/DeleteIcon.png"/></a></td>
+                    hello
                 </tr>
         </c:forEach>
         </table>

@@ -6,8 +6,11 @@
 package com.pm.myshop.service.impl;
 
 import com.pm.myshop.dao.OrderDao;
-import com.pm.myshop.domain.Order;
+import com.pm.myshop.domain.LineItem;
+import com.pm.myshop.domain.Orders;
+import com.pm.myshop.domain.Vendor;
 import com.pm.myshop.service.OrderService;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,23 +29,40 @@ public class OrderServiceImpl implements OrderService {
     
     
     @Override
-    public void saveOrder(Order order) {
+    public void saveOrder(Orders order) {
         orderDao.saveOrder(order);
     }
 
     @Override
-    public Order getOrderById(int id) {
+    public Orders getOrderById(int id) {
         return orderDao.getOrderById(id);
     }
 
     @Override
-    public List<Order> listAllOrders() {
+    public List<Orders> listAllOrders() {
         return orderDao.listAllOrders();
     }
 
     @Override
     public void deleteOrder(int id) {
         orderDao.deleteOrder(id);
+    }
+
+    @Override
+    public List<LineItem> getSalesByVendor(Vendor vendor) 
+    {
+        
+        List<LineItem> orderItems = new ArrayList<>();
+        List<Orders> allOrder = listAllOrders();
+        for(Orders order : allOrder)
+        {
+                for(LineItem item : order.getCart().getLineItems().values())
+                {
+                        if(item.getProduct().getVendor().equals(vendor))
+                            orderItems.add(item);
+                }
+        }
+        return orderItems;
     }
     
 }
