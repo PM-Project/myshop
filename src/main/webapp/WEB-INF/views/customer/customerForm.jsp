@@ -39,8 +39,7 @@
 
                                     <form:form role="form" method="post" modelAttribute="customer">
 
-                                        <form:errors element="div" cssClass="errors" path="*"/>
-
+                                        
                                         <form:input type="hidden" path="id"/>
 
                                         <div class="form-group">
@@ -50,7 +49,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Email:</label>
-                                            <form:input type="email" required="required" cssClass="form-control" path="email" />
+                                            <form:input   cssClass="form-control" path="email" />
                                             <form:errors path="email" element="div" cssClass="error" />
                                             <div class="error">${message}</div>
                                         </div>

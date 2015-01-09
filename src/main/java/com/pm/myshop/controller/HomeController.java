@@ -154,6 +154,7 @@ public class HomeController {
         if(results.hasErrors())
             return "user/password";
         
+        user.setEnabled(true);
         userService.changePassword(user);
         
         session.setAttribute("title", "Change Password");

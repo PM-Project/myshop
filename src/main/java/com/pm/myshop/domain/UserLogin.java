@@ -25,6 +25,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  *
  * @author kunda_000
  */
+
 @Entity
 public class UserLogin implements UserDetails, Serializable {
     private static final long serialVersionUID = 1L;
@@ -40,7 +41,7 @@ public class UserLogin implements UserDetails, Serializable {
     
     private String verification;
     
-    private Status status;
+    private boolean enabled;
     
     @OneToOne(mappedBy = "user")
     private Vendor vendor;
@@ -88,7 +89,10 @@ public class UserLogin implements UserDetails, Serializable {
         this.role = role;
     }
 
-    
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
 
     public Vendor getVendor() {
         return vendor;
@@ -116,13 +120,7 @@ public class UserLogin implements UserDetails, Serializable {
         this.customer = customer;
     }
 
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
+    
 
     public void setAuthorities(Collection<GrantedAuthority> authorities) {
         this.authorities = authorities;
@@ -180,8 +178,10 @@ public class UserLogin implements UserDetails, Serializable {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
+
+    
     
 }
 

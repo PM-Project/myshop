@@ -8,27 +8,17 @@ package com.pm.myshop.controller;
 import com.pm.myshop.domain.Customer;
 import com.pm.myshop.domain.Role;
 import com.pm.myshop.domain.UserLogin;
-import com.pm.myshop.domain.Vendor;
-import com.pm.myshop.propertyeditor.CustomerPropertyEditor;
-import com.pm.myshop.propertyeditor.VendorPropertyEditor;
 import com.pm.myshop.service.CustomerService;
 import com.pm.myshop.service.MailService;
 import com.pm.myshop.service.UserService;
-import com.pm.myshop.validator.PasswordValidator;
-import com.pm.myshop.validator.UserValidator;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.UUID;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,7 +58,7 @@ public class CustomerController {
     
     
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String registerNewCustomer(@ModelAttribute Customer customer, UserLogin user, BindingResult result, HttpSession session)
+    public String registerNewCustomer(@Valid @ModelAttribute("customer") Customer customer, BindingResult result, HttpSession session)
     {
         
         if(result.hasErrors())
@@ -80,6 +70,8 @@ public class CustomerController {
             return "customer/customerForm";
         }  
         String code = UUID.randomUUID().toString().toUpperCase();
+        
+        UserLogin user = new UserLogin();
         user.setVerification(code);
         user.setUsername(customer.getEmail());
         user.setRole(Role.ROLE_CUSTOMER);

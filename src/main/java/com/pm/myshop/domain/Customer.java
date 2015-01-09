@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -31,8 +32,11 @@ public class Customer implements Serializable {
     @NotEmpty
     private String name;
     
+    @Email(message = "{User.email.notvalid}")
+    @NotEmpty(message = "{User.username.empty}")
     private String email;
     
+    @Pattern(regexp="(^$|[0-9]{10})",message = "{Phone.notvalid}")
     private String phone;
     
     @OneToOne(cascade = CascadeType.ALL)

@@ -17,7 +17,7 @@
                 <!-- Header Links Starts -->
                 <div class="col-md-9 col-xs-12">
                     <div class="header-links">
-                        <ul class="list-unstyled list-inline pull-left">
+                        <ul class="list-unstyled list-inline pull-left topmenu">
                             <li><a href="./">Home</a></li>
                                 <sec:authorize access="hasRole('ROLE_VENDOR')">
                                 <li><a href="vendor">My Account</a></li>
@@ -41,8 +41,12 @@
                                 <c:if test="${! isLoggedIn}">
                                 <li><a href="cart/details">Shopping Cart</a></li>
                                 <li><a href="checkout">Checkout</a></li>
-                                <li><a href="register">Customer Registration</a></li>
-                                <li><a href="register/vendor">Vendor Registration</a></li>
+                                <li class="dropmenu"><a href="register">Register</a>
+                                    <ul>
+                                        <li><a href="register">Customer</a></li>
+                                        <li><a href="register/vendor">Vendor</a></li>
+                                    </ul>
+                                </li>
                                 <li><a href="login">Login</a></li>
                                 </c:if>    
 

@@ -6,6 +6,7 @@
 package com.pm.myshop.controller;
 
 import com.pm.myshop.domain.Cart;
+import com.pm.myshop.domain.Customer;
 import com.pm.myshop.domain.LineItem;
 import com.pm.myshop.domain.Product;
 import com.pm.myshop.domain.UserLogin;
@@ -141,10 +142,19 @@ public class CartController {
     }
 
     @RequestMapping("/cart/clear")
-    public @ResponseBody
-    String clearCart(@AuthenticationPrincipal UserLogin user, @ModelAttribute("cart") Cart cart, Model model) {
+    public String clearCart(@AuthenticationPrincipal UserLogin user, @ModelAttribute("cart") Cart cart, Model model) {
+        
+        if(user != null && user.getCustomer() != null && user.getCustomer().getPendingCart() != null)
+        {
+            Customer customer = user.getCustomer();
+            customer.setPendingCart(null);
+            customerService.saveCustomer(customer);
+        }
+        
+        cart = new Cart();
+        model.addAttribute("cart", cart);
 
-        return "success";
+        return "redirect:/cart/details";
     }
 
 }

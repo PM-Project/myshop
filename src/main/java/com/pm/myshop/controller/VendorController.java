@@ -12,9 +12,11 @@ import com.pm.myshop.domain.Vendor;
 import com.pm.myshop.propertyeditor.CategoryPropertyEditor;
 import com.pm.myshop.service.CategoryService;
 import com.pm.myshop.service.MailService;
+import com.pm.myshop.service.UserService;
 import com.pm.myshop.service.VendorService;
 import java.util.UUID;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
@@ -41,6 +43,9 @@ public class VendorController {
     
     @Autowired
     VendorService vendorService;
+    
+    @Autowired
+    UserService userService;
     
     @Autowired
     CategoryService categoryService;
@@ -105,11 +110,18 @@ public class VendorController {
     
     
     @RequestMapping(value = "/register/vendor", method = RequestMethod.POST)
-    public String saveUser(Vendor vendor, UserLogin user, BindingResult result, HttpSession session)
+    public String saveUser(@Valid @ModelAttribute Vendor vendor, BindingResult result, HttpSession session)
     {
         if(result.hasErrors())
             return "vendor/vendorForm";
         
+        if(userService.getUserByUsername(vendor.getEmail()) != null)
+        {
+            session.setAttribute("message", "User Email already exists please chooose another one.");
+            return "vendor/vendorForm";
+        }
+        
+        UserLogin user = new UserLogin();
         String code = UUID.randomUUID().toString().toUpperCase();
         user.setVerification(code);
         user.setUsername(vendor.getEmail());
@@ -117,12 +129,12 @@ public class VendorController {
         vendor.setUrl(vendor.getBrand().toLowerCase().replace(" ", "-"));
         vendor.setUser(user);        
         
-        mailService.sendMail(vendor.getEmail(), "Account Created", "<h2>Vendor Registration</h2><p>Thank you for registration. Please click on below link to verify your email and create account password.</p><p><a href='http://localhost/myshop/verify/"+code+"'>Click Here</a></p>");
+        mailService.sendMail("pm.myshop@gmail.com", "New Vendor Registered", "<h2>Vendor Registration</h2><p>New Vendor registered. Please go to admin to review and approve</p>");
 
         vendorService.saveVendor(vendor);
         
         session.setAttribute("title", "Registration Successfull");
-        session.setAttribute("message", "Thank you for registration. Please check your email and proceed with given information");
+        session.setAttribute("message", "Thank you for registration. Please wait for admin approval to complete registration.");
         
         return "redirect:/info";
     }

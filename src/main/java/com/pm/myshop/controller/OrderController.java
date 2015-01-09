@@ -10,13 +10,16 @@ import com.pm.myshop.domain.Customer;
 import com.pm.myshop.domain.UserLogin;
 import com.pm.myshop.service.OrderService;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 /**
@@ -52,7 +55,7 @@ public class OrderController {
     }
     
     
-    @RequestMapping("/checkout/guest")
+    @RequestMapping(value = "/checkout/guest", method = RequestMethod.GET)
     public String checkoutGuest(@AuthenticationPrincipal UserLogin user, @ModelAttribute("cart") Cart cart, Model model)
     {
         if(user != null && user.getCustomer() != null)
@@ -64,6 +67,23 @@ public class OrderController {
         
         return "checkoutGuest";
     }
+    
+    @RequestMapping(value = "/checkout/guest", method = RequestMethod.POST)
+    public String checkoutGuestPost(@AuthenticationPrincipal UserLogin user, 
+            @Valid @ModelAttribute("customer") Customer customer, @ModelAttribute("cart") Cart cart, 
+            BindingResult result, Model model)
+    {
+        if(user != null && user.getCustomer() != null)
+            return "redirect:/checkout/confirm";
+        if(cart.getLineItems().isEmpty())
+            return "redirect:/cart/details";
+        
+        if(result.hasErrors())
+            return "checkoutGuest";
+        
+        return "checkoutGuest";
+    }
+    
     
     @Secured("ROLE_CUSTOMER")
     @RequestMapping("/checkout/confirm")

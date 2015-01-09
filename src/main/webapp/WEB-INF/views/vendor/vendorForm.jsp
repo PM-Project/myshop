@@ -80,6 +80,7 @@
                                             <label>Email:</label>
                                             <form:input type="email" required="required" cssClass="form-control" path="email" />
                                             <form:errors path="email" element="div" cssClass="error" />
+                                            <div class="error">${message}</div>
                                         </div>
                                         
                                         <div class="form-group">

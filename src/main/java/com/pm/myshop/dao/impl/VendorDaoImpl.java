@@ -30,7 +30,7 @@ public class VendorDaoImpl extends SessionUtil implements VendorDao{
 
     @Override
     public List<Vendor> getAllVendors() {
-        return getSession().createQuery("From Vendor").list();
+        return getSession().createQuery("SELECT v From Vendor v ORDER BY v.id DESC").list();
     }
 
     @Override

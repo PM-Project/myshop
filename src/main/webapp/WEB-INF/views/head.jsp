@@ -46,3 +46,13 @@
 <script src="resources/js/bootstrap.min.js"></script>
 <script src="resources/js/bootstrap-hover-dropdown.min.js"></script>
 <script src="resources/js/jquery.magnific-popup.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        $(".dropmenu").hover(function(){
+            $(this).find("ul").show();
+        },function(){
+            $(this).find("ul").hide();
+        });
+    });
+</script>
