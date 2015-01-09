@@ -92,7 +92,7 @@ public class CardController {
     }
 
     @RequestMapping(value = "/card", method = RequestMethod.POST)
-    public String authenticateCard(@RequestParam("cardNo") String cardNo,@RequestParam("balance") String balance,@RequestParam("ccv") String ccv) {
+    public String authenticateCard(@RequestParam("cardNo") String cardNo, @RequestParam("balance") String balance, @RequestParam("ccv") String ccv) {
         //
 //        String cardNo = "1234567891234567";
         String cardNumber = encryptCardNumber(cardNo);
