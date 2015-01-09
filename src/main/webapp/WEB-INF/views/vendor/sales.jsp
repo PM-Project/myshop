@@ -21,9 +21,10 @@
             <div class="message">${message}</div>
             <h1>Sales Report</h1>
 
-            <a href="vendor/download/pdf" >Pdf</a>
-            <a href="vendor/download/xls" >Xls</a>
-            <a href="vendor/download/ht" >Html</a>
+            
+            <a href="vendor/download/pdf" class="btn"><img src="resources/images/pdf.png" alt="pdf" width="45px" height="45px"/></a>
+            <a href="vendor/download/xls" class="btn"><img src="resources/images/xls.png" alt="xls" width="45px" height="45px" /></a>
+            <a href="vendor/download/ht"  class="btn" ><img src="resources/images/html.png" alt="xls" width="45px" height="45px" /></a>
             <table class="table table-striped" style="width:100%" >
                 <tr>
                     <th>Product ID</th>
