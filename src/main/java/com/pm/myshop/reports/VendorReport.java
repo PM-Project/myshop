@@ -5,6 +5,7 @@
  */
 package com.pm.myshop.reports;
 
+import com.pm.myshop.domain.UserLogin;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JRException;
@@ -14,22 +15,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.pm.myshop.reportService.DownloadService;
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 
 /**
  *
  * @author sunil
  */
 @Controller
-@RequestMapping("/download")
-public class CustomerReport {
+@RequestMapping("vendor/download")
+public class VendorReport {
 
     @Resource(name = "downloadService")
     private DownloadService downloadService;
-
+    
+   
     @RequestMapping(value = "/pdf", method = RequestMethod.GET)
-    public void getPDF(HttpServletRequest request, HttpServletResponse response, Model model) throws ClassNotFoundException, JRException {
-        System.out.println("Received request to download report as an XLS");
-        downloadService.downloadPDF(request, response);
+    public void getPDF(@AuthenticationPrincipal UserLogin user,HttpServletRequest request, HttpServletResponse response, Model model) throws ClassNotFoundException, JRException {
+        System.out.println("Received request to download report as an PDF");
+        downloadService.downloadPDF(request, response,user);
     }
     
     @RequestMapping(value = "/xls", method = RequestMethod.GET)

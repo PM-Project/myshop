@@ -15,7 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pm.myshop.daoReport.CustomerReportDao;
-import com.pm.myshop.domain.Test;
+import com.pm.myshop.domain.LineItem;
+import com.pm.myshop.domain.Orders;
+import com.pm.myshop.domain.UserLogin;
+import com.pm.myshop.service.OrderService;
 import com.pm.myshop.util.ReportColumn;
 import com.pm.myshop.util.Templates;
 import java.io.File;
@@ -50,8 +53,14 @@ public class DownloadService {
     @Autowired
     private CustomerReportDao customerReportDao;
 
+    @Autowired
+    private OrderService orderService;
+
+    UserLogin user = new UserLogin();
+
     @SuppressWarnings("unchecked")
-    public void downloadPDF(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, JRException {
+    public void downloadPDF(HttpServletRequest request, HttpServletResponse response, UserLogin user) throws ClassNotFoundException, JRException {
+        this.user = user;
         String path = request.getSession().getServletContext().getRealPath(File.separator);
         String filePath = path + "report.pdf";
         JasperPdfExporterBuilder pdfExporter = export.pdfExporter(filePath);
@@ -62,7 +71,7 @@ public class DownloadService {
             }
             report
                     .setTemplate(Templates.reportTemplate)
-                    .title(Templates.createTitleComponent("Customer Report"))
+                    .title(Templates.createTitleComponent("Vendor Report"))
                     .pageFooter(Templates.footerComponent)
                     .setDataSource(createDataSource())
                     .toPdf(pdfExporter);
@@ -105,7 +114,7 @@ public class DownloadService {
             }
             report
                     .setTemplate(Templates.reportTemplate)
-                    .title(Templates.createTitleComponent("Customer Report"))
+                    .title(Templates.createTitleComponent("Vendor Report"))
                     .pageFooter(Templates.footerComponent)
                     .setDataSource(createDataSource())
                     .toXls(xlsExporter);
@@ -138,17 +147,16 @@ public class DownloadService {
         String filePath = path + "report.html";
         //String imagePath=request.getSession().getServletContext().getRealPath("resources/images/myshop-logo.png");
         JasperHtmlExporterBuilder htmlExporter = export.htmlExporter(filePath);
-                //.setImagesDirName("images/logo.png").setOutputImagesToDir(false);
+        //.setImagesDirName("images/logo.png").setOutputImagesToDir(false);
         try {
             JasperReportBuilder report = report();
             for (ReportColumn column : createColumns()) {
                 report.addColumn(col.column(column.getTitle(), column.getField(), (DRIDataType) type.detectType(column.getDataType())));
             }
-            
-            
+
             report
-                     .setTemplate(Templates.reportTemplate)
-                   // .title(Templates.createTitleComponent("HtmlReport"))
+                    .setTemplate(Templates.reportTemplate)
+                    // .title(Templates.createTitleComponent("HtmlReport"))
                     .pageFooter(Templates.footerComponent)
                     .setDataSource(createDataSource())
                     .toHtml(htmlExporter);
@@ -175,15 +183,20 @@ public class DownloadService {
         }
     }
 
-    public List<Test> getAllCustomer() {
-        return customerReportDao.getAllCustomer();
+//    public List<Test> getAllCustomer() {
+//        return customerReportDao.getAllCustomer();
+//    }
+    public List<LineItem> getAllCustomer() {
+        System.out.println("VENDO ID IS " + user.getVendor());
+        return orderService.getSalesByVendor(user.getVendor());
     }
 
     private JRDataSource createDataSource() {
-        DRDataSource dataSource = new DRDataSource("sn", "name", "address","startDate","endDate");
+
+        DRDataSource dataSource = new DRDataSource("productId", "productname", "quantity", "soldrate", "amount");
         int counter = 1;
-        for (int i = 0; i < getAllCustomer().size(); i++) {
-            dataSource.add(String.valueOf(counter++), getAllCustomer().get(i).getName(), getAllCustomer().get(i).getAddress(),getAllCustomer().get(i).getToDate(),getAllCustomer().get(i).getToDate());
+        for (int i = 0; i < getAllCustomer().size(); i++) {           
+            dataSource.add(getAllCustomer().get(i).getProduct().getId(),getAllCustomer().get(i).getProduct().getProductName(), getAllCustomer().get(i).getQuantity(),getAllCustomer().get(i).getProduct().getSellingPrice(),getAllCustomer().get(i).getAmount());
         }
 
         return dataSource;
@@ -191,11 +204,11 @@ public class DownloadService {
 
     private List<ReportColumn> createColumns() {
         List<ReportColumn> columns = new ArrayList<ReportColumn>();
-        columns.add(new ReportColumn("S.No", "sn", "string"));
-        columns.add(new ReportColumn("Name", "name", "string"));
-        columns.add(new ReportColumn("Address", "address", "string"));
-        columns.add(new ReportColumn("StartDate", "startDate", "date"));
-        columns.add(new ReportColumn("EndDate", "endDate", "date"));
+        columns.add(new ReportColumn("ProductID", "productId", "integer"));
+        columns.add(new ReportColumn("ProductName", "productname", "string"));
+        columns.add(new ReportColumn("Quantity", "quantity", "integer"));
+        columns.add(new ReportColumn("SoldRate", "soldrate", "float"));
+        columns.add(new ReportColumn("Amount", "amount", "float"));
         return columns;
     }
 
