@@ -7,9 +7,11 @@ package com.pm.myshop.controller;
 
 import com.pm.myshop.util.CardDetails;
 import com.pm.myshop.util.ConversionJson;
+import com.pm.myshop.util.SalesBasedDetails;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.security.MessageDigest;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,14 +20,13 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -37,6 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CardController {
 
     private CardDetails cardVerification = new CardDetails();
+    SalesBasedDetails basedDetails = new SalesBasedDetails();
 
     @RequestMapping(value = "/cardInfo", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> checkCardDetails() {
@@ -89,16 +91,16 @@ public class CardController {
         return false;
     }
 
-    @RequestMapping(value = "/card", method = RequestMethod.GET)
-    public String authenticateCard() {
-       //
-        String cardNo="12345678912345671";        
-        String hasedCardNumber=BCrypt.hashpw(cardNo, BCrypt.gensalt(12));
-        System.out.println("Here is Password "+hasedCardNumber);
-        
-        cardVerification.setCardNumber(hasedCardNumber);
-        cardVerification.setCardType("Visa");
-        cardVerification.setTotalBalance(20);
+    @RequestMapping(value = "/card", method = RequestMethod.POST)
+    public String authenticateCard(@RequestParam("cardNo") String cardNo,@RequestParam("balance") String balance,@RequestParam("ccv") String ccv) {
+        //
+//        String cardNo = "1234567891234567";
+        String cardNumber = encryptCardNumber(cardNo);
+//        System.out.println("STRING IS>>> " + cardNumber);
+
+        cardVerification.setCardNumber(cardNumber);
+        cardVerification.setTotalBalance(Double.parseDouble(balance));
+        cardVerification.setCvv(ccv);
 
         try {
             Properties props = PropertiesLoaderUtils.loadAllProperties("cardApplication.properties");
@@ -133,6 +135,95 @@ public class CardController {
 
     public void setCardVerification(CardDetails cardVerification) {
         this.cardVerification = cardVerification;
+    }
+
+    @RequestMapping(value = "/fin", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<?> financeDetails1() {
+        try {
+            basedDetails.setItem("shoes");
+            basedDetails.setPrice(21.0);
+
+            return new ResponseEntity<>(basedDetails, HttpStatus.OK);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = ex + " <== error";
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @RequestMapping(value = "/finance", method = RequestMethod.GET)
+    public String financeDetails() {
+        try {
+            System.out.println("CALL FINANCE");
+            createFinanceConnection();
+
+        } catch (Exception ex) {
+
+        }
+        return null;
+    }
+
+    public boolean createFinanceConnection() {
+        try {
+            DefaultHttpClient httpClient = new DefaultHttpClient();
+            HttpGet getRequest = new HttpGet("http://localhost:8080/Finance/tran/fin");
+            getRequest.addHeader("accept", "application/json");
+            // Execute your request and catch response
+            HttpResponse response = httpClient.execute(getRequest);
+            // Check for HTTP response code: 200 = success
+            if (response.getStatusLine().getStatusCode() != 200) {
+                // throw new RuntimeException("Failed : HTTP error code : " + response.getStatusLine().getStatusCode());
+                return false;
+            }
+            // Get-Capture Complete application/xml body response
+            BufferedReader br = new BufferedReader(new InputStreamReader((response.getEntity().getContent())));
+            String output;
+            System.out.println("============Output FINANCE:============");
+
+            // Simply iterate through XML response and show on console.
+            while ((output = br.readLine()) != null) {
+                System.out.println(output);
+                //convertJSONData(output);
+                return true;
+            }
+
+            httpClient.getConnectionManager().shutdown();
+
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public SalesBasedDetails getBasedDetails() {
+        return basedDetails;
+    }
+
+    public void setBasedDetails(SalesBasedDetails basedDetails) {
+        this.basedDetails = basedDetails;
+    }
+
+    public String encryptCardNumber(String base) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(base.getBytes("UTF-8"));
+            StringBuffer hexString = new StringBuffer();
+
+            for (int i = 0; i < hash.length; i++) {
+                String hex = Integer.toHexString(0xff & hash[i]);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+
+            return hexString.toString();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
 }

@@ -137,8 +137,8 @@ public class DownloadService {
         String path = request.getSession().getServletContext().getRealPath(File.separator);
         String filePath = path + "report.html";
         //String imagePath=request.getSession().getServletContext().getRealPath("resources/images/myshop-logo.png");
-        JasperHtmlExporterBuilder htmlExporter = export.htmlExporter(filePath)
-                .setImagesDirName("images/logo.png").setOutputImagesToDir(false);
+        JasperHtmlExporterBuilder htmlExporter = export.htmlExporter(filePath);
+                //.setImagesDirName("images/logo.png").setOutputImagesToDir(false);
         try {
             JasperReportBuilder report = report();
             for (ReportColumn column : createColumns()) {
@@ -148,7 +148,7 @@ public class DownloadService {
             
             report
                      .setTemplate(Templates.reportTemplate)
-                    .title(Templates.createTitleComponent("HtmlReport"))
+                   // .title(Templates.createTitleComponent("HtmlReport"))
                     .pageFooter(Templates.footerComponent)
                     .setDataSource(createDataSource())
                     .toHtml(htmlExporter);
@@ -180,10 +180,10 @@ public class DownloadService {
     }
 
     private JRDataSource createDataSource() {
-        DRDataSource dataSource = new DRDataSource("sn", "name", "address");
+        DRDataSource dataSource = new DRDataSource("sn", "name", "address","startDate","endDate");
         int counter = 1;
         for (int i = 0; i < getAllCustomer().size(); i++) {
-            dataSource.add(String.valueOf(counter++), getAllCustomer().get(i).getName(), getAllCustomer().get(i).getAddress());
+            dataSource.add(String.valueOf(counter++), getAllCustomer().get(i).getName(), getAllCustomer().get(i).getAddress(),getAllCustomer().get(i).getToDate(),getAllCustomer().get(i).getToDate());
         }
 
         return dataSource;
@@ -194,6 +194,8 @@ public class DownloadService {
         columns.add(new ReportColumn("S.No", "sn", "string"));
         columns.add(new ReportColumn("Name", "name", "string"));
         columns.add(new ReportColumn("Address", "address", "string"));
+        columns.add(new ReportColumn("StartDate", "startDate", "date"));
+        columns.add(new ReportColumn("EndDate", "endDate", "date"));
         return columns;
     }
 

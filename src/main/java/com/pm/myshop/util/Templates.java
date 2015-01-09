@@ -117,9 +117,10 @@ public class Templates {
 //        System.out.println("PATH IS "+filePath);
 
         HyperLinkBuilder link = hyperLink("http://www.myshop.com");
+        System.out.println("CHEKC IMAGE");
         dynamicReportsComponent
                 = cmp.horizontalList(
-                        cmp.image(Templates.class.getResource("images/myshop-logo.png")).setFixedDimension(60, 60),
+                        cmp.image(Templates.class.getResource("../images/myshop-logo.png")).setFixedDimension(60, 60),
                         cmp.verticalList(
                                 cmp.text("MyshopReport").setStyle(bold22CenteredStyle).setHorizontalAlignment(HorizontalAlignment.RIGHT),
                                 cmp.text("http://www.myshop.com").setStyle(italicStyle).setHyperLink(link))).setFixedWidth(300);
