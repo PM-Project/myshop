@@ -48,7 +48,7 @@ public class Customer implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     private UserLogin user;
     
-    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Cart pendingCart;
     
     

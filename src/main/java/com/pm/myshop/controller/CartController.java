@@ -65,23 +65,25 @@ public class CartController {
     public String showCart(@AuthenticationPrincipal UserLogin user, @ModelAttribute("cart") Cart cart, Model model) {
 
         if (user != null && user.getCustomer() != null) {
-            if (user.getCustomer().getPendingCart() != null) {
+            if (user.getCustomer().getPendingCart() != null && cart.getTotalItems()>0) {
                 if (cart.getId() != user.getCustomer().getPendingCart().getId()) {
                     cart = cartService.combineCarts(user.getCustomer().getPendingCart(), cart);
                     cart.setCustomer(user.getCustomer());
                     user.getCustomer().setPendingCart(cart);
+                    customerService.saveCustomer(user.getCustomer());
                     cartService.saveCart(cart);
-                } else {
+                }else{ 
                     cart.setCustomer(user.getCustomer());
                     user.getCustomer().setPendingCart(cart);
+                    customerService.saveCustomer(user.getCustomer());
                     cartService.saveCart(cart);
                 }
             } else {
                 cart.setCustomer(user.getCustomer());
                 user.getCustomer().setPendingCart(cart);
+                customerService.saveCustomer(user.getCustomer());
                 cartService.saveCart(cart);
             }
-
         }
         model.addAttribute("cart", cart);
         return "cart";
@@ -111,33 +113,37 @@ public class CartController {
         LineItem item = new LineItem(product);
         cart.addLineItem(item);
 
-        if (user != null && user.getCustomer() != null) {
-            cart.setCustomer(user.getCustomer());
-            user.getCustomer().setPendingCart(cart);
-            cartService.saveCart(cart);
-        }
 
         return "success";
     }
 
     @RequestMapping(value = "/cart/item/{productId}/{quantity}", method = RequestMethod.POST)
     public @ResponseBody
-    String updateQuantityItem(@PathVariable("productId") int productId,
+    String updateQuantityItem(@AuthenticationPrincipal UserLogin user,
+            @PathVariable("productId") int productId,
             @PathVariable("quantity") int quantity,
             @ModelAttribute("cart") Cart cart, Model model) {
-
+        
         cart.getLineItems().get(productId).setQuantity(quantity);
         cart.updateGrandTotal();
+        
+        
+        
         return "success";
     }
 
     @RequestMapping(value = "/cart/remove/{productId}", method = RequestMethod.POST)
     public @ResponseBody
-    String removeItem(@PathVariable("productId") int productId,
+    String removeItem(
+            @AuthenticationPrincipal UserLogin user,
+            @PathVariable("productId") int productId,
             @ModelAttribute("cart") Cart cart, Model model) {
 
         cart.getLineItems().remove(productId);
         cart.updateGrandTotal();
+        
+        
+        
         return "success";
     }
 
@@ -146,9 +152,8 @@ public class CartController {
         
         if(user != null && user.getCustomer() != null && user.getCustomer().getPendingCart() != null)
         {
-            Customer customer = user.getCustomer();
-            customer.setPendingCart(null);
-            customerService.saveCustomer(customer);
+            cartService.deleteCart(user.getCustomer().getPendingCart().getId());
+            
         }
         
         cart = new Cart();

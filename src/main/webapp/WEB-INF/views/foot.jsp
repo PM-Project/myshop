@@ -6,6 +6,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <div class="copyright container">
     <div class="clearfix">
         <!-- Starts -->
@@ -40,22 +41,27 @@
 <script src="resources/js/owl.carousel.min.js"></script>
 <script src="resources/js/custom.js"></script>
 <script src="resources/js/isotope.pkgd.min.js"></script>
-
+<sec:authorize access="hasRole({'ROLE_ADMIN'})" var="admin"></sec:authorize>
+<sec:authorize access="hasRole({'ROLE_VENDOR'})" var="vendor"></sec:authorize>
 <script>
     $(document).ready(function () {
         $('#isoContainer').isotope();
     });
-        
+
     function addToCart(id)
     {
-//        alert('hello');
-           $.get('cart/add/'+id,function(data){
-               if(data === 'success')
-               {
-                   alert('This item has been added to cart successfully.');
-                   $("#cart").load("cart");
-               }
-           }); 
+        <c:if test="${admin || vendor}">
+            alert('Not Allow. Only customer can add cart');
+        </c:if>
+        <c:if test="${! admin && ! vendor}">
+        $.get('cart/add/' + id, function (data) {
+                if (data === 'success')
+                {
+                    alert('This item has been added to cart successfully.');
+                    $("#cart").load("cart");
+                }
+            });
+        </c:if>
     }
 </script>
 

@@ -12,11 +12,18 @@ import com.pm.myshop.domain.UserLogin;
 import com.pm.myshop.reportService.CustomerReportSerivce;
 import com.pm.myshop.service.CustomerService;
 import com.pm.myshop.service.OrderService;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.security.MessageDigest;
 import java.util.Calendar;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
@@ -26,6 +33,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 /**
@@ -49,6 +58,9 @@ public class OrderController {
     
     @Autowired
     HttpServletRequest request;
+    
+    @Autowired
+    CardController cardController;
     
     @RequestMapping("/checkout")
     public String checkout(@AuthenticationPrincipal UserLogin user, @ModelAttribute("cart") Cart cart, Model model, HttpSession session)
@@ -85,19 +97,21 @@ public class OrderController {
     @RequestMapping(value = "/checkout/guest", method = RequestMethod.POST)
     public String checkoutGuestPost( 
             @Valid @ModelAttribute("customer") Customer customer, 
-            BindingResult result, Model model)
+            BindingResult result, Model model) throws IOException
     {
         if(result.hasErrors())
             return "checkoutGuest";
         
-        if(!request.getSession(true).getAttribute("cardvalidation").equals("success"))
+        Cart cart = (Cart) session.getAttribute("cart");
+        
+        
+        if(!"success".equals(authenticateCard( customer.getAccount().getCardNumber(), cart.getGrandTotal(), customer.getAccount().getCardCvv())))
         {
             session.setAttribute("cardError", "Card Not Valid or Insufficient Fund");
             return "checkoutGuest";
         }
         
         
-        Cart cart = (Cart) session.getAttribute("cart");
         
         Orders order = new Orders();
         order.setCustomer(customer);
@@ -123,22 +137,48 @@ public class OrderController {
     
     @Secured("ROLE_CUSTOMER")
     @RequestMapping("/checkout/confirm")
-    public String checkoutConfirm(@AuthenticationPrincipal UserLogin user, @ModelAttribute("cart") Cart cart, Model model)
+    public String checkoutConfirm(@AuthenticationPrincipal UserLogin user, 
+            @ModelAttribute("cart") Cart cart, Model model) throws IOException
     {
-        
-        if(user.getCustomer().getAccount() == null)
+        model.addAttribute("customer",user.getCustomer());
+        if(user.getCustomer().getAccount() == null || user.getCustomer().getAccount().getCardNumber().equals(""))
+        {
+            session.setAttribute("message", "Please Provide correct account information to checkout.");
             return "redirect:/customer/profile";
+        }
+        
+        if(!"success".equals(authenticateCard( user.getCustomer().getAccount().getCardNumber(), cart.getGrandTotal(), user.getCustomer().getAccount().getCardCvv())))
+        {
+            session.setAttribute("cardError", "Please Provide correct account information to checkout.");
+            return "redirect:/customer/profile";
+        }
+        
+        Orders order = new Orders();
+        order.setCustomer(user.getCustomer());
+        order.setCart(cart);
+        order.setShipping(user.getCustomer().getAddress());
+        
+        Date date = new Date();
+        order.setOrderDate(date);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, 7);
+        date = cal.getTime();
         
         
+        order.setShippingDate(date);
+//        orderService.saveOrder(order);
         
-        return "checkoutCustomer";
+        model.addAttribute("order",order);
+        
+        return "order";
     }
     
     
     @RequestMapping(value = "/order/confirm", method = RequestMethod.POST)
     public String orderConfirm(@ModelAttribute("order") Orders order, Model model)
     {
-        
+        order.getCustomer().setPendingCart(null);
         orderService.saveOrder(order);
         
         session.setAttribute("title", "Order Submited Successfully");
@@ -152,6 +192,58 @@ public class OrderController {
     
     
     
+    
+    
+    public String authenticateCard( String cardNo,  double balance,  String cvv) throws IOException {
+
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        
+        String encCard = encryptCardNumber(cardNo);
+        
+        HttpGet getRequest = new HttpGet("http://localhost/CardValidator/validate?cardNo="+encCard+"&balance="+balance+"&cvv="+cvv);
+            
+            HttpResponse response = httpClient.execute(getRequest);
+            
+            if (response.getStatusLine().getStatusCode() != 200) {
+                session.setAttribute("cardvalidation", "fail");
+                return "fail";
+            }
+            
+            BufferedReader br = new BufferedReader(new InputStreamReader((response.getEntity().getContent())));
+            String output;
+
+            while ((output = br.readLine()) != null) {
+                session.setAttribute("cardvalidation", output);
+                return output;
+            }
+
+            httpClient.getConnectionManager().shutdown();
+
+            session.setAttribute("cardvalidation", "fail");
+            return "fail";
+    }
+
+    
+
+    public String encryptCardNumber(String base) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(base.getBytes("UTF-8"));
+            StringBuffer hexString = new StringBuffer();
+
+            for (int i = 0; i < hash.length; i++) {
+                String hex = Integer.toHexString(0xff & hash[i]);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+
+            return hexString.toString();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
     
     
 }

@@ -27,15 +27,24 @@
                         <div class="col-sm-12">
                             <!-- Login Panel Starts -->
                             <div class="panel panel-smart">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">${user.customer.name}</h3>
-                                </div>
-                                <div class="panel-body">
-                                    <p>
+                                <p>
                                         ${message}
                                     </p>
+                                <div class="panel-heading">
+                                    <a class="btn btn-default pull-right" href="customer/profile">Edit Profile</a>
+                                    <h3 class="panel-title">Customer Profile</h3>
+                                </div>
+                                <div class="panel-body">
                                     
-
+                                    <p><strong>Customer Name :</strong> ${user.customer.name}</p>
+                                    <p><strong>Email :</strong> ${user.customer.email}</p>
+                                    <p><strong>Phone :</strong> ${user.customer.phone}</p>
+                                    <h3>Address Info:</h3>
+                                    <p><strong>Door No :</strong> ${user.customer.address.doorNo}</p>
+                                    <p><strong>Street :</strong> ${user.customer.address.street}</p>
+                                    <p><strong>City :</strong> ${user.customer.address.city}</p>
+                                    <p><strong>Zip Code :</strong> ${user.customer.address.zipCode}</p>
+                                    <p><strong>State :</strong> ${user.customer.address.stateName}</p>
                                     
                                 </div>
                             </div>

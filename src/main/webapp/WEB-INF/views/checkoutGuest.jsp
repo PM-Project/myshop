@@ -20,7 +20,7 @@
 
                 <!-- Main Heading Starts -->
                 <h2 class="main-heading text-center">
-                    Guest Checkout
+                     Checkout
                 </h2>
                 <!-- Main Heading Ends -->
                 <!-- Login Form Section Starts -->
@@ -33,7 +33,7 @@
                             <!-- Login Panel Starts -->
                             <div class="panel panel-smart">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">Checkout As Guest</h3>
+                                    <h3 class="panel-title">Checkout</h3>
                                 </div>
                                 <div class="panel-body">
 

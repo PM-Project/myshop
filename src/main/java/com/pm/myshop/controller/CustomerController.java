@@ -23,12 +23,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 /**
  *
  * @author user
  */
 @Controller
+@SessionAttributes({"customer"})
 public class CustomerController {
     
     @Autowired
@@ -127,6 +129,14 @@ public class CustomerController {
         model.addAttribute("customer", user.getCustomer());
         
         return "customer/editProfile";
+    }
+    
+    @RequestMapping(value = "/customer/profile", method = RequestMethod.POST)
+    public String updateAccount(@AuthenticationPrincipal UserLogin user,@ModelAttribute("customer") Customer customer, Model model)
+    {
+        customerService.saveCustomer(customer);
+        
+        return "redirect:/customer";
     }
     
 }
