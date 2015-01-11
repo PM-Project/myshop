@@ -24,21 +24,19 @@
            
         <table class="table table-striped" style="width:100%" >
             <tr>
-                <th>ID</th>
-                <th>Category</th>
-                <th>Product Name</th>
-                <th>Unit</th>
-                <th>Cost Price</th>
-                <th>Selling Price</th>
-                <th>Old Price</th>
-                <th>Stock</th>
-                <th>Status</th>
-                <th>Edit</th>
-                <th>Delete</th>
+                <th>Order ID</th>
+                    <th>Customer Name</th>
+                    <th>Quantity</th>
+                    <th>OrderDate</th>
+                    <th>Amount</th>
             </tr>
-        <c:forEach items="${orders}" var="items">
+        <c:forEach items="${orders}" var="order">
                 <tr>
-                    hello
+                    <td>${order.id}</td>
+                        <td>${order.cart.customer.name}</td>
+                        <td>${order.cart.totalItems}</td>
+                        <td>${order.orderDate}</td>
+                        <td>${order.cart.grandTotal}</td>
                 </tr>
         </c:forEach>
         </table>

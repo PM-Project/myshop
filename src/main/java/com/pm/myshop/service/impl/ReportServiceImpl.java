@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pm.myshop.reportService;
+package com.pm.myshop.service.impl;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +14,6 @@ import net.sf.jasperreports.engine.JRException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pm.myshop.daoReport.CustomerReportDao;
 import com.pm.myshop.domain.LineItem;
 import com.pm.myshop.domain.Orders;
 import com.pm.myshop.domain.UserLogin;
@@ -25,6 +24,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -48,15 +48,25 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @Service("downloadService")
 @Transactional
-public class DownloadService {
+public class ReportServiceImpl {
 
-    @Autowired
-    private CustomerReportDao customerReportDao;
-
+    
     @Autowired
     private OrderService orderService;
 
     UserLogin user = new UserLogin();
+    
+    Date fromDate;
+    Date toDate;
+    
+    public void pdfDayWise(HttpServletRequest request, HttpServletResponse response, UserLogin user, Date fromDate, Date toDate) throws ClassNotFoundException, JRException
+    {
+        this.fromDate = fromDate;
+        this.toDate = toDate;
+        
+        downloadPDF(request, response, user);
+    }
+    
 
     @SuppressWarnings("unchecked")
     public void downloadPDF(HttpServletRequest request, HttpServletResponse response, UserLogin user) throws ClassNotFoundException, JRException {
@@ -94,7 +104,7 @@ public class DownloadService {
                 responseOutputStream.write(bytes);
             }
         } catch (Exception ex) {
-            Logger.getLogger(DownloadService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ReportServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -137,7 +147,7 @@ public class DownloadService {
                 responseOutputStream.write(bytes);
             }
         } catch (Exception ex) {
-            Logger.getLogger(DownloadService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ReportServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -179,7 +189,7 @@ public class DownloadService {
                 responseOutputStream.write(bytes);
             }
         } catch (Exception ex) {
-            Logger.getLogger(DownloadService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ReportServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -188,7 +198,7 @@ public class DownloadService {
 //    }
     public List<LineItem> getAllCustomer() {
         System.out.println("VENDO ID IS " + user.getVendor());
-        return orderService.getSalesByVendor(user.getVendor());
+        return orderService.getSalesByVendorAndByDate(user.getVendor(),fromDate,toDate);
     }
 
     private JRDataSource createDataSource() {

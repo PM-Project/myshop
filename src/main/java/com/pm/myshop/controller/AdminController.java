@@ -69,7 +69,7 @@ public class AdminController {
         String code = vendor.getUser().getVerification();
         
         if(!"".equals(code))
-            mailService.sendMail(vendor.getEmail(), "Account Activated", "<h2>Vendor Registration</h2><p>Thank you for registration. Please click on below link to verify your email and create account password.</p><p><a href='http://localhost/myshop/verify/"+code+"'>Click Here</a></p>");
+            mailService.sendMail(vendor.getEmail(), "Account Activated", "<h2>Vendor Registration</h2><p>Thank you for registration. Please click on below link to verify your email and create account password.</p><p><a href='http://localhost:8080/Team4_MyShop/verify/"+code+"'>Click Here</a></p>");
         
         session.setAttribute("message", "Vendor Approved Successfully");
         return "redirect:/admin/vendor/list";

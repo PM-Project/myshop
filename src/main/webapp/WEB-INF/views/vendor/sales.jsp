@@ -11,6 +11,32 @@
 
     <head>
         <%@include file="../head.jsp" %>
+        <link href="resources/css/datepicker.css" rel="stylesheet">
+        <script src="resources/js/bootstrap-datepicker.js"></script>
+        
+        <script>
+        $(document).ready(function() {
+                $('.datepicker').datepicker({
+                    format: 'yyyy-mm-dd'
+                }).on('changeDate',function(){
+                    $(this).datepicker('hide');
+                });
+                
+                $(".pdfreport").click(function(){
+                    var fromDate = $("#fromDate").val();
+                    var toDate = $("#toDate").val();
+                    
+                    if(fromDate === '' || toDate === '')
+                    {
+                        alert('Please choose Date');
+                    }else{
+                        window.location("vendor/download/pdf/"+fromDate+"/"+toDate);
+                    }
+                    return false;
+                });
+                
+        });
+        </script>
     </head>
     <body>
         <!-- Wrapper Starts -->
@@ -19,12 +45,20 @@
             <%@include file="header.jsp" %>
             <!-- Main Menu Ends -->
             <div class="message">${message}</div>
+            <div class="pull-right">
+               <form style="display: inline">
+                   <input type="date" id="fromDate" class="datepicker" data-date-format="yyyy-mm-dd" placeholder="Report Date From" name="fromDate"/> 
+                   <input type="date" id="toDate" class="datepicker" data-date-format="yyyy-mm-dd" placeholder="Report Date To" name="toDate" />
+            </form>
+                <a href="vendor/download/pdf" class="btn pdfreport"><img src="resources/images/pdf.png" alt="pdf" width="45px" height="45px"/></a>
+            <a href="vendor/download/xls" class="btn"><img src="resources/images/xls.png" alt="xls" width="45px" height="45px" /></a>
+            <a href="vendor/download/ht"  class="btn" ><img src="resources/images/html.png" alt="xls" width="45px" height="45px" /></a>
+            
+            </div>
             <h1>Sales Report</h1>
 
             
-            <a href="vendor/download/pdf" class="btn"><img src="resources/images/pdf.png" alt="pdf" width="45px" height="45px"/></a>
-            <a href="vendor/download/xls" class="btn"><img src="resources/images/xls.png" alt="xls" width="45px" height="45px" /></a>
-            <a href="vendor/download/ht"  class="btn" ><img src="resources/images/html.png" alt="xls" width="45px" height="45px" /></a>
+            
             <table class="table table-striped" style="width:100%" >
                 <tr>
                     <th>Product ID</th>

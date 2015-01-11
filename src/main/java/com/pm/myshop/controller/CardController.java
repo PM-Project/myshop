@@ -5,27 +5,19 @@
  */
 package com.pm.myshop.controller;
 
-import com.pm.myshop.util.CardDetails;
-import com.pm.myshop.util.ConversionJson;
-import com.pm.myshop.util.SalesBasedDetails;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
+import org.apache.http.auth.Credentials;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,44 +32,47 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Controller
 public class CardController {
-    
-    
+
     @Autowired
     HttpSession session;
-
-
+    
+    
     @RequestMapping(value = "/validatecard", method = RequestMethod.GET)
     public @ResponseBody
     String authenticateCard(@RequestParam("cardNo") String cardNo, @RequestParam("balance") double balance, @RequestParam("cvv") String cvv) throws IOException {
 
         DefaultHttpClient httpClient = new DefaultHttpClient();
-        
+
         String encCard = encryptCardNumber(cardNo);
+
+        HttpGet getRequest = new HttpGet("http://localhost:8080/Team4_CardValidator/validate?cardNo=" + encCard + "&balance=" + balance + "&cvv=" + cvv);
+
         
-        HttpGet getRequest = new HttpGet("http://localhost/CardValidator/validate?cardNo="+encCard+"&balance="+balance+"&cvv="+cvv);
-            
-            HttpResponse response = httpClient.execute(getRequest);
-            
-            if (response.getStatusLine().getStatusCode() != 200) {
-                session.setAttribute("cardvalidation", "fail");
-                return "fail";
-            }
-            
-            BufferedReader br = new BufferedReader(new InputStreamReader((response.getEntity().getContent())));
-            String output;
+        getRequest.addHeader(BasicScheme.authenticate(
+                new UsernamePasswordCredentials("admin", "admin"),"UTF-8", false));
 
-            while ((output = br.readLine()) != null) {
-                session.setAttribute("cardvalidation", output);
-                return output;
-            }
+        HttpResponse response = httpClient.execute(getRequest);
 
-            httpClient.getConnectionManager().shutdown();
-
+        
+        if (response.getStatusLine().getStatusCode() != 200) {
             session.setAttribute("cardvalidation", "fail");
             return "fail";
-    }
+        }
 
-    
+        BufferedReader br = new BufferedReader(new InputStreamReader((response.getEntity().getContent())));
+        String output;
+        
+
+        while ((output = br.readLine()) != null) {
+            session.setAttribute("cardvalidation", output);
+            return output;
+        }
+
+        httpClient.getConnectionManager().shutdown();
+
+        session.setAttribute("cardvalidation", "fail");
+        return "fail";
+    }
 
     public String encryptCardNumber(String base) {
         try {

@@ -15,6 +15,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -79,7 +80,7 @@ public class CustomerController {
         user.setRole(Role.ROLE_CUSTOMER);
         customer.setUser(user);
         
-        mailService.sendMail(customer.getEmail(), "Account Created", "<h2>Customer Registration</h2><p>Thank you for registration. Please click on below link to verify your email and create account password.</p><p><a href='http://localhost/myshop/verify/"+code+"'>Click Here</a></p>");
+        mailService.sendMail(customer.getEmail(), "Account Created", "<h2>Customer Registration</h2><p>Thank you for registration. Please click on below link to verify your email and create account password.</p><p><a href='http://localhost:8080/myshop/verify/"+code+"'>Click Here</a></p>");
 
         customerService.saveCustomer(customer);
         
@@ -90,7 +91,7 @@ public class CustomerController {
         
     }
     
-    
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/customer/save", method = RequestMethod.POST)
     public String saveCustomer(@Valid Customer customer, BindingResult result)
     {
@@ -101,6 +102,7 @@ public class CustomerController {
         return "redirect:/customer/list";
     }
     
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/customer/list")
     public String listCustomers(Model model)
     {
@@ -108,6 +110,7 @@ public class CustomerController {
         return "customer/customerList";
     }
     
+    @Secured("ROLE_ADMIN")
     @RequestMapping("/customer/edit/{customerid}")
     public String editCustomer(@PathVariable("customerid") int id, Model model)
     {
@@ -115,6 +118,7 @@ public class CustomerController {
         return "customer/customerForm";
     }
     
+    @Secured("ROLE_ADMIN")
     @RequestMapping("/customer/delete/{customerid}")
     public String deleteCustomer(@PathVariable("customerid") int id, Model model)
     {

@@ -6,6 +6,7 @@
 package com.pm.myshop.dao;
 
 import com.pm.myshop.domain.Orders;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,4 +19,6 @@ public interface OrderDao {
     public Orders getOrderById(int id);
     public List<Orders> listAllOrders();
     public void deleteOrder(int id);
+    
+    public List<Orders> listAllOrdersByDate(Date fromDate, Date toDate);
 }

@@ -122,7 +122,7 @@ public class Templates {
                 = cmp.horizontalList(
                         cmp.image(Templates.class.getResource("../images/myshop-logo.png")).setFixedDimension(60, 60),
                         cmp.verticalList(
-                                cmp.text("MyshopReport").setStyle(bold22CenteredStyle).setHorizontalAlignment(HorizontalAlignment.RIGHT),
+                                cmp.text("MyShop Report").setStyle(bold22CenteredStyle).setHorizontalAlignment(HorizontalAlignment.RIGHT),
                                 cmp.text("http://www.myshop.com").setStyle(italicStyle).setHyperLink(link))).setFixedWidth(300);
 
         footerComponent = cmp.pageXofY()

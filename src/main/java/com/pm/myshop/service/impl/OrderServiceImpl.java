@@ -11,6 +11,7 @@ import com.pm.myshop.domain.Orders;
 import com.pm.myshop.domain.Vendor;
 import com.pm.myshop.service.OrderService;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,5 +65,22 @@ public class OrderServiceImpl implements OrderService {
         }
         return orderItems;
     }
+
+    @Override
+    public List<LineItem> getSalesByVendorAndByDate(Vendor vendor, Date fromDate, Date toDate) {
+        List<LineItem> items = new ArrayList<>();
+        List<Orders> orders = orderDao.listAllOrdersByDate(fromDate, toDate);
+        for(Orders order : orders)
+        {
+                for(LineItem item : order.getCart().getLineItems().values())
+                {
+                        if(item.getProduct().getVendor().equals(vendor))
+                            items.add(item);
+                }
+        }
+        return items;
+    }
+
+    
     
 }

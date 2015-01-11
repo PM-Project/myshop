@@ -8,6 +8,7 @@ package com.pm.myshop.dao.impl;
 import com.pm.myshop.dao.OrderDao;
 import com.pm.myshop.domain.Orders;
 import com.pm.myshop.util.SessionUtil;
+import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
@@ -38,6 +39,11 @@ public class OrderDaoImpl extends SessionUtil implements OrderDao {
         Orders order = getOrderById(id);
         if(order != null)
             getSession().delete(order);
+    }
+
+    @Override
+    public List<Orders> listAllOrdersByDate(Date fromDate, Date toDate) {
+        return getSession().createQuery("SELECT o FROM Orders o WHERE o.orderDate BETWEEN ? AND ?").setParameter(0, fromDate).setParameter(1, toDate).list();
     }
     
 }

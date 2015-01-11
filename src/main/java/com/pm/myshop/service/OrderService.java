@@ -8,6 +8,7 @@ package com.pm.myshop.service;
 import com.pm.myshop.domain.LineItem;
 import com.pm.myshop.domain.Orders;
 import com.pm.myshop.domain.Vendor;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,4 +22,5 @@ public interface OrderService {
     public void deleteOrder(int id);
     
     public List<LineItem> getSalesByVendor(Vendor vendor);
+    public List<LineItem> getSalesByVendorAndByDate(Vendor vendor,Date fromDate, Date toDate);
 }

@@ -13,8 +13,12 @@ import com.pm.myshop.domain.UserLogin;
 import com.pm.myshop.service.CartService;
 import com.pm.myshop.service.CustomerService;
 import com.pm.myshop.service.ProductService;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,13 +55,12 @@ public class CartController {
     @Autowired
     HttpServletRequest request;
 
-    @Value("${myshop.taxRate}")
-    private float taxRate;
-
+    
+    
     @ModelAttribute("cart")
-    public Cart populateCart() {
+    public Cart populateCart() throws FileNotFoundException, IOException {
         Cart cart = new Cart();
-        cart.setTaxRate(taxRate);
+        cart.setTaxRate(7);
         return cart;
     }
 
@@ -113,9 +116,25 @@ public class CartController {
         LineItem item = new LineItem(product);
         cart.addLineItem(item);
 
+        return "success";
+    }
+    
+    
+    @RequestMapping("/cart/add/{productId}/{quantity}")
+    public @ResponseBody
+    String addItemQty(@AuthenticationPrincipal UserLogin user,
+            @PathVariable("productId") int productId, @PathVariable("quantity") int quantity, 
+            @ModelAttribute("cart") Cart cart, Model model) {
+        
+        Product product = productService.getProductById(productId);
+        LineItem item = new LineItem(product,quantity);
+        cart.addLineItem(item);
 
         return "success";
     }
+    
+    
+    
 
     @RequestMapping(value = "/cart/item/{productId}/{quantity}", method = RequestMethod.POST)
     public @ResponseBody

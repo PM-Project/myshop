@@ -111,6 +111,21 @@ public class ProductController {
         return "vendor/productForm";
     }
     
+    
+    @RequestMapping("/vendor/product/delete/{productId}")
+    public String productDeleteForm(@AuthenticationPrincipal UserLogin user,
+            @PathVariable("productId") int productId, Model model) 
+    {
+        Product product = productService.getProductById(productId);
+        if(product.getVendor().getId() != user.getVendor().getId())
+            return "redirect:/403";
+        
+        productService.deleteProduct(productId);
+        
+        return "redirect:/vendor/product";
+    }
+    
+    
 
     @RequestMapping(value = "/vendor/product/save", method = RequestMethod.POST)
     public String productSave(@Valid @ModelAttribute Product product, @AuthenticationPrincipal UserLogin user, BindingResult result, Model model) throws IOException {
@@ -170,5 +185,14 @@ public class ProductController {
         
         return "redirect:/vendor/product";
     }
+    
+    
+    
+    @RequestMapping("/product/view/{productId}")
+    public String productList(@PathVariable("productId") int productId, Model model) {
+        model.addAttribute("product", productService.getProductById(productId));
+        return "productView";
+    }
+    
 
 }

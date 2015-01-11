@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pm.myshop.reportService;
-
-import com.pm.myshop.domain.Test;
-import java.util.List;
+package com.pm.myshop.service;
 
 /**
  *
- * @author sunil
+ * @author kunda_000
  */
-public interface CustomerReportSerivce {
-    public List<Test> getAllCustomer();
+public interface ReportService {
+    
 }

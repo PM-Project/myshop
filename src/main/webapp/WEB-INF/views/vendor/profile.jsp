@@ -31,10 +31,17 @@
                                     <h3 class="panel-title">${user.vendor.company}</h3>
                                 </div>
                                 <div class="panel-body">
-                                    <p>
-                                        ${message}
-                                    </p>
-                                    
+                                    <p><strong>Company Name :</strong> ${user.vendor.company}</p>
+                                    <p><strong>Brand Name :</strong> ${user.vendor.brand}</p>
+                                    <h3>Contact:</h3>
+                                    <p><strong>Email :</strong> ${user.vendor.email}</p>
+                                    <p><strong>Phone :</strong> ${user.vendor.phone}</p>
+                                    <h3>Address Info:</h3>
+                                    <p><strong>Door No :</strong> ${user.vendor.address.doorNo}</p>
+                                    <p><strong>Street :</strong> ${user.vendor.address.street}</p>
+                                    <p><strong>City :</strong> ${user.vendor.address.city}</p>
+                                    <p><strong>Zip Code :</strong> ${user.vendor.address.zipCode}</p>
+                                    <p><strong>State :</strong> ${user.vendor.address.stateName}</p>
 
                                     
                                 </div>

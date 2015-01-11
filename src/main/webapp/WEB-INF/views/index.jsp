@@ -61,7 +61,7 @@
                                 <img src="pictures/thumb/${product.fileName}" alt="product" class="img-responsive" />
                             </div>
                             <div class="caption">
-                                <h4><a href="product.html">${product.productName}</a></h4>
+                                <h4><a href="product/view/${product.id}">${product.productName}</a></h4>
                                 <div class="description">
                                     ${product.productDescription}
                                 </div>

@@ -46,15 +46,22 @@
 <script>
     $(document).ready(function () {
         $('#isoContainer').isotope();
+        
     });
+    
+    function addToCartTwo(id)
+    {
+        var qty = $(".productQuantity").val();
+        addToCart(id,qty);
+    }
 
-    function addToCart(id)
+    function addToCart(id,qty=1)
     {
         <c:if test="${admin || vendor}">
             alert('Not Allow. Only customer can add cart');
         </c:if>
         <c:if test="${! admin && ! vendor}">
-        $.get('cart/add/' + id, function (data) {
+        $.get('cart/add/' + id + '/'+ qty , function (data) {
                 if (data === 'success')
                 {
                     alert('This item has been added to cart successfully.');

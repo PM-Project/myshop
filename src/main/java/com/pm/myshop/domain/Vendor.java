@@ -18,6 +18,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
+import org.hibernate.annotations.OrderBy;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -54,6 +55,7 @@ public class Vendor implements Serializable {
     
     
     @OneToMany(mappedBy = "vendor")
+    @OrderBy(clause = "id DESC")
     private List<Product> products = new ArrayList<Product>();
     
     @ManyToMany

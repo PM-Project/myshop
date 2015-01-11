@@ -7,9 +7,9 @@ package com.pm.myshop.controller;
 
 import com.pm.myshop.domain.Cart;
 import com.pm.myshop.domain.Customer;
+import com.pm.myshop.domain.LineItem;
 import com.pm.myshop.domain.Orders;
 import com.pm.myshop.domain.UserLogin;
-import com.pm.myshop.reportService.CustomerReportSerivce;
 import com.pm.myshop.service.CustomerService;
 import com.pm.myshop.service.OrderService;
 import java.io.BufferedReader;
@@ -22,9 +22,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.apache.http.HttpResponse;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -61,6 +64,9 @@ public class OrderController {
     
     @Autowired
     CardController cardController;
+    
+    
+    
     
     @RequestMapping("/checkout")
     public String checkout(@AuthenticationPrincipal UserLogin user, @ModelAttribute("cart") Cart cart, Model model, HttpSession session)
@@ -176,10 +182,30 @@ public class OrderController {
     
     
     @RequestMapping(value = "/order/confirm", method = RequestMethod.POST)
-    public String orderConfirm(@ModelAttribute("order") Orders order, Model model)
+    public String orderConfirm(@ModelAttribute("order") Orders order, Model model) throws IOException
     {
         order.getCustomer().setPendingCart(null);
         orderService.saveOrder(order);
+        
+        double amount = order.getCart().getGrandTotal();
+        String deductFrom = order.getCustomer().getAccount().getCardNumber();
+        String depositeTo = "4564546545646567";
+        
+        String output = financeDivide("Sales", amount, deductFrom, depositeTo);
+        
+        try{
+            if("success".equals(output))
+            {
+                for(LineItem item : order.getCart().getLineItems().values())
+                {
+                    double amountShare = item.getAmount() * 0.75;
+                    deductFrom = "4564546545646567";
+                    depositeTo = item.getProduct().getVendor().getAccount().getCardNumber();
+                    financeDivide("Sales", amountShare, deductFrom, depositeTo);
+                }
+
+            }
+        }catch(Exception e){}
         
         session.setAttribute("title", "Order Submited Successfully");
         session.setAttribute("message", "Your Order has been submited successfully");
@@ -194,14 +220,56 @@ public class OrderController {
     
     
     
+    public String financeDivide(
+            String particular, 
+            double amount,
+            String deductFrom,
+            String depositeTo
+    ) throws IOException {
+        
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        HttpGet getRequest = new HttpGet("http://localhost:8080/Team4_MyFinance/add?particular="+particular+"&amount="+amount+"&deductFrom="+deductFrom+"&depositeTo="+depositeTo);
+            
+        getRequest.addHeader(BasicScheme.authenticate(
+                new UsernamePasswordCredentials("admin", "admin"),"UTF-8", false));
+
+            HttpResponse response = httpClient.execute(getRequest);
+            
+            if (response.getStatusLine().getStatusCode() != 200) {
+                
+                return "fail";
+            }
+            
+            BufferedReader br = new BufferedReader(new InputStreamReader((response.getEntity().getContent())));
+            String output;
+
+            while ((output = br.readLine()) != null) {
+                return output;
+            }
+
+            httpClient.getConnectionManager().shutdown();
+
+            return "fail";
+    }
+    
+    
+    
+    
+    
+    
+    
     public String authenticateCard( String cardNo,  double balance,  String cvv) throws IOException {
 
         DefaultHttpClient httpClient = new DefaultHttpClient();
         
         String encCard = encryptCardNumber(cardNo);
         
-        HttpGet getRequest = new HttpGet("http://localhost/CardValidator/validate?cardNo="+encCard+"&balance="+balance+"&cvv="+cvv);
+        HttpGet getRequest = new HttpGet("http://localhost:8080/Team4_CardValidator/validate?cardNo="+encCard+"&balance="+balance+"&cvv="+cvv);
             
+        getRequest.addHeader(BasicScheme.authenticate(
+                new UsernamePasswordCredentials("admin", "admin"),"UTF-8", false));
+
+        
             HttpResponse response = httpClient.execute(getRequest);
             
             if (response.getStatusLine().getStatusCode() != 200) {
